@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('extra_scripts')
+
+<script src="/assets/js/index.js"></script>
+
+@stop
+
 @section('content')
 
 <!-- Small boxes (Stat box) -->
@@ -496,5 +502,9 @@
 
     </section><!-- right col -->
 </div><!-- /.row (main row) -->
+
+<!-- Modals -->
+
+@include('modals.folder_add')
 
 @stop

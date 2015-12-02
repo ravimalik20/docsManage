@@ -25,9 +25,13 @@ Route::group(["middleware" => "auth"], function ()
 {
     Route::resource("home", "HomeController", ["only" => ["index"]]);
 
-    Route::get('/', function () {
+    Route::resource("folder", "FolderController");
+
+    Route::get("/", "AdminController@index");
+
+    /*Route::get('/', function () {
         return view('index');
-    });
+    });*/
 });
 
 

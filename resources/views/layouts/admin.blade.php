@@ -369,5 +369,7 @@
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script>        
 
+        @yield('extra_scripts')
+
     </body>
 </html>
