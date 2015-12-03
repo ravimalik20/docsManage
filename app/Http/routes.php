@@ -27,11 +27,9 @@ Route::group(["middleware" => "auth"], function ()
 
     Route::resource("folder", "FolderController");
 
-    Route::get("/", "AdminController@index");
+    Route::resource("folder.file", "FileController");
 
-    /*Route::get('/', function () {
-        return view('index');
-    });*/
+    Route::get("/", "AdminController@index");
 });
 
 

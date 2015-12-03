@@ -8,30 +8,17 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Folder;
-use App\User;
 
-use Auth;
-
-class AdminController extends Controller
+class FileController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Folder $folder)
     {
-        $data = [];
-
-        $user = User::find(Auth::user()->id);
-        if (!$user)
-            return redirect("auth/login");
-
-        $folders = Folder::rootFolders($user);
-        if (count($folders) > 0)
-            $data["folders"] = $folders;
-
-        return view('index', $data);
+        //
     }
 
     /**
@@ -39,7 +26,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Folder $folder)
     {
         //
     }
@@ -50,7 +37,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Folder $folder)
     {
         //
     }
@@ -61,7 +48,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Folder $folder, $id)
     {
         //
     }
@@ -72,7 +59,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Folder $folder, $id)
     {
         //
     }
@@ -84,7 +71,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Folder $folder, $id)
     {
         //
     }
@@ -95,7 +82,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Folder $folder, $id)
     {
         //
     }

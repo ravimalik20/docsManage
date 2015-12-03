@@ -314,24 +314,9 @@
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Dashboard
-                        <small>Control panel</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Dashboard</li>
-                    </ol>
-                </section>
 
-                <!-- Main content -->
-                <section class="content">
+                @yield('content')
 
-                    @yield('content')
-
-                </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
@@ -364,10 +349,10 @@
         <script src="/assets/admin/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
         <!-- AdminLTE App -->
-        <script src="/assets/admin/js/AdminLTE/app.js" type="text/javascript"></script>
+        <!--script src="/assets/admin/js/AdminLTE/app.js" type="text/javascript"></script-->
         
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script>        
+        <!--script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script-->        
 
         @yield('extra_scripts')
 

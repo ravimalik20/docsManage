@@ -20,4 +20,14 @@ class Folder extends Model
 
         return Validator::make($input, $rules);
     }
+
+    public static function rootFolders($user)
+    {
+        $folders = Folder::where("parent", null)
+            ->where("user_id", $user->id)
+            ->orderBy("name")
+            ->get();
+
+        return $folders;
+    }
 }
