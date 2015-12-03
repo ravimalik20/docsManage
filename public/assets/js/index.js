@@ -11,6 +11,13 @@ $(document).ready(function ()
             "_token" : token
         };
 
+        var info_ref = $("#info_div");
+        if (info_ref)
+        {   var folder_id = info_ref.attr("data-folder-id");
+            if (folder_id)
+                data["folder_id"] = folder_id;
+        }
+
         $.post("/folder", data, function (val)
         {   if (val.status == "success")
                 location.reload();
@@ -37,7 +44,5 @@ $(document).ready(function ()
         {   if (val.status == "success")
                 location.reload();
         });
-
-        console.log(folders);
     });
 });

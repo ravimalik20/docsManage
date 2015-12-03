@@ -30,4 +30,14 @@ class Folder extends Model
 
         return $folders;
     }
+
+    public function folders($user)
+    {
+        $folders = Folder::where("parent", $this->id)
+            ->where("user_id", $user->id)
+            ->orderBy("name")
+            ->get();
+
+        return $folders;
+    }
 }

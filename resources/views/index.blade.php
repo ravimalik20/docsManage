@@ -8,11 +8,21 @@
 
 @section('content')
 
+<div id="info_div" style="display:none;"
+@if (isset($folder))
+    data-folder-id="{{$folder->id}}"
+@endif
+></div>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
+        @if (isset($folder))
+            /{{$folder->name}}
+        @else
         /
         <small>Root Directory</small>
+        @endif
 
         <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
             <i class="fa fa-folder"></i> Add Folder
@@ -45,7 +55,7 @@
                 </div>
                 <div class="col-lg-11">
                     <div class="file_icon text-center">
-                        <a href="#"><i class="fa fa-folder fa-5x"></i></a>
+                        <a href="/folder/{{$folder->id}}"><i class="fa fa-folder fa-5x"></i></a>
                     </div>
                     <div class="file_name text-center">
                         <span>{{$folder->name}}</span>
@@ -56,7 +66,7 @@
         @endforeach
         @endif
 
-        @for ($i=0 ; $i<5 ; $i++)
+        {{--@for ($i=0 ; $i<5 ; $i++)
         <div class="file col-lg-2 col-sm-2 col-xs-3 text-center">
             <div class="row">
                 <div class="col-lg-1 folder_checkbox">
@@ -72,7 +82,7 @@
                 </div>
             </div>
         </div>
-        @endfor
+        @endfor--}}
 
     </div>
 

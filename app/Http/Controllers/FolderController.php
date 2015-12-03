@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Folder;
+use App\User;
+
 use Auth;
 
 class FolderController extends Controller
@@ -44,10 +46,15 @@ class FolderController extends Controller
         if ($validation->fails())
             return ["status" => "failure", "errors" => $validation->messages()->all()];
 
-        $folder = Folder::create([
+        $folder_data = [
             "name" => $request->name,
             "user_id" => Auth::user()->id
-        ]);
+        ];
+
+        if ($request->has("folder_id") && $request->get("folder_id"))
+            $folder_data["parent"] = $request->get("folder_id");
+
+        $folder = Folder::create($folder_data);
 
         if ($request->has("_ajax") && $request->get("_ajax") == "true") {
             if ($folder)
@@ -70,7 +77,25 @@ class FolderController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->viewEdit($id);
+    }
+
+    private function viewEdit($id)
+    {
+        $data = [];
+
+        $folder = Folder::findOrFail($id);
+        $data["folder"] = $folder;
+
+        $user = User::find(Auth::user()->id);
+        if (!$user)
+            return redirect("auth/login");
+
+        $folders = $folder->folders($user);
+        if (count($folders) > 0)
+            $data["folders"] = $folders;
+
+        return view("index", $data);
     }
 
     /**
@@ -81,7 +106,7 @@ class FolderController extends Controller
      */
     public function edit($id)
     {
-        //
+        return $this->viewEdit($id);
     }
 
     /**
