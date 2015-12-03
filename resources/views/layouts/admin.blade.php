@@ -23,6 +23,10 @@
         <!-- Theme style -->
         <link href="/assets/admin/css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
+        <!-- Dropzone -->
+        <link href="/assets/admin/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/admin/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -353,6 +357,9 @@
         
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <!--script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script-->        
+
+        <!-- Dropzone -->
+        <script src="/assets/admin/dropzone/dropzone.min.js" type="text/javascript"></script>
 
         @yield('extra_scripts')
 

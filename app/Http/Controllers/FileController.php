@@ -8,6 +8,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Folder;
+use App\Models\File;
+use App\User;
+
+use Auth;
 
 class FileController extends Controller
 {
@@ -16,7 +20,7 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Folder $folder)
+    public function index($folder_id)
     {
         //
     }
@@ -26,7 +30,7 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Folder $folder)
+    public function create($folder_id)
     {
         //
     }
@@ -37,9 +41,22 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Folder $folder)
+    public function store(Request $request, $folder_id)
     {
-        //
+        if ($folder_id != 0)
+            $folder = Folder::findOrFail($folder_id);
+        else
+            $folder = null;
+
+        $user = User::find(Auth::user()->id);
+
+        if ($request->hasFile("file")) {
+            $file = $request->file("file");
+
+            $fileObj = File::saveUpload($file, $user, $folder);
+        }
+
+        return "success";
     }
 
     /**
@@ -48,7 +65,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Folder $folder, $id)
+    public function show($folder_id, $id)
     {
         //
     }
@@ -59,7 +76,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Folder $folder, $id)
+    public function edit($folder_id, $id)
     {
         //
     }
@@ -71,7 +88,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Folder $folder, $id)
+    public function update(Request $request, $folder_id, $id)
     {
         //
     }

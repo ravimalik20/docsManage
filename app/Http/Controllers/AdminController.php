@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Folder;
+use App\Models\File;
 use App\User;
 
 use Auth;
@@ -30,6 +31,10 @@ class AdminController extends Controller
         $folders = Folder::rootFolders($user);
         if (count($folders) > 0)
             $data["folders"] = $folders;
+
+        $files = File::rootFiles($user);
+        if (count($files) > 0)
+            $data["files"] = $files;
 
         return view('index', $data);
     }

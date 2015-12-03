@@ -45,4 +45,31 @@ $(document).ready(function ()
                 location.reload();
         });
     });
+
+    Dropzone.autoDiscover = false;
+
+    var token = $("#file_upload_form").attr("data-token");
+
+    /*Dropzone.options.myAwesomeDropzone = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 20, // MB
+        sending: function(file, xhr, formData) {
+            formData.append("_token", token);
+            if (folder_id)
+                formData.append("folder_id", folder_id);
+        }
+    };*/
+
+
+    var myDropzone = new Dropzone("#file_upload_form", {
+        maxFilesize: 20,
+        sending: function(file, xhr, formData) {
+            formData.append("_token", token);
+        }
+    });
+
+    $(".files_modal_close").click(function ()
+    {   location.reload();
+    });
+
 });

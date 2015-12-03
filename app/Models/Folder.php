@@ -40,4 +40,14 @@ class Folder extends Model
 
         return $folders;
     }
+
+    public function files($user)
+    {
+        $files = File::where("folder_id", $this->id)
+            ->where("created_by", $user->id)
+            ->orderBy("name")
+            ->get();
+
+        return $files;
+    }
 }

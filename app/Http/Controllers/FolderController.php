@@ -95,6 +95,10 @@ class FolderController extends Controller
         if (count($folders) > 0)
             $data["folders"] = $folders;
 
+        $files = $folder->files($user);
+        if (count($files) > 0)
+            $data["files"] = $files;
+
         return view("index", $data);
     }
 
