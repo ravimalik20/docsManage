@@ -25,6 +25,7 @@ Route::group(["middleware" => "auth"], function ()
 {
     Route::resource("home", "HomeController", ["only" => ["index"]]);
 
+    Route::delete("folder", "FolderController@bulkDestroy");
     Route::resource("folder", "FolderController");
 
     Route::resource("folder.file", "FileController");

@@ -18,6 +18,7 @@
             <i class="fa fa-folder"></i> Add Folder
         </a>
         <a class="btn btn-sm"><i class="fa fa-file"></i> Add File</a>
+        <a class="btn btn-sm delete_file_folder" data-token="{{csrf_token()}}"><i class="fa fa-trash"></i> Delete</a>
     </h1>
 
     <ol class="breadcrumb">
@@ -37,12 +38,19 @@
 
         @if (isset($folders) && count($folders) > 0)
         @foreach ($folders as $folder)
-        <div class="folder col-lg-2 col-sm-2 col-xs-3 text-center">
-            <div class="file_icon">
-                <a href="#"><i class="fa fa-folder fa-5x"></i></a>
-            </div>
-            <div class="file_name">
-                <span>{{$folder->name}}</span>
+        <div class="folder col-lg-2 col-sm-2 col-xs-3">
+            <div class="row">
+                <div class="col-lg-1 folder_checkbox">
+                    <input type="checkbox" name="folders" value="{{$folder->id}}" autocomplete="off">
+                </div>
+                <div class="col-lg-11">
+                    <div class="file_icon text-center">
+                        <a href="#"><i class="fa fa-folder fa-5x"></i></a>
+                    </div>
+                    <div class="file_name text-center">
+                        <span>{{$folder->name}}</span>
+                    </div>
+                </div>
             </div>
         </div>
         @endforeach
@@ -50,11 +58,18 @@
 
         @for ($i=0 ; $i<5 ; $i++)
         <div class="file col-lg-2 col-sm-2 col-xs-3 text-center">
-            <div class="file_icon">
-                <a href="#"><i class="fa fa-file fa-5x"></i></a>
-            </div>
-            <div class="file_name">
-                <span>FileName.txt</span>
+            <div class="row">
+                <div class="col-lg-1 folder_checkbox">
+                    <input type="checkbox" name="folders" autocomplete="off">
+                </div>
+                <div class="col-lg-11">
+                    <div class="file_icon">
+                        <a href="#"><i class="fa fa-file fa-5x"></i></a>
+                    </div>
+                    <div class="file_name">
+                        <span>FileName.txt</span>
+                    </div>
+                </div>
             </div>
         </div>
         @endfor

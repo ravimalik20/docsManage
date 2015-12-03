@@ -106,4 +106,18 @@ class FolderController extends Controller
     {
         //
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $folders = $request->get("folders");
+
+        if (count($folders) > 0) {
+            Folder::destroy($folders);
+        }
+
+        if ($request->has("_ajax") && $request->get("_ajax") == "true")
+            return ["status" => "success"];
+        else
+            return back();
+    }
 }
