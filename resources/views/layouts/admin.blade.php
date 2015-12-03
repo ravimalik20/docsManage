@@ -349,7 +349,7 @@
         <script src="/assets/admin/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 
         <!-- AdminLTE App -->
-        <!--script src="/assets/admin/js/AdminLTE/app.js" type="text/javascript"></script-->
+        <script src="/assets/admin/js/AdminLTE/app.js" type="text/javascript"></script>
         
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <!--script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script-->        
