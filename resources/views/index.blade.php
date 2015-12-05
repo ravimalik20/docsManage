@@ -17,11 +17,10 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        @if (isset($folder))
-            /{{$folder->name}}
+        @if (isset($pathStr))
+            {{$pathStr}}
         @else
         /
-        <small>Root Directory</small>
         @endif
 
         <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
@@ -34,8 +33,12 @@
     </h1>
 
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> /</a></li>
-        <li class="active">Folder 1</li>
+        <li><a href="/"><i class="fa fa-dashboard"></i> /</a></li>
+        @if (isset($path) && count($path) > 0)
+        @foreach ($path as $p)
+        <li class="active"><a href="/folder/{{$p->id}}">{{$p->name}}</a></li>
+        @endforeach
+        @endif
     </ol>
 </section>
 

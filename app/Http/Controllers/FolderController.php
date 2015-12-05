@@ -88,6 +88,12 @@ class FolderController extends Controller
         $folder = Folder::findOrFail($id);
         $data["folder"] = $folder;
 
+        $path = $folder->path();
+        $data["path"] = $path;
+
+        $pathStr = $folder->pathString();
+        $data["pathStr"] = $pathStr;
+
         $user = User::find(Auth::user()->id);
         if (!$user)
             return redirect("auth/login");

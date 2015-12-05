@@ -50,4 +50,33 @@ class Folder extends Model
 
         return $files;
     }
+
+    public function path()
+    {
+        $path = [Folder::find($this->id)];
+
+        $folder_id = $this->parent;
+        while ($folder_id) {
+            $folder = Folder::find($folder_id);
+            array_push($path, $folder);
+
+            $folder_id = $folder->parent;
+        }
+
+        return array_reverse($path);
+    }
+
+    public function pathString()
+    {
+        $path = $this->path();
+        $pathStr = "/";
+
+        foreach ($path as $p) {
+            $pathStr.= $p->name."/";
+        }
+
+        //echo $pathStr; die;
+
+        return $pathStr;
+    }
 }
