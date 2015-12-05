@@ -27,6 +27,8 @@
         <link href="/assets/admin/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/admin/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
 
+        <link href="/assets/css/custom.css" rel="stylesheet" type="text/css" />
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>

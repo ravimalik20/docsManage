@@ -1,5 +1,5 @@
 <ul class="sidebar-menu">
-    <li class="active">
+    {{--<li class="active">
         <a href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
             <i class="fa fa-plus"></i> <span>Add Folder</span>
         </a>
@@ -14,5 +14,5 @@
         </a>
         @endforeach
         @endif
-    </li>
+    </li>--}}
 </ul>

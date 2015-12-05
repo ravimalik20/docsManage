@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Folder;
+use App\Models\File;
 use App\User;
 
 use Auth;
@@ -139,9 +140,14 @@ class FolderController extends Controller
     public function bulkDestroy(Request $request)
     {
         $folders = $request->get("folders");
+        $files = $request->get("files");
 
         if (count($folders) > 0) {
             Folder::destroy($folders);
+        }
+
+        if (count($folders) > 0) {
+            File::destroy($files);
         }
 
         if ($request->has("_ajax") && $request->get("_ajax") == "true")

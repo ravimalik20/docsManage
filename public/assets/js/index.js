@@ -27,14 +27,21 @@ $(document).ready(function ()
     $(".delete_file_folder").click(function ()
     {
         var folders = [];
+        var files = [];
+
         var token = $(this).attr("data-token");
 
         $("input[name=folders]:checked").each(function ()
         {   folders.push($(this).val());
         });
 
+        $("input[name=files]:checked").each(function ()
+        {   files.push($(this).val());
+        });
+
         var data = {
             "folders": folders,
+            "files": files,
             "_method": "DELETE",
             "_token": token,
             "_ajax": "true"
@@ -49,17 +56,6 @@ $(document).ready(function ()
     Dropzone.autoDiscover = false;
 
     var token = $("#file_upload_form").attr("data-token");
-
-    /*Dropzone.options.myAwesomeDropzone = {
-        paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 20, // MB
-        sending: function(file, xhr, formData) {
-            formData.append("_token", token);
-            if (folder_id)
-                formData.append("folder_id", folder_id);
-        }
-    };*/
-
 
     var myDropzone = new Dropzone("#file_upload_form", {
         maxFilesize: 20,
