@@ -152,7 +152,7 @@ class FolderController extends Controller
             Folder::destroy($folders);
         }
 
-        if (count($folders) > 0) {
+        if (count($files) > 0) {
             File::destroy($files);
         }
 

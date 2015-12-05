@@ -67,7 +67,7 @@ class FileController extends Controller
      */
     public function show($folder_id, $id)
     {
-        //
+        return $this->viewEdit($folder_id, $id);
     }
 
     /**
@@ -78,7 +78,31 @@ class FileController extends Controller
      */
     public function edit($folder_id, $id)
     {
-        //
+        return $this->viewEdit($folder_id, $id);
+    }
+
+    private function viewEdit($folder_id, $id)
+    {
+        $data = [];
+
+        if ($folder_id != 0) {
+            $folder = Folder::findOrFail($folder_id);
+            $path = $folder->path();
+            $data["path"] = $path;
+        }
+
+        $file = File::findWithExtension($id);
+        if (!$file)
+            return abort(404);
+
+        $file_path = "/".$file->path;
+        $extension = $file->extension;
+
+        $data["file"] = $file;
+        $data["file_path"] = $file_path;
+        $data["extension"] = $extension;
+
+        return view("files.file", $data);
     }
 
     /**

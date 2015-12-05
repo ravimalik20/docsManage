@@ -32,14 +32,7 @@
         <a class="btn btn-sm delete_file_folder" data-token="{{csrf_token()}}"><i class="fa fa-trash"></i> Delete</a>
     </h1>
 
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> /</a></li>
-        @if (isset($path) && count($path) > 0)
-        @foreach ($path as $p)
-        <li class="active"><a href="/folder/{{$p->id}}">{{$p->name}}</a></li>
-        @endforeach
-        @endif
-    </ol>
+    @include('includes.directory-path')
 </section>
 
 <!-- Main content -->
@@ -80,7 +73,13 @@
                 </div>
                 <div class="col-lg-11">
                     <div class="file_icon">
-                        <a href="#"><i class="fa fa-file fa-5x"></i></a>
+                        <a
+                        @if (isset($folder))
+                            href="/folder/{{$folder->id}}/file/{{$fs->id}}"
+                        @else
+                            href="/folder/0/file/{{$fs->id}}"
+                        @endif
+                        ><i class="fa fa-file fa-5x"></i></a>
                     </div>
                     <div class="file_name">
                         <span>{{$fs->name}}</span>

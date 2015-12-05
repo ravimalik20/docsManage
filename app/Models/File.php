@@ -21,6 +21,16 @@ class File extends Model
         return Validator::make($input, $rules);
     }
 
+    public static function findWithExtension($id)
+    {
+        $file = File::select("files.*", "extensions.name as extension")
+            ->join("extensions", "files.extension_id", "=", "extensions.id")
+            ->where("files.id", $id)
+            ->first();
+
+        return $file;
+    }
+
     public static function saveUpload($file, $user, $folder=null)
     {
         $filename = $file->getClientOriginalName();
