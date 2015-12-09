@@ -70,4 +70,19 @@ class File extends Model
 
         return $files;
     }
+
+    public function sourceCode()
+    {
+        $source_extensions = [
+            "php", "c", "cpp", "java", "py", "rb", "pl", "html", "css", "js",
+            "diff", "json", "md", "make", "sh", "xml", "sql",
+        ];
+
+        $extension = $this->extension;
+
+        if (in_array($extension, $source_extensions))
+            return true;
+        else
+            return false;
+    }
 }

@@ -137,6 +137,11 @@ class FileController extends Controller
         $data["file_path"] = $file_path;
         $data["extension"] = $extension;
 
+        if ($file->sourceCode()) {
+            $data["source_code"] = true;
+            $data["content"] = file_get_contents(public_path($file->path));
+        }
+
         return view("files.file_content", $data);
     }
 }
