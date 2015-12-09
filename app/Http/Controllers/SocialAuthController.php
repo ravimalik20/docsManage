@@ -23,7 +23,7 @@ class SocialAuthController extends Controller
 
     public function googleRedirectHandler()
     {
-        $user_g = Socialite::driver('github')->user();
+        $user_g = Socialite::driver('google')->user();
         if (!$user_g)
             return abort(404);
 
