@@ -36,6 +36,7 @@ Route::group(["middleware" => "auth"], function ()
     Route::resource("folder", "FolderController");
 
     Route::get("folder/{folder_id}/file/{id}/content", "FileController@content");
+    Route::get("folder/{folder_id}/file/{id}/download", "FileController@download");
     Route::resource("folder.file", "FileController");
 
     Route::get("/", "AdminController@index");

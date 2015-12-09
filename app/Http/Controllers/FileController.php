@@ -119,9 +119,18 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Folder $folder, $id)
+    public function destroy($folder_id, $id)
     {
         //
+    }
+
+    public function download($folder_id, $id)
+    {
+        $file = File::find($id);
+        if (!$file)
+            return abort(404);
+
+        return response()->download(public_path($file->path), $file->name);
     }
 
     public function content($folder_id, $id)
