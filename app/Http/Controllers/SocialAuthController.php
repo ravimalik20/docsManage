@@ -28,8 +28,8 @@ class SocialAuthController extends Controller
             return abort(404);
 
         $user = User::firstOrCreate([
-            "username" => $user->username,
-            "email" => $user->email,
+            "name" => $user_g->name,
+            "email" => $user_g->email,
         ]);
 
         Auth::loginUsingId($user->id);
