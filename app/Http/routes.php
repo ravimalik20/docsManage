@@ -19,6 +19,13 @@ Route::group(["prefix" => "auth"], function ()
 
     Route::get('register', 'Auth\AuthController@getRegister');
     Route::post('register', 'Auth\AuthController@postRegister');
+
+    Route::group(['prefix' => 'google'], function ()
+    {
+        Route::get('/', 'SocialAuthController@googleLogin');
+        Route::get('/redirect', 'SocialAuthController@googleRedirectHandler');
+    });
+
 });
 
 Route::group(["middleware" => "auth"], function ()
