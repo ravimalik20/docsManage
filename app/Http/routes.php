@@ -35,6 +35,7 @@ Route::group(["middleware" => "auth"], function ()
     Route::delete("folder", "FolderController@bulkDestroy");
     Route::resource("folder", "FolderController");
 
+    Route::get("folder/{folder_id}/file/{id}/content", "FileController@content");
     Route::resource("folder.file", "FileController");
 
     Route::get("/", "AdminController@index");

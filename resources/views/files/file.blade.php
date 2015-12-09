@@ -10,7 +10,7 @@
 <!-- Main content -->
 <section class="content">
 
-    <iframe src="{{$file_path}}" class="file_content_area">
+    <iframe class="file_content_area" src="/folder/{{$folder_id}}/file/{{$file->id}}/content">
     </iframe>
 
 </section>

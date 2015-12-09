@@ -95,12 +95,8 @@ class FileController extends Controller
         if (!$file)
             return abort(404);
 
-        $file_path = "/".$file->path;
-        $extension = $file->extension;
-
         $data["file"] = $file;
-        $data["file_path"] = $file_path;
-        $data["extension"] = $extension;
+        $data["folder_id"] = $folder_id;
 
         return view("files.file", $data);
     }
@@ -126,5 +122,21 @@ class FileController extends Controller
     public function destroy(Folder $folder, $id)
     {
         //
+    }
+
+    public function content($folder_id, $id)
+    {
+        $file = File::findWithExtension($id);
+        if (!$file)
+            return abort(404);
+
+        $file_path = "/".$file->path;
+        $extension = $file->extension;
+
+        $data["file"] = $file;
+        $data["file_path"] = $file_path;
+        $data["extension"] = $extension;
+
+        return view("files.file_content", $data);
     }
 }

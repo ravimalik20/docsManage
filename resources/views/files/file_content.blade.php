@@ -437,13 +437,6 @@ See https://github.com/adobe-type-tools/cmap-resources
 <html>
 
 <head>
-    <script>
- 
-    function printAndClose()
-    {
-         frames[0].print();    
-    }
-    </script>
     <style>
     iframe {
 	min-height:300px;
@@ -508,7 +501,7 @@ elseif($extension=="csv"){
 			window.print();
 		</script>
 	@else	
-		<iframe src="{{$file_path}}" scrolling="no"  frameborder="0"  onload="printAndClose()" id="container_iframe"></iframe>
+		<iframe src="{{$file_path}}" scrolling="no"  frameborder="0" id="container_iframe"></iframe>
 	@endif
 </body>
 
