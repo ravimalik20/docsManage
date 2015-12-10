@@ -89,6 +89,9 @@ class FileController extends Controller
             $folder = Folder::findOrFail($folder_id);
             $path = $folder->path();
             $data["path"] = $path;
+
+            $pathStr = $folder->pathString();
+            $data["pathStr"] = $pathStr;
         }
 
         $file = File::findWithExtension($id);
@@ -119,9 +122,18 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($folder_id, $id)
+    public function destroy(Request $request, $folder_id, $id)
     {
-        //
+        $file = File::find($id);
+        if (!$file)
+            return abort(404);
+
+        $file->delete();
+
+        if ($folder_id == 0)
+            return redirect("/");
+        else
+            return redirect("/folder/$folder_id");
     }
 
     public function download($folder_id, $id)
