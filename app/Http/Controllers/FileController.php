@@ -67,22 +67,6 @@ class FileController extends Controller
      */
     public function show($folder_id, $id)
     {
-        return $this->viewEdit($folder_id, $id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($folder_id, $id)
-    {
-        return $this->viewEdit($folder_id, $id);
-    }
-
-    private function viewEdit($folder_id, $id)
-    {
         $data = [];
 
         if ($folder_id != 0) {
@@ -105,6 +89,40 @@ class FileController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($folder_id, $id)
+    {
+        $data = [];
+
+        if ($folder_id != 0) {
+            $folder = Folder::findOrFail($folder_id);
+            $path = $folder->path();
+            $data["path"] = $path;
+
+            $pathStr = $folder->pathString();
+            $data["pathStr"] = $pathStr;
+        }
+
+        $file = File::findWithExtension($id);
+        if (!$file)
+            return abort(404);
+
+        $data["file"] = $file;
+        $data["folder_id"] = $folder_id;
+
+        if ($file->sourceCode()) {
+            $data["source_code"] = true;
+            $data["content"] = file_get_contents(public_path($file->path));
+        }
+
+        return view("files.file_edit", $data);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -113,7 +131,14 @@ class FileController extends Controller
      */
     public function update(Request $request, $folder_id, $id)
     {
-        //
+        $file = File::find($id);
+        if (!$file)
+            return back();
+
+        if ($request->has("content"))
+            file_put_contents($file->path, $request->get("content"));
+
+        return back();
     }
 
     /**

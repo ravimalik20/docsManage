@@ -85,4 +85,28 @@ class File extends Model
         else
             return false;
     }
+
+    public function language()
+    {
+        $language = [
+            "php" => "php", "c" => "c_cpp", "cpp" => "c_cpp", "java" => "java",
+            "py" => "python", "rb" => "ruby", "pl" => "perl", "html" => "html",
+            "css" => "css", "js" => "javascript", "diff" => "diff",
+            "json" => "json", "md" => "markdown", "make" => "makefile",
+            "sh" => "sh", "xml" => "xml", "sql" => "sql",
+        ];
+
+        if (isset($this->extension)) {
+            $ext = $this->extension;
+        }
+        else {
+            $extension = Extension::find($this->extension_id);
+            $ext = $extension->name;
+        }
+
+        if (array_key_exists($ext, $language))
+            return $language[$ext];
+        else
+            return null;
+    }
 }

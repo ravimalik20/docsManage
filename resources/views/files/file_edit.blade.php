@@ -2,7 +2,25 @@
 
 @section('extra_scripts')
 
+<!-- Ace editor for web -->
+<script src="/assets/ace/ace.js"></script>
+<script src="/assets/ace/ext-language_tools.js"></script>
+
 <script src="/assets/js/file.js"></script>
+
+<style type="text/css" media="screen">
+    #editor { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        height:480px;
+    }
+</style>
+
+<script src="/assets/js/file_edit.js"></script>
 
 @stop
 
@@ -27,20 +45,25 @@
         <a class="btn btn-default col-sm-2 print_file" href="#"><i class="fa fa-print"></i> Print</a>
         <a class="btn btn-default col-sm-2 download_file"
             href="/folder/{{$folder_id}}/file/{{$file->id}}/download"><i class="fa fa-download"></i> Download</a>
-        @if ($file->sourceCode())
-        <a class="btn btn-default col-sm-2 download_file"
-            href="/folder/{{$folder_id}}/file/{{$file->id}}/edit"><i class="fa fa-edit"></i> Edit</a>
-        @endif
+        <a class="btn btn-default col-sm-2 edit_file" href="#"><i class="fa fa-save"></i> Save</a>
         <form action="/folder/{{$folder_id}}/file/{{$file->id}}" method="POST">
             {{ csrf_field() }}
             <input type="hidden" name="_method" value="DELETE"/>
+            
             <button class="btn btn-default col-sm-2" type="submit"><i class="fa fa-trash"></i> Delete</button>
         </form>
     </div>
 
-    <iframe class="file_content_area" id="file_content" name="file_content"
-        src="/folder/{{$folder_id}}/file/{{$file->id}}/content">
-    </iframe>
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="/folder/{{$folder_id}}/file/{{$file->id}}" method="POST" id="editor_form">
+                <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="content" value="">
+                <pre id="editor" data-language="{{$file->language()}}">{{$content}}</pre>
+            </form>
+        </div>
+    </div>
 
 </section>
 
