@@ -42,10 +42,9 @@
 <section class="content">
 
     <div class="row">
-        <a class="btn btn-default col-sm-2 print_file" href="#"><i class="fa fa-print"></i> Print</a>
+        <a class="btn btn-default col-sm-2 edit_file" href="#"><i class="fa fa-save"></i> Save</a>
         <a class="btn btn-default col-sm-2 download_file"
             href="/folder/{{$folder_id}}/file/{{$file->id}}/download"><i class="fa fa-download"></i> Download</a>
-        <a class="btn btn-default col-sm-2 edit_file" href="#"><i class="fa fa-save"></i> Save</a>
         <form action="/folder/{{$folder_id}}/file/{{$file->id}}" method="POST">
             {{ csrf_field() }}
             <input type="hidden" name="_method" value="DELETE"/>
