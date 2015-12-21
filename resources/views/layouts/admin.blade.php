@@ -29,6 +29,8 @@
 
         <link href="/assets/css/custom.css" rel="stylesheet" type="text/css" />
 
+        <link rel="stylesheet" href="/assets/jstree/themes/default/style.min.css" />
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -158,6 +160,19 @@
 
         <!-- Dropzone -->
         <script src="/assets/admin/dropzone/dropzone.min.js" type="text/javascript"></script>
+
+        <script src="/assets/jstree/jstree.min.js"></script>
+        <script>
+            $(document).ready(function ()
+            {
+                $('#lhs-menu-div').jstree({
+                    "core" : {
+                        "check_callback" : true,
+                        "themes" : { "stripes" : true }
+                    },
+                });
+            });
+        </script>
 
         @yield('extra_scripts')
 

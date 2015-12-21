@@ -42,4 +42,4 @@ Route::group(["middleware" => "auth"], function ()
     Route::get("/", "AdminController@index");
 });
 
-
+?>

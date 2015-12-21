@@ -31,6 +31,66 @@ class Folder extends Model
         return $folders;
     }
 
+    public static function directoryTree($user)
+    {
+        $folders = Folder::where("user_id", $user->id)
+            ->where("parent", NULL)
+            ->get();
+
+        $html = self::generateTree($folders, $user, true);
+
+        return $html;
+    }
+
+    public static function generateTree($folders, $user, $first=false)
+    {
+        if (isset($folders) && count($folders) > 0) {
+            $html = "<ul>";
+
+            foreach ($folders as $folder) {
+                $html .= '<li>'.$folder->name;
+
+                $child_folders = Folder::where("user_id", $user->id)
+                    ->where("parent", $folder->id)
+                    ->get();
+
+                if (count($child_folders) > 0)
+                    $html .= self::generateTree($child_folders, $user);
+
+                $child_files = File::where("folder_id", $folder->id)
+                    ->where("created_by", $user->id)
+                    ->get();
+                if (count($child_files) > 0) {
+                    $html .= "<ul>";
+
+                    foreach ($child_files as $file) {
+                        $html .= '<li data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\'>'.$file->name.'</li>';
+                    }
+
+                    $html .= "</ul>";
+                }
+
+                $html .= "</li>";
+            }
+
+            if ($first == true) {
+                $files = File::where("folder_id", NULL)
+                    ->where("created_by", $user->id)
+                    ->get();
+                if (count($files) > 0) foreach ($files as $file) {
+                    $html .= '<li data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\'>'.$file->name.'</li>';
+                }
+            }
+
+            $html .= "</ul>";
+
+            return $html;
+        }
+        else {
+            return "";
+        }
+    }
+
     public function folders($user)
     {
         $folders = Folder::where("parent", $this->id)
@@ -74,8 +134,6 @@ class Folder extends Model
         foreach ($path as $p) {
             $pathStr.= $p->name."/";
         }
-
-        //echo $pathStr; die;
 
         return $pathStr;
     }
