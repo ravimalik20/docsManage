@@ -48,7 +48,7 @@ class Folder extends Model
             $html = "<ul>";
 
             foreach ($folders as $folder) {
-                $html .= '<li>'.$folder->name;
+                $html .= '<li data-link="/folder/'.$folder->id.'">'.$folder->name;
 
                 $child_folders = Folder::where("user_id", $user->id)
                     ->where("parent", $folder->id)
@@ -64,7 +64,7 @@ class Folder extends Model
                     $html .= "<ul>";
 
                     foreach ($child_files as $file) {
-                        $html .= '<li data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\'>'.$file->name.'</li>';
+                        $html .= '<li data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\' data-link="/folder/'.$file->folder_id.'/file/'.$file->id.'">'.$file->name.'</li>';
                     }
 
                     $html .= "</ul>";
@@ -78,7 +78,7 @@ class Folder extends Model
                     ->where("created_by", $user->id)
                     ->get();
                 if (count($files) > 0) foreach ($files as $file) {
-                    $html .= '<li data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\'>'.$file->name.'</li>';
+                    $html .= '<li data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\' data-link="/folder/0/file/'.$file->id.'">'.$file->name.'</li>';
                 }
             }
 
