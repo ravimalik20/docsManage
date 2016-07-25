@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-use Validator;
+use App\Models\DocumentPermission, App\Models\Permission;
+use Validator, Auth;
 
 class File extends Model
 {
@@ -33,6 +33,7 @@ class File extends Model
 
     public static function saveUpload($file, $user, $folder=null)
     {
+
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
 
@@ -58,17 +59,51 @@ class File extends Model
             $data["folder_id"] = $folder->id;
 
         $obj = File::create($data);
+        self::setPermissions($obj);
         return $obj;
+    }
+
+    public static function setPermissions($obj){
+      $permissions = Permission::all();
+      foreach($permissions as $getper){
+        $permission = DocumentPermission::firstOrNew(array("user_id"=>$obj->created_by,"document_id"=>$obj->id,"permission_id"=>$getper->id));
+        $permission->user_id = $obj->created_by;
+        $permission->document_id = $obj->id;
+        $permission->type = "file";
+        $permission->permission_id = $getper->id;
+        $permission->save();
+      }
+      return 1;
     }
 
     public static function rootFiles($user)
     {
-        $files = File::where("folder_id", null)
-            ->where("created_by", $user->id)
+
+        if($user->role == "admin"){
+          return File::where("folder_id", null)
+              ->orderBy("name")
+              ->get();
+        }
+        return $files = File::where("folder_id", null)
+            ->Where("created_by", $user->id)
+            //->OrWhereIn("id",self::sharedFiles($user))
             ->orderBy("name")
             ->get();
+    }
 
-        return $files;
+    public static function sharedFiles($user){
+      $ids = [];
+      $sharedFolderIds = DocumentPermission::select("document_id")->where("user_id",$user->id)
+                  ->where("type","file")
+                  ->get();
+
+      if(count($sharedFolderIds)>0){
+        $sharedFolderIds = $sharedFolderIds->toArray();
+        foreach ($sharedFolderIds as $id) {
+          array_push($ids,$id["document_id"]);
+        }
+      }
+      return $ids;
     }
 
     public function sourceCode()
@@ -108,5 +143,26 @@ class File extends Model
             return $language[$ext];
         else
             return null;
+    }
+
+    public function hasPermission($folder,$permissionType){
+      $permission = Permission::getPermission($permissionType);
+      $hasPermission = false;
+      $sharedFolders = DocumentPermission::where("document_id", $folder->id)
+                        ->where("user_id",Auth::user()->id)
+                        ->where("permission_id",$permission->id)
+                        ->first();
+
+      if($sharedFolders){
+          $hasPermission =  true;
+      }
+
+      if(Auth::user()->role == "admin")
+        return true;
+
+      if($hasPermission)
+        return true;
+
+      return false;
     }
 }

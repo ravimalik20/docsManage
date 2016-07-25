@@ -67,7 +67,7 @@
                                 <li class="user-header bg-light-blue">
                                     <img src="/assets/admin/img/avatar3.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        @if (Auth::check()) {{Auth::user()->name}} @endif 
+                                        @if (Auth::check()) {{Auth::user()->name}} @endif
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -109,7 +109,7 @@
                     </form>
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
-                    
+
                     @include("includes.lhs-menu")
 
                 </section>
@@ -128,7 +128,7 @@
 
 
         <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="/assets/admin/js/jquery.min.js"></script>
         <!-- jQuery UI 1.10.3 -->
         <script src="/assets/admin/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
         <!-- Bootstrap -->
@@ -154,9 +154,9 @@
 
         <!-- AdminLTE App -->
         <script src="/assets/admin/js/AdminLTE/app.js" type="text/javascript"></script>
-        
+
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <!--script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script-->        
+        <!--script src="/assets/admin/js/AdminLTE/dashboard.js" type="text/javascript"></script-->
 
         <!-- Dropzone -->
         <script src="/assets/admin/dropzone/dropzone.min.js" type="text/javascript"></script>

@@ -11,7 +11,7 @@ use App\Models\Folder;
 use App\Models\File;
 use App\User;
 
-use Auth;
+use Auth, Session, Redirect;
 
 class FileController extends Controller
 {
@@ -68,7 +68,6 @@ class FileController extends Controller
     public function show($folder_id, $id)
     {
         $data = [];
-
         if ($folder_id != 0) {
             $folder = Folder::findOrFail($folder_id);
             $path = $folder->path();
@@ -164,6 +163,13 @@ class FileController extends Controller
     public function download($folder_id, $id)
     {
         $file = File::find($id);
+
+        if ($file->hasPermission($file,"download") == false) {
+            $msg = ["type"=>"alert-danger","icon"=>"fa-ban","data"=>["You don't have permission to download file!"]];
+            Session::flash("message",$msg);
+
+            return redirect("/folder/".$folder_id."/file/".$id);
+        }
         if (!$file)
             return abort(404);
 

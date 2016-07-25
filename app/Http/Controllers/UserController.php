@@ -6,14 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\Models\Folder;
-use App\Models\File;
-use App\User;
-
-use Auth;
-
-class AdminController extends Controller
+use App\Models\Folder, App\Models\File, App\User, Auth;
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,36 +17,10 @@ class AdminController extends Controller
     public function index()
     {
         $data = [];
-
-        if(Auth::user()->role == "admin"){
-          $data = $this->returnUserPage();
-          return view('master', $data);
-        }
-
-        $user = User::find(Auth::user()->id);
-        if (!$user)
-            return redirect("auth/login");
-
-        $folders = Folder::rootFolders($user);
-        if (count($folders) > 0)
-            $data["folders"] = $folders;
-
-        $files = File::rootFiles($user);
-        if (count($files) > 0)
-            $data["files"] = $files;
-
-        return view('index', $data);
-    }
-
-
-    public function returnUserPage()
-    {
-        $data = [];
-
         $data['page']  = 'userlist';
         $data['users'] = User::lists();
 
-        return $data;
+        return view('master', $data);
     }
 
     /**
@@ -84,7 +52,14 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [];
+        $user = User::find($id);
+
+        $data['user'] = $user;
+        $data['page']  = 'userdocuments';
+        $data['documents'] = User::documents($user,0);
+
+        return view('master', $data);
     }
 
     /**
@@ -119,5 +94,17 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function userFolderDocument($userID, $folderID)
+    {
+        $data = [];
+        $user = User::find($userID);
+
+        $data['user'] = $user;
+        $data['page']  = 'userdocuments';
+        $data['documents'] = User::documents($user,$folderID);
+
+        return view('master', $data);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Validator;
-
+use App\Models\DocumentPermission;
 class Folder extends Model
 {
     protected $table = 'folders';
@@ -23,12 +23,31 @@ class Folder extends Model
 
     public static function rootFolders($user)
     {
-        $folders = Folder::where("parent", null)
-            ->where("user_id", $user->id)
+
+      if($user->role == "admin"){
+        return Folder::where("parent", null)
             ->orderBy("name")
             ->get();
+        }
 
-        return $folders;
+      return $folders = Folder::where("parent", null)
+          ->where("user_id", $user->id)
+          //->orWhereIn("id",self::sharedFolders($user))
+          ->orderBy("name")
+          ->get();
+    }
+
+    public static function sharedFolders($user){
+      $ids = [];
+      $sharedFolderIds = DocumentPermission::select("document_id")->where("user_id",$user->id)
+                  ->where("type","folder")
+                  ->get();
+
+      $sharedFolderIds = $sharedFolderIds->toArray();
+      foreach ($sharedFolderIds as $id) {
+        array_push($ids,$id["document_id"]);
+      }
+      return $ids;
     }
 
     public static function directoryTree($user)

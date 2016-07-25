@@ -31,15 +31,23 @@ Route::group(["prefix" => "auth"], function ()
 Route::group(["middleware" => "auth"], function ()
 {
     Route::resource("home", "HomeController", ["only" => ["index"]]);
-
     Route::delete("folder", "FolderController@bulkDestroy");
+    Route::get("sharedfolder", "FolderController@sharedFolder");
+    Route::get("shareduser/{id}", "FolderController@sharedUser");
     Route::resource("folder", "FolderController");
 
     Route::get("folder/{folder_id}/file/{id}/content", "FileController@content");
     Route::get("folder/{folder_id}/file/{id}/download", "FileController@download");
     Route::resource("folder.file", "FileController");
-
     Route::get("/", "AdminController@index");
+});
+
+Route::group(["middleware"=>"auth"], function()
+{
+    Route::resource("user", "UserController");
+    Route::resource("permission", "PermissionController");
+    Route::get("/user/{user_id}/folder/{folder_id}", "UserController@userFolderDocument");
+    Route::post("document_permissions","PermissionController@documentPermission");
 });
 
 ?>
