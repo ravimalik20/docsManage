@@ -6,15 +6,15 @@ function wrapData(user){
 
     if(typeof(user.sharedFiles)!="undefined"){
       var per = user.sharedFiles.permissions;
-      if(per.indexOf("1") > -1)
+      if(per.indexOf(1) > -1)
           viewp = "checked";
-      if(per.indexOf("2") > -1){
+      if(per.indexOf(2) > -1){
           deletep = "checked";
         }
-      if(per.indexOf("3") > -1){
+      if(per.indexOf(3) > -1){
           print = "checked";
         }
-      if(per.indexOf("4") > -1){
+      if(per.indexOf(4) > -1){
           download = "checked";
         }
     }

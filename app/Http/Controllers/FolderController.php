@@ -200,7 +200,6 @@ class FolderController extends Controller
     {
         if (!$folder)
             return false;
-        }
 
         $permission = Permission::getPermission($permissionType);
         $hasPermission = false;
