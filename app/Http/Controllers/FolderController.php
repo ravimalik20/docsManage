@@ -169,11 +169,13 @@ class FolderController extends Controller
               $file = File::find($file);
 
               if ($this->hasDeletePermission($file,"delete")) {
-                  $file->delete();
+                  
 
                   $log = ["document_id"=>$file->id,"name"=>$file->name,"user_id"=>Auth::user()->id, 
                     "type"=>"delete","status"=>"success","reason"=>"Delete File"];
                   History::store($log);
+
+                    $file->delete();
 
                   $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["File delete successfully!."]];
               }

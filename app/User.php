@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Auth;
-use App\Models\Folder,App\Models\File, App\Models\DocumentPermission;
+use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History;
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
@@ -126,5 +126,9 @@ class User extends Model implements AuthenticatableContract,
         }
       }
       return $ids;
+    }
+
+  public function history(){
+      return History::where("user_id",$this->id)->get();
     }
 }

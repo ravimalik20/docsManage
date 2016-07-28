@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Folder, App\Models\File, App\User, Auth;
-class UserController extends Controller
+use App\Setting, Session;
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +17,9 @@ class UserController extends Controller
     public function index()
     {
         $data = [];
-        $data['page']  = 'userlist';
-        $data['users'] = User::lists();
-
-        return view('master', $data);
+        $data["settings"] = Setting::settings();
+        $data["page"] = "setting";
+        return view("master",$data);
     }
 
     /**
@@ -41,7 +40,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Setting::store($request);
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Settings saved successfully!"]];
+        Session::flash("message",$msg);
+        return back();
     }
 
     /**
@@ -52,14 +54,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data = [];
-        $user = User::find($id);
-
-        $data['user'] = $user;
-        $data['page']  = 'userdocuments';
-        $data['documents'] = User::documents($user,0);
-
-        return view('master', $data);
+        //
     }
 
     /**
@@ -94,25 +89,5 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function userFolderDocument($userID, $folderID)
-    {
-        $data = [];
-        $user = User::find($userID);
-
-        $data['user'] = $user;
-        $data['page']  = 'userdocuments';
-        $data['documents'] = User::documents($user,$folderID);
-
-        return view('master', $data);
-    }
-
-    public function userHistory($userID){
-        $data = [];
-        $data["page"] = "user_history";
-        $user = User::find($userID);
-        $data["histories"] = $user->history();
-        return view("master", $data);
     }
 }

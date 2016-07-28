@@ -31,6 +31,7 @@
               </a>
               <a class="btn btn-sm delete_file_folder" data-token="{{csrf_token()}}"><i class="fa fa-trash"></i> Delete</a>
               <a class="btn btn-sm" href="/sharedfolder" data-token="{{csrf_token()}}"><i class="fa fa-folder"></i> Shared Document</a>
+              <a class="btn btn-sm" href="/setting"><i class="fa fa-wrench"></i>Settings</a>
             @endif
 
             @if(Auth::check() && Auth::user()->role == 'admin')

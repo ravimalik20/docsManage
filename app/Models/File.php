@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DocumentPermission, App\Models\Permission;
+use App\Models\DocumentPermission, App\Models\Permission, App\Models\History;
 use Validator, Auth;
-
+use App\Email,App\Setting;
 class File extends Model
 {
     protected $table = 'files';
 
-    protected $fillable = ['name', 'extension_id', 'path', "folder_id", "created_by"];
+    protected $fillable = ['name', 'extension_id', 'path', "folder_id", "created_by", "uploaded_by"];
 
     public static function validate($input)
     {
@@ -31,12 +31,15 @@ class File extends Model
         return $file;
     }
 
-    public static function saveUpload($file, $user, $folder=null)
+    public static function saveUpload($file, $user, $folder=null, $admin=false)
     {
-
+        $uploaded_by = null;
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
-
+        if($admin)
+        {
+          $uploaded_by = Auth::user()->id;
+        }
         $ext = Extension::firstOrCreate([
             "name" => strtolower($extension)
         ]);
@@ -52,7 +55,8 @@ class File extends Model
             "name" => $filename,
             "extension_id" => $ext->id,
             "path" => $upload_path,
-            "created_by" => $user->id
+            "created_by" => $user->id,
+            "uploaded_by"=>$uploaded_by
         ];
 
         if ($folder != null)
@@ -60,6 +64,15 @@ class File extends Model
 
         $obj = File::create($data);
         self::setPermissions($obj);
+        $log = ["document_id"=>$obj->id,"user_id"=>$user->id,
+          "type"=>"upload","status"=>"success","reason"=>"","uploaded_by"=>$uploaded_by];
+        History::store($log);
+        if(Setting::emailSetting("file_upload")){
+            $user->subject = "New File Upload";
+            $user->body = "You have uploaded new file to the document management system.";
+            $user->email = "shekharsingh099@gmail.com";
+            Email::fileUpload($user);
+        }
         return $obj;
     }
 

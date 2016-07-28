@@ -31,7 +31,8 @@
                 <i class="fa fa-file"></i> Add File
             </a>
             <a class="btn btn-sm delete_file_folder" data-token="{{csrf_token()}}"><i class="fa fa-trash"></i> Delete</a>
-            <a class="btn btn-sm" href="/sharedfolder" data-token="{{csrf_token()}}"><i class="fa fa-folder"></i> Shared Document</a>    
+            <a class="btn btn-sm" href="/sharedfolder" data-token="{{csrf_token()}}"><i class="fa fa-folder"></i> Shared Document</a>
+            <a class="btn btn-sm" href="/setting"><i class="fa fa-wrench"></i>Settings</a>
             @endif
             @if(Auth::check() && Auth::user()->role == 'admin')
                 @include("includes.admin-menu")
@@ -54,10 +55,14 @@
       </div>
     @endif
 
-    @if($page == 'userlist')
+    @if( $page == 'userlist' )
       @include("user.list")
-    @elseif($page == 'userdocuments')
+    @elseif( $page == 'userdocuments' )
       @include("user.documents")
+    @elseif( $page == 'user_history' )
+      @include("user.history")
+    @elseif( $page == 'setting' )
+      @include("user.setting")
     @endif
 </section><!-- /.content -->
 

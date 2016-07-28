@@ -43,18 +43,27 @@ class FileController extends Controller
      */
     public function store(Request $request, $folder_id)
     {
+        $userId = Auth::user()->id;
+        $admin = false;
+        if($request->has("admin") && $request->admin){
+          $userId = $request->created_by;
+          $admin = true;
+        }
         if ($folder_id != 0)
             $folder = Folder::findOrFail($folder_id);
         else
             $folder = null;
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find($userId);
 
         if ($request->hasFile("file")) {
             $file = $request->file("file");
 
-            $fileObj = File::saveUpload($file, $user, $folder);
+            $fileObj = File::saveUpload($file, $user, $folder,$admin);
         }
+
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Files has uploaded successfully!"]];
+        Session::flash("message",$msg);
 
         return "success";
     }
