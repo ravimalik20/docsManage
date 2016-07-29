@@ -64,13 +64,14 @@ class File extends Model
 
         $obj = File::create($data);
         self::setPermissions($obj);
+
         $log = ["document_id"=>$obj->id,"user_id"=>$user->id,
           "type"=>"upload","status"=>"success","reason"=>"","uploaded_by"=>$uploaded_by];
         History::store($log);
+
         if(Setting::emailSetting("file_upload")){
-            $user->subject = "New File Upload";
-            $user->body = "You have uploaded new file to the document management system.";
-            $user->email = "shekharsingh099@gmail.com";
+            $user->subject = "New File Uploaded";
+            $user->body = "A new file, '".$filename."', has been uploaded to your account.";
             Email::fileUpload($user);
         }
         return $obj;
@@ -160,7 +161,6 @@ class File extends Model
 
     public function hasPermission($folder,$permissionType){
       $permission = Permission::getPermission($permissionType);
-      $hasPermission = false;
       $sharedFolders = DocumentPermission::where("document_id", $folder->id)
                         ->where("user_id",Auth::user()->id)
                         ->where("permission_id",$permission->id)
@@ -171,9 +171,6 @@ class File extends Model
       }
 
       if(Auth::user()->role == "admin")
-        return true;
-
-      if($hasPermission)
         return true;
 
       return false;

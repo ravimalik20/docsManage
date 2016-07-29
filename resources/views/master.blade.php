@@ -9,8 +9,8 @@
 @section('content')
 
 <div id="info_div" style="display:none;"
-@if (isset($folder))
-    data-folder-id="{{$folder->id}}"
+@if (Request::segment(1) == "user" && Request::segment(3) == "folder" && Request::segment(4) != "")
+    data-folder-id="{{ Request::segment(4) }}"
 @endif
 ></div>
 

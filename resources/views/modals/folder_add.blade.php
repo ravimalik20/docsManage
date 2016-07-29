@@ -11,6 +11,12 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <input type="string" placeholder="Name" class="form-control" name="folder_name" data-token="{{csrf_token()}}">
+                    @if(Auth::check() && Auth::user()->role == "admin")
+                      @if(Request::segment(1) =="user" && Request::segment(2) != "")
+                      <input type="hidden" name="admin" value="true"/>
+                      <input type="hidden" name="user_id" value="{{ Request::segment(2) }}"/>
+                      @endif
+                    @endif
                 </div>
             </div>
         </div>

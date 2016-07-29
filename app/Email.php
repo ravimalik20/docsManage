@@ -6,20 +6,17 @@ use Mail;
 class Email
 {
 
-  public static function fileUpload($user)
-  {
+    public static function fileUpload($user)
+    {
+        Mail::send('email.file_upload', ["user"=>$user], function($message) use ($user) {
+            $message->to($user->email, $user->name)->subject($user->subject);
+        });
+    }
 
-    $data = ["email"=>$user->email,"name"=>$user->name,"subject"=>$user->subject,"body"=>$user->body];
-    Mail::send('email.file_upload', $data, function($message) use ($data)
-      {
-        $message->to($data["email"], $data["name"])->subject($data["subject"]);
-      });
-  }
-
-  public static function fileDelete()
-  {
-
-  }
-
-
+    public static function fileDelete()
+    {
+        Mail::send('email.file_upload', ["user"=>$user], function($message) use ($user) {
+            $message->to($user->email, $user->name)->subject($user->subject);
+        });
+    }
 }

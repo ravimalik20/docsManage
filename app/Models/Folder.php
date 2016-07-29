@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Validator;
-use App\Models\DocumentPermission;
+use App\Models\DocumentPermission,Auth, App\Models\File;
 class Folder extends Model
 {
     protected $table = 'folders';
 
-    protected $fillable = ['name', 'user_id', 'parent'];
+    protected $fillable = ['name', 'user_id', 'parent', 'created_by'];
 
     public static function validate($input)
     {
@@ -155,5 +155,26 @@ class Folder extends Model
         }
 
         return $pathStr;
+    }
+
+    public function allFilesDeletePermission(){
+      if(Auth::user()->role == "admin")
+        return true;
+
+      $fileExists = $this->getFiles();
+      if(count($fileExists) == 0)
+        return true;
+
+      foreach($fileExists as $file){
+        if(!$file->hasPermission($file,"delete")){
+            return false;
+        }
+      }
+
+      return true;
+    }
+
+    public function getFiles(){
+      return File::where("folder_id",$this->id)->get();
     }
 }

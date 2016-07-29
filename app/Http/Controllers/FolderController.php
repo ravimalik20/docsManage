@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Folder,App\Models\Permission, App\Models\DocumentPermission, App\Models\History;
-use App\Models\File;
+use App\Models\File, App\Setting, App\Email;
 use App\User;
 
 use Auth, Session;
@@ -43,13 +43,21 @@ class FolderController extends Controller
      */
     public function store(Request $request)
     {
+        $created_by = null;
+        $user_id    = Auth::user()->id;
+        if($request->has("admin") && $request->admin){
+          $created_by = Auth::user()->id;
+          $user_id    = $request->user_id;
+        }
+
         $validation = Folder::validate($request->all());
         if ($validation->fails())
             return ["status" => "failure", "errors" => $validation->messages()->all()];
 
         $folder_data = [
-            "name" => $request->name,
-            "user_id" => Auth::user()->id
+            "name"      => $request->name,
+            "user_id"   => $user_id,
+            "created_by"=> $created_by
         ];
 
         if ($request->has("folder_id") && $request->get("folder_id"))
@@ -64,9 +72,11 @@ class FolderController extends Controller
                 return ["status" => "failure", "errors" => ["Error saving folder."]];
         }
 
-        if (!$folder)
-            return back()->with("errors", ["Error saving folder."]);
-
+        if (!$folder){
+          return back()->with("errors", ["Error saving folder."]);
+        }
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Folder added successfully!."]];
+        Session::flash("message",$msg);
         return back();
     }
 
@@ -149,18 +159,22 @@ class FolderController extends Controller
         $msg = "";
         $folders = $request->get("folders");
         $files = $request->get("files");
-
+        $user = Auth::user();
         if (count($folders) > 0) {
             foreach($folders as $folder) {
                 $folder = Folder::find($folder);
+                if($folder->allFilesDeletePermission()){
+                  if($folder) {
+                      $log = ["document_id"=>$folder->id,"name"=>$folder->name,"user_id"=>Auth::user()->id, "type"=>"delete","status"=>"success","reason"=>"Delete folder"];
+                      History::store($log);
 
-                if($folder) {
-                    $log = ["document_id"=>$folder->id,"name"=>$folder->name,"user_id"=>Auth::user()->id, "type"=>"delete","status"=>"success","reason"=>"Delete folder"];
-                    History::store($log);
+                      $folder->delete();
+                      $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Folder delete successfully!."]];
+                  }
+              }else{
+                $msg = ["type"=>"alert-danger","icon"=>"fa-ban","data"=>["Folder cannot be deleted!. You have not file delete permissions."]];
+              }
 
-                    $folder->delete();
-                    $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Folder delete successfully!."]];
-                }
             }
         }
 
@@ -169,18 +183,21 @@ class FolderController extends Controller
               $file = File::find($file);
 
               if ($this->hasDeletePermission($file,"delete")) {
-                  
 
-                  $log = ["document_id"=>$file->id,"name"=>$file->name,"user_id"=>Auth::user()->id, 
+                  $log = ["document_id"=>$file->id,"name"=>$file->name,"user_id"=>Auth::user()->id,
                     "type"=>"delete","status"=>"success","reason"=>"Delete File"];
                   History::store($log);
 
                     $file->delete();
-
+                    if(Setting::emailSetting("file_delete")){
+                        $user->subject = "File successfully deleted.";
+                        $user->body = "You have deleted file '".$file->name."' from the document management system.";
+                        Email::fileUpload($user);
+                    }
                   $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["File delete successfully!."]];
               }
               else {
-                  $log = ["document_id"=>$file->id,"name"=>$file->name,"user_id"=>Auth::user()->id,                                     
+                  $log = ["document_id"=>$file->id,"name"=>$file->name,"user_id"=>Auth::user()->id,
                     "type"=>"delete","status"=>"failed","reason"=>"Permission not exists"];
                   array_push($log,$deleteLogs);
 

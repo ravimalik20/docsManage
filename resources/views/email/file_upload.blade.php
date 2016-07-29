@@ -5,7 +5,8 @@
   <title></title>
 </head>
 <body>
-    <h3>New file upload</h3>
-      <p>YOu have uploaded new file </p>
+    <h3>Hello, {{ $user->name }}</h3>
+      <p> {{ $user->subject }}</p>
+      <p>{{ $user->body }} </p>
 </body>
 </html>
