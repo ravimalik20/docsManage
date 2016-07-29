@@ -42,13 +42,19 @@ $(document).ready(function ()
   var token = $("#folderAddModal").find("input[name=folder_name]").attr("data-token");
     $(".add_folder").click(function ()
     {
+        var admin =  false;
+        var user_id = null;
         var name = $("#folderAddModal").find("input[name=folder_name]").val();
         var token = $("#folderAddModal").find("input[name=folder_name]").attr("data-token");
+         admin = $("#folderAddModal").find("input[name=admin]").val();
+         user_id = $("#folderAddModal").find("input[name=user_id]").val();
 
         var data = {
-            "name" : name,
-            "_ajax" : "true",
-            "_token" : token
+            "name"    : name,
+            "_ajax"   : "true",
+            "_token"  : token,
+            "admin"   : admin,
+            "user_id" : user_id
         };
 
         var info_ref = $("#info_div");
@@ -57,10 +63,14 @@ $(document).ready(function ()
             if (folder_id)
                 data["folder_id"] = folder_id;
         }
+        console.log(data);
 
         $.post("/folder", data, function (val)
         {   if (val.status == "success")
-                location.reload();
+              {
+                  location.reload();
+              }
+
         });
     });
 
