@@ -182,6 +182,8 @@ class FolderController extends Controller
             foreach($files as $file) {
               $file = File::find($file);
 
+                $file_user = User::find($file->created_by);
+
               if ($this->hasDeletePermission($file,"delete")) {
 
                   $log = ["document_id"=>$file->id,"name"=>$file->name,"user_id"=>Auth::user()->id,
@@ -189,7 +191,7 @@ class FolderController extends Controller
                   History::store($log);
 
                     $file->delete();
-                    if(Setting::emailSetting("file_delete")){
+                    if(Setting::emailSetting($file_user,"file_delete")){
                         $user->subject = "File successfully deleted.";
                         $user->body = "You have deleted file '".$file->name."' from the document management system.";
                         Email::fileUpload($user);

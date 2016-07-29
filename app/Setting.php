@@ -36,8 +36,8 @@ class Setting extends Model
       return $usersettings;
     }
 
-    public static function emailSetting($setting){
-      $setting = Setting::where("user_id",Auth::user()->id)->where("name", $setting)->first();
+    public static function emailSetting($user,$setting){
+      $setting = Setting::where("user_id",$user->id)->where("name", $setting)->first();
       if($setting){
         return true;
       }

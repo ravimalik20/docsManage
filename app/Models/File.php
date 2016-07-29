@@ -69,7 +69,7 @@ class File extends Model
           "type"=>"upload","status"=>"success","reason"=>"","uploaded_by"=>$uploaded_by];
         History::store($log);
 
-        if(Setting::emailSetting("file_upload")){
+        if(Setting::emailSetting($user,"file_upload")){
             $user->subject = "New File Uploaded";
             $user->body = "A new file, '".$filename."', has been uploaded to your account.";
             Email::fileUpload($user);
@@ -161,13 +161,14 @@ class File extends Model
 
     public function hasPermission($folder,$permissionType){
       $permission = Permission::getPermission($permissionType);
+
       $sharedFolders = DocumentPermission::where("document_id", $folder->id)
                         ->where("user_id",Auth::user()->id)
                         ->where("permission_id",$permission->id)
                         ->first();
 
       if($sharedFolders){
-          $hasPermission =  true;
+          return true;
       }
 
       if(Auth::user()->role == "admin")
