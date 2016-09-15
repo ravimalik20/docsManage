@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html class="bg-black">
+<html class="bg-white">
     <head>
         <meta charset="UTF-8">
-        <title>AdminLTE | Log in</title>
+        <title>SkyTax | Log in</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
         <link href="/assets/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -18,14 +18,20 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="bg-black">
+    <body class="bg-white">
+        <img src = "../assets/admin/img/logo-with-icon.png" style="width:250px;margin:auto;display:block;margin-bottom:2px;">
+<div class="form-logo-area">
+
+</div>
 
         <div class="form-box" id="login-box">
-            <div class="header">Sign In</div>
+
+            <div class="header">
+              Sign In</div>
 
             <form action="/auth/login" method="post">
                 {!! csrf_field() !!}
-                <div class="body bg-gray">
+                <div class="body bg-navy">
                     <div class="form-group">
                         <input type="email" name="email" class="form-control" placeholder="Email"/>
                     </div>
@@ -37,17 +43,15 @@
                     </div>
                 </div>
                 <div class="footer">                                                               
-                    <button type="submit" class="btn bg-olive btn-block">Sign me in</button>  
+                    <button type="submit" class="btn bg-aqua btn-block">Sign me in</button>
                     
                     <!--p><a href="#">I forgot my password</a></p-->
                     
-                    <a href="/auth/register" class="text-center">Register a new membership</a>
+                    <a href="/auth/register" class="text-center">Register a New Account (it's free!)</a>
                 </div>
             </form>
 
-            <div class="margin text-center">
-                @include('auth.social_auth_buttons')
-            </div>
+
         </div>
 
 

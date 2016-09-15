@@ -5,6 +5,8 @@
     $user = \App\User::find(Auth::user()->id);
 
     echo \App\Models\Folder::directoryTree($user);
+
 /*--}}
 @endif
+
 </div>

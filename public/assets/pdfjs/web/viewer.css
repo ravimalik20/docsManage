@@ -12,6 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ #download,#print,#openFile,#documentProperties, {
+     display:none;
+ }
 
 .textLayer {
   position: absolute;
@@ -1825,6 +1828,7 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   /* General rules for printing. */
   body {
     background: transparent none;
+    
   }
 
   /* Rules for browsers that don't support mozPrintCallback. */

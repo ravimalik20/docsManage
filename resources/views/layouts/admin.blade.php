@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>DocsManage | Dashboard</title>
+        <title>SkyTax | Dashboard</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
         <link href="/assets/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -43,8 +43,7 @@
         <header class="header">
             <a href="/" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                DocsManage
-            </a>
+                <img src = "/assets/admin/img/logo-header.png" class="icon"></a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
@@ -98,19 +97,40 @@
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                    <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                            <span class="input-group-btn">
-                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
-                    <!-- sidebar menu: : style can be found in sidebar.less -->
 
-                    @include("includes.lhs-menu")
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    @if(Auth::check() && Auth::user()->role == 'admin')
+
+                       <div class="form-group">
+                           <select class="form-control">
+                               <option>User x1</option>
+                               <option>lUser x2</option>
+                               </select>
+
+                       </div>
+
+                    <div class="menu-left-top">
+                        <a><li>Files</li></a>
+
+                    </div>
+
+                    <div class="menu-left">
+                         <a><li>Messaging</li></a>
+                         <a><li>My Bills</li></a>
+                         <a><li>Tasks</li></a>
+                         <a><li>History</li></a>
+
+
+                    </div>
+                    <div class="menu-left-bottom">
+                        <a href="/user"><li>Appointments</li></a>
+                    </div>
+                    @endif
+
+
+
+
+
 
                 </section>
                 <!-- /.sidebar -->

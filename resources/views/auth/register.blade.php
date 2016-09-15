@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html class="bg-black">
+<html class="bg-white">
     <head>
         <meta charset="UTF-8">
-        <title>AdminLTE | Registration Page</title>
+        <title>SkyTax| Account Registration</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
         <link href="/assets/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -18,13 +18,14 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="bg-black">
+    <body class="bg-white">
 
         <div class="form-box" id="login-box">
-            <div class="header">Register New Membership</div>
+            <img src = "../assets/admin/img/logo-with-icon.png" style="margin:auto;display:block;margin-bottom:35px;">
+            <div class="header">Register A New Account</div>
             <form action="/auth/register" method="post">
                 {!! csrf_field() !!}
-                <div class="body bg-gray">
+                <div class="body bg-navy">
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Username" value="{{ old('name') }}"/>
                     </div>
@@ -40,15 +41,13 @@
                 </div>
                 <div class="footer">                    
 
-                    <button type="submit" class="btn bg-olive btn-block">Sign me up</button>
+                    <button type="submit" class="btn bg-aqua btn-block">Sign me up</button>
 
-                    <a href="/auth/login" class="text-center">I already have a membership</a>
+                    <a href="/auth/login" class="text-center">I already have an account, sign me in!</a>
                 </div>
             </form>
 
-            <div class="margin text-center">
-                @include('auth.social_auth_buttons')
-            </div>
+
         </div>
 
 

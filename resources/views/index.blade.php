@@ -1,4 +1,9 @@
-@extends('layouts.admin')
+
+
+  @extends('layouts.admin')
+
+
+
 
 @section('extra_scripts')
 
@@ -59,30 +64,35 @@
         @endif
 
         @if (isset($folders) && count($folders) > 0)
+
         @foreach ($folders as $f)
-        <div class="folder col-lg-2 col-sm-2 col-xs-3">
-            <div class="row">
+           <div class="folder col-lg-2 col-sm-2 col-xs-3">
+
+                <div class="row">
                 <div class="col-lg-1 folder_checkbox">
                     <input type="checkbox" name="folders" value="{{$f->id}}" autocomplete="off">
                 </div>
                 <div class="col-lg-11">
                     <div class="file_icon text-center">
-                        <a href="/folder/{{$f->id}}"><i class="fa fa-folder fa-5x"></i></a>
-                    </div>
+                       <a href="/folder/{{$f->id}}"><i class="fa fa-folder fa-5x"></i></a>
+
+                   </div>
                     <div class="file_name text-center">
                         <span>{{$f->name}}</span>
                     </div>
                     @if(Auth::check() && Auth::user()->role == 'admin')
                     <div class="permissionbtn">
                       <a class="btn btn-sm menu-middle-permission add_permision_btn" data-type="folder" data-id="{{$f->id}}" href="javascript:void(0)">
-                          <i class="fa fa-key"></i> add permission
+                          <i class="fa fa-key"></i> Add Permission
                       </a>
                     </div>
                     @endif
-                </div>
+               </div>
             </div>
         </div>
+
         @endforeach
+
         @endif
 
         @if (isset($files) && count($files) > 0)
