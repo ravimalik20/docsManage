@@ -34,8 +34,8 @@ class File extends Model
     public static function saveUpload($file, $user, $folder=null, $admin=false)
     {
         $uploaded_by = null;
-        $filename = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
+        $filename = htmlspecialchars($file->getClientOriginalName());
+        $extension = htmlspecialchars($file->getClientOriginalExtension());
         if($admin)
         {
           $uploaded_by = Auth::user()->id;

@@ -55,7 +55,7 @@ class FolderController extends Controller
             return ["status" => "failure", "errors" => $validation->messages()->all()];
 
         $folder_data = [
-            "name"      => $request->name,
+            "name"      => htmlspecialchars($request->name),
             "user_id"   => $user_id,
             "created_by"=> $created_by
         ];

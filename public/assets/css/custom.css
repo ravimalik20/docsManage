@@ -31,3 +31,7 @@
 .permission_check{
   margin-left: 14px;
 }
+
+.help-block {
+    color: red !important;
+}

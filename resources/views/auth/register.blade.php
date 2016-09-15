@@ -17,6 +17,9 @@
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/custom.css" />
+
     </head>
     <body class="bg-white">
 
@@ -28,15 +31,27 @@
                 <div class="body bg-navy">
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Username" value="{{ old('name') }}"/>
+                        @if ($errors->first('name'))
+                        <span id="helpBlock" class="help-block">{{$errors->first('name')}}</span>
+                        @endif
                     </div>
                     <div class="form-group">
                         <input type="email" name="email" class="form-control" placeholder="E-Mail" value="{{ old('email') }}"/>
+                        @if ($errors->first('email'))
+                        <span id="helpBlock" class="help-block">{{$errors->first('email')}}</span>
+                        @endif
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Password"/>
+                        @if ($errors->first('password'))
+                        <span id="helpBlock" class="help-block">{{$errors->first('password')}}</span>
+                        @endif
                     </div>
                     <div class="form-group">
                         <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password"/>
+                        @if ($errors->first('password_confirmation'))
+                        <span id="helpBlock" class="help-block">{{$errors->first('password_confirmation')}}</span>
+                        @endif
                     </div>
                 </div>
                 <div class="footer">                    
