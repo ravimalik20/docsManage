@@ -215,4 +215,9 @@ class User extends Model implements AuthenticatableContract,
     {
         return User::where("role",'!=','admin')->get();
     }
+
+    public function getNameAttribute($val)
+    {
+        return htmlspecialchars($val);
+    }
 }
