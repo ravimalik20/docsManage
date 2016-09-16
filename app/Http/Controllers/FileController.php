@@ -163,6 +163,9 @@ class FileController extends Controller
 
         $file->delete();
 
+        if ($request->has("back") && $request->input("back") == "true")
+            return back();
+
         if ($folder_id == 0)
             return redirect("/");
         else

@@ -109,9 +109,10 @@ class User extends Model implements AuthenticatableContract,
       return User::whereIn("id",$sharedFolderIds)->get();
     }
 
-    public static function sharedUserIds(){
-      $ids = [];
-      $sharedFolderIds = DocumentPermission::select("files.created_by")
+    public static function sharedUserIds()
+    {
+        $ids = [];
+        $sharedFolderIds = DocumentPermission::select("files.created_by")
                   ->join("users","users.id","=","document_permission.user_id")
                   ->join("files","document_permission.document_id","=","files.id")
                   ->where("document_permission.user_id",Auth::user()->id)
@@ -119,16 +120,85 @@ class User extends Model implements AuthenticatableContract,
                   ->where("type","file")
                   ->distinct()
                   ->get();
-      if(count($sharedFolderIds)>0){
-        $sharedFolderIds = $sharedFolderIds->toArray();
-        foreach ($sharedFolderIds as $id) {
-          array_push($ids,$id["created_by"]);
+
+        if (count($sharedFolderIds) > 0) {
+            $sharedFolderIds = $sharedFolderIds->toArray();
+
+            foreach ($sharedFolderIds as $id) {
+                array_push($ids,$id["created_by"]);
+            }
         }
-      }
-      return $ids;
+
+        return $ids;
     }
 
-  public function history(){
-      return History::where("user_id",$this->id)->get();
+    public function history()
+    {
+        return History::where("user_id",$this->id)->get();
+    }
+
+    public static function nonAdminUsers()
+    {
+        $users = User::whereNull("role")
+            ->get();
+
+        return $users;
+    }
+
+    public function renderFolderStructureTable()
+    {
+        $folders = Folder::where("user_id", $this->id)
+            ->where("parent", NULL)
+            ->get();
+
+        $html = $this->generateTree($folders, $this, true);
+
+        return $html;
+    }
+
+    public function generateTree($folders, $user, $first=false)
+    {
+        $html = "";
+
+        if (isset($folders) && count($folders) > 0) {
+            foreach ($folders as $folder) {
+                $html .= view('user.includes.table_folder', compact('folder'));
+
+                $child_folders = Folder::where("user_id", $user->id)
+                    ->where("parent", $folder->id)
+                    ->get();
+
+                if (count($child_folders) > 0)
+                    $html .= $this->generateTree($child_folders, $user);
+
+                $child_files = File::where("folder_id", $folder->id)
+                    ->where("created_by", $user->id)
+                    ->get();
+                if (count($child_files) > 0) {
+                    $html .= "";
+
+                    foreach ($child_files as $file) {
+                        $html .= view('user.includes.table_file', compact('file'));
+                    }
+
+                    $html .= "";
+                }
+
+                $html .= "";
+            }
+        }
+
+        if ($first == true) {
+            $files = File::where("folder_id", NULL)
+                ->where("created_by", $user->id)
+                ->get();
+            if (count($files) > 0) foreach ($files as $file) {
+                $html .= view('user.includes.table_file', compact('file'));
+            }
+        }
+
+        $html .= "";
+
+        return $html;
     }
 }

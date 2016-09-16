@@ -101,16 +101,38 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     @if(Auth::check() && Auth::user()->role == 'admin')
 
+                        {{--*/
+                            $non_admin_users = \App\User::nonAdminUsers();
+                        /*--}}
+
                        <div class="form-group">
-                           <select class="form-control">
-                               <option>User x1</option>
-                               <option>lUser x2</option>
-                               </select>
+                           <select class="form-control user_select">
+                                <option value="">Select user</option>
+                                @if (count($non_admin_users) > 0)
+                                @foreach($non_admin_users as $user)
+                                <option value="{{$user->id}}"
+                                    @if (\Session::has("selected_user") && \Session::get("selected_user") == $user->id)
+                                        selected
+                                    @endif
+                                >{{$user->name}}</option>
+                                @endforeach
+                                @endif
+                           </select>
 
                        </div>
 
                     <div class="menu-left-top">
-                        <a><li>Files</li></a>
+                        <a
+                        @if (\Session::has("selected_user"))
+                            href="/user/{{\Session::get('selected_user')}}"
+                        @else
+                            href="#"
+                        @endif
+                        ><li
+                            @if (Request::is('user/*') && Request::segment(3) =="")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                        >Files</li></a>
 
                     </div>
 
@@ -118,7 +140,17 @@
                          <a><li>Messaging</li></a>
                          <a><li>My Bills</li></a>
                          <a><li>Tasks</li></a>
-                         <a><li>History</li></a>
+                         <a
+                            @if (\Session::has("selected_user"))
+                                href="/user/{{\Session::get('selected_user')}}/history"
+                            @else
+                                href="#"
+                            @endif
+                         ><li
+                            @if (Request::is('user/*') && Request::segment(3) == "history")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                          >History</li></a>
 
 
                     </div>
@@ -182,6 +214,9 @@
         <script src="/assets/admin/dropzone/dropzone.min.js" type="text/javascript"></script>
 
         <script src="/assets/jstree/jstree.min.js"></script>
+
+        <script src="/assets/js/main.js"></script>
+
         <script>
             $(document).ready(function ()
             {

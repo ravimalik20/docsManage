@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Folder, App\Models\File, App\User, Auth;
+
+use Session;
+
 class UserController extends Controller
 {
     /**
@@ -114,5 +117,16 @@ class UserController extends Controller
         $user = User::find($userID);
         $data["histories"] = $user->history();
         return view("master", $data);
+    }
+
+    public function selectUser($user_id)
+    {
+        $user = \App\user::find($user_id);
+
+        if ($user) {
+            Session::put("selected_user", $user_id);
+        }
+
+        return ["status" => "success"];
     }
 }

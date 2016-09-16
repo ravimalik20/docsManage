@@ -63,6 +63,22 @@ See https://github.com/adobe-type-tools/cmap-resources
         
     </script-->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('contextmenu', function(e){ return false; });
+
+            if (typeof document.onselectstart != "undefined") {
+                document.onselectstart = new Function ("return false");
+            }
+            else {
+                document.onmousedown = new Function ("return false");
+                document.onmouseup = new Function ("return true");
+            }
+        });
+    </script>
+
   </head>
 
   <body tabindex="1" class="loadingInProgress" data-file="{{$file_path}}">

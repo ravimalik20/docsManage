@@ -35,3 +35,8 @@
 .help-block {
     color: red !important;
 }
+
+.folder_name {
+    font-weight: 800;
+    color: blue;
+}
