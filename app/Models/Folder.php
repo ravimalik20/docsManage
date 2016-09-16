@@ -178,13 +178,12 @@ class Folder extends Model
       return File::where("folder_id",$this->id)->get();
     }
 
-    public static function userFolders($user){
-       $folders = Folder::where("parent", null)
-          ->where("user_id", $user->id)
-          //>orWhereIn("id",self::sharedFolders($user))
-          ->select('id','name')
-          ->orderBy("name")
-          ->get();
+    public static function userFolders($user)
+    {
+        $folders = Folder::select('id','name')
+            ->where("user_id", $user->id)
+            ->orderBy("name")
+            ->get();
 
         return $folders;
     }

@@ -219,27 +219,7 @@ class FolderController extends Controller
 
     public function hasDeletePermission($folder,$permissionType)
     {
-        if (!$folder)
-            return false;
-
-        $permission = Permission::getPermission($permissionType);
-        $hasPermission = false;
-        $sharedFolders = DocumentPermission::where("document_id", $folder->id)
-            ->where("user_id",Auth::user()->id)
-            ->where("permission_id",$permission->id)
-            ->first();
-
-        if($sharedFolders){
-          $hasPermission =  true;
-        }
-
-        if(Auth::user()->role == "admin")
-            return true;
-
-        if($hasPermission)
-            return true;
-
-        return false;
+        return \App\Models\Permission::fileHasDeletePermission($folder, $permissionType);
     }
 
     public function sharedFolder()
@@ -258,13 +238,23 @@ class FolderController extends Controller
       $data['page']  = 'userdocuments';
       $data['documents']['files'] = User::sharedFiles($user);
 
+        $data["user_managed_id"] = $id;
+
       return view('master', $data);
     }
 
-    public function getuserfolders(){
+    public function getuserfolders(Request $request)
+    {
+        if ($request->has('id') && $request->input("id")) {
+            $user = \App\User::find($request->input("id"));
+        }
+        else {
+            $user = \Auth::user();
+        }
 
-      $folders =  Folder::userFolders(Auth::user());
-      return ['folders'=>$folders];
+        $folders =  Folder::userFolders($user);
+
+        return ['folders'=>$folders];
     }
 
 }

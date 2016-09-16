@@ -14,9 +14,7 @@
     </a>
   @endif
 
-  <a class="btn btn-sm user-manage-permission" style="display:none;" href="javascript::void(0)">
-      <i class="fa fa-key"></i> add Manage Permission
-  </a>
+  
 
   @endif
 

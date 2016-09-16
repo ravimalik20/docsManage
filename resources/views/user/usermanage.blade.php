@@ -27,3 +27,11 @@
 
   @endif
 </div>
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <a class="btn btn-primary user-manage-permission" href="javascript::void(0)">
+              <i class="fa fa-key"></i> Update Manage Permission
+        </a>
+    </div>
+</div>

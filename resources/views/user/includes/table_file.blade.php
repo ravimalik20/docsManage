@@ -5,7 +5,7 @@
     <td class="file_year">{{ $file->created_at->format("Y") }}</td>
     <td class="file_print"></td>
     <td class="file_permission">
-        @if(Auth::check() && Auth::user()->role == 'admin')
+        @if((Auth::check() && Auth::user()->role == 'admin') || \App\Models\Permission::canManage(\Auth::user()->id, $file->created_by))
         <a class="menu-middle-permission add_permision_btn" data-type="file" data-id="{{$file->id}}" href="javascript:void(0)"
             data-toggle="tooltip" title="add permission"
         >
@@ -20,7 +20,7 @@
         </a>
     </td>
     <td class="file_delete">
-        @if($file->hasPermission($file,"delete"))
+        @if($file->hasPermission($file,"delete") || \App\Models\Permission::canManage(\Auth::user()->id, $file->created_by))
         <form action="/folder/{{$file->folder_id}}/file/{{$file->id}}" method="POST">
             {{ csrf_field() }}
             <input type="hidden" name="_method" value="DELETE"/>

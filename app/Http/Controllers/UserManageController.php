@@ -17,7 +17,7 @@ class UserManageController extends Controller
     public function index()
     {
         $data = [];
-        $data['users']  = User::users();
+        $data['users']  = User::nonAdminUsers();
         $data['page']   = 'usermanage';
         $data['managepermission'] = UserManage::permissions();
         return view('master', $data);

@@ -159,21 +159,31 @@ class File extends Model
             return null;
     }
 
-    public function hasPermission($folder,$permissionType){
-      $permission = Permission::getPermission($permissionType);
+    public function hasPermission($folder,$permissionType)
+    {
+        $permission = Permission::getPermission($permissionType);
 
-      $sharedFolders = DocumentPermission::where("document_id", $folder->id)
+        $sharedFolders = DocumentPermission::where("document_id", $folder->id)
                         ->where("user_id",Auth::user()->id)
                         ->where("permission_id",$permission->id)
                         ->first();
 
-      if($sharedFolders){
-          return true;
-      }
+        if ($sharedFolders) {
+            return true;
+        }
 
-      if(Auth::user()->role == "admin")
-        return true;
+        if (\App\Models\Permission::canManage(\Auth::user()->id, $folder->created_by)) {
+            return true;
+        }
 
-      return false;
+        if (Auth::user()->role == "admin")
+            return true;
+
+        return false;
+    }
+
+    public function getFolderIdAttribute($val)
+    {
+        return $val ? $val : 0;
     }
 }

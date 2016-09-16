@@ -193,7 +193,7 @@ $(document).ready(function ()
 
     $('#fileAddModalclick').click(function(){
       var data = {
-          "ids": '',
+          "id": $(".metadata").attr("data-id"),
           "_token": token,
           "_ajax": "true"
       };

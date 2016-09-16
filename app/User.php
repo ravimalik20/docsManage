@@ -211,7 +211,8 @@ class User extends Model implements AuthenticatableContract,
         return $html;
     }
 
-    public static function users(){
-      return User::where("role",'!=','admin')->get();
+    public static function users()
+    {
+        return User::where("role",'!=','admin')->get();
     }
 }
