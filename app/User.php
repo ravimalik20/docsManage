@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Auth;
-use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History;
+use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History, App\Models\UserManage;
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
@@ -129,6 +129,15 @@ class User extends Model implements AuthenticatableContract,
             }
         }
 
+      $manageUsers = UserManage::where('user_id',Auth::user()->id)->get();
+      if(count($manageUsers) > 0 ){
+        foreach($manageUsers as $manageUser){
+          if(!in_array($manageUser->manage_user_id,$ids)){
+            array_push($ids, $manageUser->manage_user_id);
+          }
+        }
+
+      }
         return $ids;
     }
 
@@ -200,5 +209,9 @@ class User extends Model implements AuthenticatableContract,
         $html .= "";
 
         return $html;
+    }
+
+    public static function users(){
+      return User::where("role",'!=','admin')->get();
     }
 }

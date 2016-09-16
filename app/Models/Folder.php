@@ -177,4 +177,15 @@ class Folder extends Model
     public function getFiles(){
       return File::where("folder_id",$this->id)->get();
     }
+
+    public static function userFolders($user){
+       $folders = Folder::where("parent", null)
+          ->where("user_id", $user->id)
+          //>orWhereIn("id",self::sharedFolders($user))
+          ->select('id','name')
+          ->orderBy("name")
+          ->get();
+
+        return $folders;
+    }
 }

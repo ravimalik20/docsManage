@@ -1,3 +1,6 @@
+{{--*/
+use App\Models\Folder;
+  /*--}}
 <div class="modal fade" tabindex="-1" role="dialog" id="fileAddModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -10,7 +13,15 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-group">
-                    <form method="POST" class="dropzone" id="file_upload_form" data-token="{{csrf_token()}}"
+                  <select class="form-control" name="folder-select" id="folder-select">
+                  </select>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="description" placeholder="Enter Description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <form method="POST" class="dropzone" disabled id="file_upload_form" data-token="{{csrf_token()}}"
                     @if(Auth::check() && Auth::user()->role == "admin")
                       @if (Request::segment(1) == "user" && Request::segment(4) != "")
                           action="/folder/{{ Request::segment(4) }}/file"

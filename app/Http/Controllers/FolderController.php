@@ -247,7 +247,6 @@ class FolderController extends Controller
         $data = [];
         $data['page']  = 'userlist';
         $data['users'] = User::sharedUserLists();
-
         return view('master', $data);
     }
 
@@ -260,6 +259,12 @@ class FolderController extends Controller
       $data['documents']['files'] = User::sharedFiles($user);
 
       return view('master', $data);
+    }
+
+    public function getuserfolders(){
+
+      $folders =  Folder::userFolders(Auth::user());
+      return ['folders'=>$folders];
     }
 
 }

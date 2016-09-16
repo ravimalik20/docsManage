@@ -149,4 +149,82 @@ $(document).ready(function ()
       });
     });
 
+
+    $("input[name=userpermisson]").on('ifChanged',function(event){
+      var userids = [];
+
+      $("input[name=userpermisson]:checked").each(function ()
+      {
+        console.log($(this).val());
+        userids.push($(this).val());
+      });
+
+      console.log("i am here",userids);
+      if(userids.length){
+        $('.user-manage-permission').show();
+      }else{
+        $('.user-manage-permission').hide();
+      }
+    });
+
+    $('.user-manage-permission').click(function(){
+      var userids = [];
+
+      $("input[name=userpermisson]:checked").each(function ()
+      {
+        console.log($(this).val());
+        userids.push($(this).val());
+      });
+
+
+      var data = {
+          "ids": userids,
+          "_token": token,
+          "_ajax": "true"
+      };
+
+      $.post("/usermanage", data, function (response)
+      {
+        if(response.status == 'success'){
+          window.location.reload();
+        }
+      });
+    });
+
+    $('#fileAddModalclick').click(function(){
+      var data = {
+          "ids": '',
+          "_token": token,
+          "_ajax": "true"
+      };
+
+      $.post("/getuserfolders", data, function (response)
+      {
+        if(response.folders){
+          var html = '<option value="">Select folder</option>';
+          $.each(response.folders, function(key,value){
+            html +='<option value='+value.id+'>'+value.name+'</option>';
+          });
+          $('#folder-select').html(html);
+        }
+      });
+
+      $('#folder-select').on('change',function(){
+        var selectV = $('#folder-select option:selected').val();
+        if( selectV !=''){
+            $('#file_upload_form').attr('disabled',false);
+        }
+      });
+
+    });
+
 });
+
+function removeItem(array, item){
+    for(var i in array){
+        if(array[i]==item){
+            array.splice(i,1);
+            break;
+            }
+    }
+}

@@ -40,6 +40,7 @@ Route::group(["middleware" => "auth"], function ()
     Route::get("folder/{folder_id}/file/{id}/download", "FileController@download");
     Route::resource("folder.file", "FileController");
     Route::get("/", "AdminController@index");
+    route::post('getuserfolders', 'FolderController@getuserfolders');
 });
 
 Route::group(["middleware"=>"auth"], function()
@@ -49,8 +50,11 @@ Route::group(["middleware"=>"auth"], function()
     Route::get("/user/{user_id}/folder/{folder_id}", "UserController@userFolderDocument");
     Route::get("user/{user_id}/history","UserController@userHistory");
     Route::post("document_permissions","PermissionController@documentPermission");
-
     Route::get("/user/{id}/select", "UserController@selectUser");
+});
+
+Route::group(["middleware"=>"auth"],function(){
+  Route::resource("usermanage", "UserManageController");
 });
 
 Route::group(["middleware"=>"auth"], function()

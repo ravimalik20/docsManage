@@ -51,7 +51,7 @@
     <div class="row folders_area" style="display:block;">
 
           @if(Session::has("message"))
-          
+
           <div class="alert alert-dismissable {{ Session::get("message")["type"] }}">
               <i class="fa {{ Session::get("message")["icon"] }}"></i>
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
