@@ -40,3 +40,8 @@
     font-weight: 800;
     color: blue;
 }
+
+.dz-remove-click {
+          pointer-events: none;
+          cursor: default;
+}

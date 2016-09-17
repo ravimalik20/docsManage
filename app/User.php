@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Auth;
+use Auth, Session;
 use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History, App\Models\UserManage;
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -148,8 +148,9 @@ class User extends Model implements AuthenticatableContract,
 
     public static function nonAdminUsers()
     {
-        $users = User::whereNull("role")
-            ->get();
+        $users = User::where("role",'!=','admin')
+              ->orWhereNull('role')
+              ->get();
 
         return $users;
     }

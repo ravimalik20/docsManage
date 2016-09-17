@@ -23,10 +23,12 @@ function wrapData(user){
     return html;
 }
 
+
 $(document).ready(function ()
 {
   var folders = [];
   var files = [];
+  var url = '/folder/0/file';
 
   $("input[name=files]").on("ifToggled",function(){
     var selectedFolders = [],selectedFiles = [];
@@ -107,8 +109,16 @@ $(document).ready(function ()
 
     var myDropzone = new Dropzone("#file_upload_form", {
         maxFilesize: 20,
+        init: function() {
+          this.on("processing", function(file) {
+            this.options.url = url;
+          });
+        },
         sending: function(file, xhr, formData) {
             formData.append("_token", token);
+            var text = $('textarea[name=description]').val();
+            formData.append("description", text);
+
         }
     });
 
@@ -191,7 +201,7 @@ $(document).ready(function ()
       });
     });
 
-    $('#fileAddModalclick').click(function(){
+    $('.fileAddModalclick').click(function(){
       var data = {
           "id": $(".metadata").attr("data-id"),
           "_token": token,
@@ -201,7 +211,7 @@ $(document).ready(function ()
       $.post("/getuserfolders", data, function (response)
       {
         if(response.folders){
-          var html = '<option value="">Select folder</option>';
+          var html = '<option value="">Select folder</option><option value="0">Main File</option>';
           $.each(response.folders, function(key,value){
             html +='<option value='+value.id+'>'+value.name+'</option>';
           });
@@ -212,19 +222,15 @@ $(document).ready(function ()
       $('#folder-select').on('change',function(){
         var selectV = $('#folder-select option:selected').val();
         if( selectV !=''){
-            $('#file_upload_form').attr('disabled',false);
+            $('.dropzone').removeClass('dz-remove-click');
+            url  = '/folder/'+selectV+'/file';
+            $('#file_upload_form').attr('action','/folder/'+selectV+'/file');
+        }
+        else{
+          $('.dropzone').addClass('dz-remove-click');
         }
       });
 
     });
 
 });
-
-function removeItem(array, item){
-    for(var i in array){
-        if(array[i]==item){
-            array.splice(i,1);
-            break;
-            }
-    }
-}

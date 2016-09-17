@@ -57,7 +57,6 @@ class UserController extends Controller
     {
         $data = [];
         $user = User::find($id);
-
         $data['user'] = $user;
         $data['page']  = 'userdocuments';
         $data['documents'] = User::documents($user,0);

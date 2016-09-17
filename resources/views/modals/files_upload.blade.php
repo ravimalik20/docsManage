@@ -21,23 +21,8 @@ use App\Models\Folder;
                 </div>
 
                 <div class="form-group">
-                    <form method="POST" class="dropzone" disabled id="file_upload_form" data-token="{{csrf_token()}}"
-                    @if(Auth::check() && Auth::user()->role == "admin")
-                      @if (Request::segment(1) == "user" && Request::segment(4) != "")
-                          action="/folder/{{ Request::segment(4) }}/file"
-                          data-folder-id="{{ Request::segment(4) }}"
-                      @else
-                          action="/folder/0/file"
-                      @endif
-                    @else
-                      @if (Request::segment(1) == "folder" && Request::segment(2) !="")
-                          action="/folder/{{Request::segment(2)}}/file"
-                          data-folder-id="{{Request::segment(2)}}"
-                      @else
-                          action="/folder/0/file"
-                      @endif
-                    @endif
-                    >
+                    <form method="POST" class="dropzone dz-remove-click" id="file_upload_form" data-token="{{csrf_token()}}"
+                    action="/">
 
                     @if(Auth::check() && Auth::user()->role  == "admin")
                       @if(Request::segment(1) == "user" && Request::segment(2) != "")
