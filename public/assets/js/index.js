@@ -79,6 +79,7 @@ $(document).ready(function ()
     $(".delete_file_folder").click(function ()
     {
 
+
         var token = $(this).attr("data-token");
 
         $("input[name=folders]:checked").each(function ()
@@ -88,6 +89,9 @@ $(document).ready(function ()
         $("input[name=files]:checked").each(function ()
         {   files.push($(this).val());
         });
+
+        if(!confirm('Are you sure?'))
+            return false;
 
         var data = {
             "folders": folders,

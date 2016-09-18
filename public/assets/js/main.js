@@ -10,10 +10,7 @@ $(document).ready(function () {
     });
 
     $("body").on("click", ".form_submit_link", function () {
-        if ($(this).attr("data-confirm") == "true")
-            if (confirm("Are you sure?") == false)
-                return false;
-
-        $(this).closest("form").submit();
+        if(confirm("Are you sure? you want to delete"))
+          $(this).closest("form").submit();
     });
 });

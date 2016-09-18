@@ -208,4 +208,24 @@ class FileController extends Controller
 
         return view("files.file_content", $data);
     }
+
+
+    public function deleteFileFolder($id, $type){
+      $msg = '';
+      if($type == 'file'){
+        $file = File::find($id);
+        $file->delete();
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["File has deleted successfully!"]];
+
+      }
+      else{
+        $folder = Folder::find($id);
+        $folder->delete();
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Folder has deleted successfully!"]];
+
+      }
+
+      Session::flash("message",$msg);
+      return back();
+    }
 }

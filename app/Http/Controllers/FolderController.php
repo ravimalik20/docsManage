@@ -245,15 +245,14 @@ class FolderController extends Controller
 
     public function getuserfolders(Request $request)
     {
-        if ($request->has('id') && $request->input("id")) {
-            $user = \App\User::find($request->input("id"));
+        if (Auth::user()->role == 'admin') {
+            $user = User::find(Session::get('selected_user'));
         }
         else {
             $user = \Auth::user();
         }
-
+        
         $folders =  Folder::userFolders($user);
-
         return ['folders'=>$folders];
     }
 

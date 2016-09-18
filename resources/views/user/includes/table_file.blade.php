@@ -19,16 +19,11 @@
             <i class="fa fa-download"></i>
         </a>
     </td>
-    <td class="file_delete">
+    <td class="file_delete123456">
         @if($file->hasPermission($file,"delete") || \App\Models\Permission::canManage(\Auth::user()->id, $file->created_by))
-        <form action="/folder/{{$file->folder_id}}/file/{{$file->id}}" method="POST">
-            {{ csrf_field() }}
-            <input type="hidden" name="_method" value="DELETE"/>
-            <input type="hidden" name="back" value="true" />
-            <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="form_submit_link" data-confirm="true">
+            <a href="/delete/{{ $file->id }}/file" data-toggle="tooltip" onclick="return confirm('Are you sure?')" title="Delete" class="form_submit_link123">
                 <i class="fa fa-trash"></i>
             </a>
-        </form>
         @endif
     </td>
 </tr>

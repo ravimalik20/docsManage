@@ -41,6 +41,7 @@ Route::group(["middleware" => "auth"], function ()
     Route::resource("folder.file", "FileController");
     Route::get("/", "AdminController@index");
     route::post('getuserfolders', 'FolderController@getuserfolders');
+    Route::get("delete/{id}/{type}", "FileController@deleteFileFolder");
 });
 
 Route::group(["middleware"=>"auth"], function()
