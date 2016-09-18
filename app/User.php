@@ -168,6 +168,8 @@ class User extends Model implements AuthenticatableContract,
 
     public function generateTree($folders, $user, $first=false)
     {
+        $html = "";
+
         if (isset($folders) && count($folders) > 0) {
 
             $html = '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
