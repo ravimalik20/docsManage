@@ -1,7 +1,7 @@
 <tr>
     <td class="file_name"><a href="/folder/{{$file->folder_id}}/file/{{$file->id}}">{{ $file->name }}</a></td>
     <td class="file_description">{{ substr($file->description, 0, 50) }}</td>
-    <td class="file_type"></td>
+    <td class="file_type">{{$file->type}}</td>
     <td class="file_year">{{ $file->created_at->format("Y") }}</td>
     <td class="file_print"></td>
     <td class="file_permission">

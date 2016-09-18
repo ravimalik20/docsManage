@@ -10,7 +10,8 @@ class File extends Model
 {
     protected $table = 'files';
 
-    protected $fillable = ['name', 'extension_id', 'path', "folder_id", "created_by", "uploaded_by","description"];
+    protected $fillable = ['name', 'extension_id', 'path', "folder_id",
+        "created_by", "uploaded_by", "description", "type"];
 
     public static function validate($input)
     {
@@ -31,7 +32,7 @@ class File extends Model
         return $file;
     }
 
-    public static function saveUpload($file, $user, $folder=null, $admin=false, $description=null)
+    public static function saveUpload($file, $user, $folder=null, $admin=false, $description=null, $type=null)
     {
         $uploaded_by = null;
         $filename = htmlspecialchars($file->getClientOriginalName());
@@ -56,8 +57,9 @@ class File extends Model
             "extension_id" => $ext->id,
             "path" => $upload_path,
             "created_by" => $user->id,
-            "uploaded_by"=>$uploaded_by,
-            "description"=>$description
+            "uploaded_by" => $uploaded_by,
+            "description" => $description,
+            "type" => $type
         ];
 
         if ($folder != null)

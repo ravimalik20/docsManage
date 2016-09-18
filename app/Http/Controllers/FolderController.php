@@ -245,7 +245,7 @@ class FolderController extends Controller
 
     public function getuserfolders(Request $request)
     {
-        if (Auth::user()->role == 'admin') {
+        if (Session::has('selected_user')) {
             $user = User::find(Session::get('selected_user'));
         }
         else {
@@ -253,6 +253,7 @@ class FolderController extends Controller
         }
         
         $folders =  Folder::userFolders($user);
+
         return ['folders'=>$folders];
     }
 

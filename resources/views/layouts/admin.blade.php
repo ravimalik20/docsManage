@@ -107,7 +107,7 @@
 
                        <div class="form-group">
                            <select class="form-control user_select">
-                                <option value="">Select user</option>
+                                <option value="0">{{\Auth::user()->name}}</option>
                                 @if (count($non_admin_users) > 0)
                                 @foreach($non_admin_users as $user)
                                 <option value="{{$user->id}}"
@@ -126,7 +126,7 @@
                         @if (\Session::has("selected_user"))
                             href="/user/{{\Session::get('selected_user')}}"
                         @else
-                            href="#"
+                            href="/user/{{\Auth::user()->id}}"
                         @endif
                         ><li
                             @if (Request::is('user/*') && Request::segment(3) =="")
@@ -144,7 +144,7 @@
                             @if (\Session::has("selected_user"))
                                 href="/user/{{\Session::get('selected_user')}}/history"
                             @else
-                                href="#"
+                                href="/user/{{\Auth::user()->id}}/history"
                             @endif
                          ><li
                             @if (Request::is('user/*') && Request::segment(3) == "history")

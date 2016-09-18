@@ -168,9 +168,10 @@ class User extends Model implements AuthenticatableContract,
 
     public function generateTree($folders, $user, $first=false)
     {
-        $html = "";
-
         if (isset($folders) && count($folders) > 0) {
+
+            $html = '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+
             foreach ($folders as $folder) {
                 $html .= view('user.includes.table_folder', compact('folder'));
 
@@ -185,29 +186,41 @@ class User extends Model implements AuthenticatableContract,
                     ->where("created_by", $user->id)
                     ->get();
                 if (count($child_files) > 0) {
-                    $html .= "";
+                    $html .= '<table class="table"><tbody>';
 
                     foreach ($child_files as $file) {
                         $html .= view('user.includes.table_file', compact('file'));
                     }
 
-                    $html .= "";
+                    $html .= "</tbody></table>";
                 }
 
-                $html .= "";
+                $html .= "</div></div></div>";
             }
+
+            $html .= "</div>";
+
         }
 
         if ($first == true) {
             $files = File::where("folder_id", NULL)
                 ->where("created_by", $user->id)
                 ->get();
-            if (count($files) > 0) foreach ($files as $file) {
-                $html .= view('user.includes.table_file', compact('file'));
+
+            if (count($files) > 0) {
+                $html .= '<div class="col-lg-12">';
+
+                $html .= '<table class="table"><tbody>';
+
+                foreach ($files as $file) {
+                    $html .= view('user.includes.table_file', compact('file'));
+                }
+
+                $html .= "</tbody></table>";
+
+                $html .= '</div>';
             }
         }
-
-        $html .= "";
 
         return $html;
     }

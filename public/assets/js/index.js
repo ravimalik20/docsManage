@@ -121,8 +121,9 @@ $(document).ready(function ()
         sending: function(file, xhr, formData) {
             formData.append("_token", token);
             var text = $('textarea[name=description]').val();
+            var type = $('input[name=type]').val();
             formData.append("description", text);
-
+            formData.append('type', type);
         }
     });
 
@@ -215,7 +216,7 @@ $(document).ready(function ()
       $.post("/getuserfolders", data, function (response)
       {
         if(response.folders){
-          var html = '<option value="">Select folder</option><option value="0">Main File</option>';
+          var html = '<option value="">Select folder</option><option value="0">root</option>';
           $.each(response.folders, function(key,value){
             html +='<option value='+value.id+'>'+value.name+'</option>';
           });

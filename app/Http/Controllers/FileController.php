@@ -59,7 +59,7 @@ class FileController extends Controller
         if ($request->hasFile("file")) {
             $file = $request->file("file");
 
-            $fileObj = File::saveUpload($file, $user, $folder,$admin, $request->description);
+            $fileObj = File::saveUpload($file, $user, $folder,$admin, $request->description, $request->type);
         }
 
         $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Files has uploaded successfully!"]];

@@ -1,6 +1,7 @@
 {{--*/
-use App\Models\Folder;
-  /*--}}
+    use App\Models\Folder;
+/*--}}
+
 <div class="modal fade" tabindex="-1" role="dialog" id="fileAddModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -18,6 +19,9 @@ use App\Models\Folder;
                 </div>
                 <div class="form-group">
                   <textarea class="form-control" name="description" placeholder="Enter Description"></textarea>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" name="type" placeholder="Enter Description"/>
                 </div>
 
                 <div class="form-group">

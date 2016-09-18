@@ -120,6 +120,12 @@ class UserController extends Controller
 
     public function selectUser($user_id)
     {
+        if ($user_id == 0) {
+            Session::forget("selected_user");
+
+            return ["status" => "success"];
+        }
+
         $user = \App\user::find($user_id);
 
         if ($user) {
