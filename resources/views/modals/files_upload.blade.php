@@ -21,7 +21,7 @@
                   <textarea class="form-control" name="description" placeholder="Enter Description"></textarea>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" name="type" placeholder="Enter Description"/>
+                  <input class="form-control" name="type" placeholder="Enter Type"/>
                 </div>
 
                 <div class="form-group">
