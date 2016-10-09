@@ -446,6 +446,14 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 <head>
     <style>
+    html, body {
+        height: 100%;
+    }
+
+    img {
+        width: 100% !important;
+    }
+
     iframe {
 	min-height:300px;
     width: 98%;
@@ -463,7 +471,11 @@ $fileType = explode(".", $file_path);
 $systemExts = array("jpeg","jpg","png","bmp","gif","txt","rtf");
 $extension = strtolower(end($fileType));
 
+$is_image = false;
+
 if(in_array($extension, $systemExts)){
+    $is_image = true;
+
 	$file_path;
 }
 elseif($extension=="csv"){
@@ -508,8 +520,10 @@ elseif($extension=="csv"){
 			window.focus();
 			window.print();
 		</script>
-	@else	
-		<iframe src="{{$file_path}}" scrolling="no"  frameborder="0" id="container_iframe"></iframe>
+	@elseif ($is_image)
+        <img src="{{$file_path}}" />
+    @else
+        <iframe src="{{$file_path}}" scrolling="no"  frameborder="0" id="container_iframe" style="height:100%;"></iframe>
 	@endif
 </body>
 
