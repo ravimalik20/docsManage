@@ -23,9 +23,9 @@
             @if (isset($pathStr))
                 {{$pathStr}}
             @else
-            /
+            
             @endif
-
+	<!--
             <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
                 <i class="fa fa-folder"></i> Add Folder
             </a>
@@ -34,10 +34,14 @@
             </a>
             <a class="btn btn-sm delete_file_folder" data-token="{{csrf_token()}}"><i class="fa fa-trash"></i> Delete</a>
             <a class="btn btn-sm" href="/sharedfolder" data-token="{{csrf_token()}}"><i class="fa fa-folder"></i> Shared Document</a>
-            <a class="btn btn-sm" href="/setting"><i class="fa fa-wrench"></i>Settings</a>
-            @endif
+            <a class="btn btn-sm" href="/setting"><i class="fa fa-wrench"></i>Settings</a>-->
+           @include("includes.admin-menu")           
+		   @endif
             @if(Auth::check() && Auth::user()->role == 'admin')
-                @include("includes.admin-menu")
+            @include("includes.admin-workingas")    
+			@include("includes.admin-menu")
+			
+			    
             @endif
         </div>
     @include('includes.directory-path')
@@ -58,15 +62,18 @@
     @endif
 
     @if( $page == 'userlist' )
-      @include("user.list")
+      @include("user.home")
     @elseif( $page == 'userdocuments' )
       @include("user.documents")
     @elseif( $page == 'user_history' )
       @include("user.history")
+	  @elseif( $page == 'user_home' )
+      @include("user.home")
     @elseif( $page == 'setting' )
       @include("user.setting")
     @elseif( $page == 'usermanage' )
       @include("user.usermanage")
+	  
     @endif
 </section><!-- /.content -->
 
@@ -75,5 +82,7 @@
 @include('modals.folder_add')
 @include('modals.files_upload')
 @include('modals.permission-add-modal')
+@include('modals.file-requests')
+@include('modals.filenewrequest')
 
 @stop

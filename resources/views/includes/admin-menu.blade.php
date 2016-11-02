@@ -1,25 +1,53 @@
-@if(Request::segment(1) == "user" && Request::segment(2) !="" || Request::segment(1) == "usermanage")
-
-    {{--*/
+ {{--*/
         $this_user = \App\User::find(Request::segment(2));
     /*--}}
 
-  @if (Request::is('user/*') && Request::segment(3) =="" || Request::segment(1) == "usermanage")
-  <a class="btn btn-sm fileAddModalclick" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">
-      <i class="fa fa-file"></i> Add File
+ @if (Request::is('user/*') && Request::segment(3) =="" || Request::segment(1) == "usermanage")
+@if(Request::segment(1) == "user" && Request::segment(2) !="" || Request::segment(1) == "usermanage")
+
+ @if($this_user->role == "admin")  
+<a class="btn btn-sm fileAddModalclick" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">
+      <i class="fa fa-file"></i> Add a File
   </a>
   <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
-      <i class="fa fa-folder"></i> Add Folder
+      <i class="fa fa-folder"></i> Add a Folder
   </a>
+              
+  @endif
+                  
+ 
+		@if($this_user->role == "admin")
+					@if (Session::has("selected_user"))
+                     <a class="btn btn-sm fileAddModalclick" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">
+      <i class="fa fa-file"></i> Add a File
+  </a>
+  <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
+      <i class="fa fa-folder"></i> Add a Folder
+  </a>      
+					<a class="btn btn-sm " href="#filerequestmodal" data-toggle="modal" data-target="#filerequestmodal">
+					<i class="fa fa-list"></i> File Requests
+					</a> 
 
-  @if(Request::segment(1) != 'usermanage' && $this_user->role != "admin")
-    <a class="btn btn-sm" href="/usermanage">
-        <i class="fa fa-key"></i> User Permission
-    </a>
+					@endif 
+					
+					
+			@endif 
+ 			
+		@endif
+
+  @if($this_user->role != "admin")
+				
+                           
+					<a class="btn btn-sm " href="#filerequestmodal" data-toggle="modal" data-target="#filerequestmodal">
+					<i class="fa fa-eye"></i> View File Requests
+					</a> 
+
+					@endif 
+  
+  
+
+
+
   @endif
 
 
-
-  @endif
-
-@endif

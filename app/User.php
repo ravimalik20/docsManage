@@ -188,7 +188,9 @@ class User extends Model implements AuthenticatableContract,
                     ->where("created_by", $user->id)
                     ->get();
                 if (count($child_files) > 0) {
-                    $html .= '<table class="table"><tbody>';
+                    $html .= '<table class="table"><tr>
+					<th>File Name</th><th>Description</th><th>Type</th><th>Tax Year</th><th>Actions</th><th></th><th></th><th></th><th></th>
+					</tr><tbody>';
 
                     foreach ($child_files as $file) {
                         $html .= view('user.includes.table_file', compact('file'));
@@ -212,7 +214,9 @@ class User extends Model implements AuthenticatableContract,
             if (count($files) > 0) {
                 $html .= '<div class="col-lg-12">';
 
-                $html .= '<table class="table"><tbody>';
+                $html .= '<table class="table"><tr>
+					<th>File Name</th><th>Description</th><th>Type</th><th>Tax Year</th><th>Actions</th><th></th><th></th><th></th><th></th>
+					</tr><tbody>';
 
                 foreach ($files as $file) {
                     $html .= view('user.includes.table_file', compact('file'));

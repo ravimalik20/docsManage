@@ -49,7 +49,8 @@ Route::group(["middleware"=>"auth"], function()
     Route::resource("user", "UserController");
     Route::resource("permission", "PermissionController");
     Route::get("/user/{user_id}/folder/{folder_id}", "UserController@userFolderDocument");
-    Route::get("user/{user_id}/history","UserController@userHistory");
+    Route::get("user/{user_id}/home","UserController@userHome");
+	Route::get("user/{user_id}/history","UserController@userHistory");
     Route::post("document_permissions","PermissionController@documentPermission");
     Route::get("/user/{id}/select", "UserController@selectUser");
 });

@@ -53,6 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
+			
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
                         <!-- User Account: style can be found in dropdown.less -->
@@ -122,7 +123,24 @@
                        </div>
 
                     <div class="menu-left-top">
-                        <a
+                        
+					<a
+                            @if (\Session::has("selected_user"))
+                                href="/user/{{\Session::get('selected_user')}}/home"
+                            @else
+                                href="/user/{{\Auth::user()->id}}/home"
+                            @endif
+                         ><li
+                            @if (Request::is('user/*') && Request::segment(3) =="home")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+							 @elseif (Request::is('/*') && Request::segment(3) =="")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                        >Home</li></a>
+                    </div>
+
+                    <div class="menu-left">
+					<a
                         @if (\Session::has("selected_user"))
                             href="/user/{{\Session::get('selected_user')}}"
                         @else
@@ -133,10 +151,79 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                         >Files</li></a>
+                         <a><li>Messaging</li></a>
+                         <a><li>My Bills</li></a>
+                         <a><li>Tasks</li></a>
+                         <a
+                            @if (\Session::has("selected_user"))
+                                href="/user/{{\Session::get('selected_user')}}/history"
+                            @else
+                                href="/user/{{\Auth::user()->id}}/history"
+                            @endif
+                         ><li
+                            @if (Request::is('user/*') && Request::segment(3) == "history")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                          >History</li></a>
 
+
+                    </div>
+                    <div class="menu-left-bottom">
+                        <a href="/user"><li>Appointments</li></a>
+                    </div>
+                    @endif
+					<!-- USER LEFT MENU START -->
+					   @if(Auth::check() && Auth::user()->role != 'admin')
+
+                        {{--*/
+                            $non_admin_users = \App\User::nonAdminUsers();
+                        /*--}}
+
+                       <!--<div class="form-group">
+                           <select class="form-control user_select">
+                                <option value="0">{{\Auth::user()->name}}</option>
+                                @if (count($non_admin_users) > 0)
+                                @foreach($non_admin_users as $user)
+                                <option value="{{$user->id}}"
+                                    @if (\Session::has("selected_user") && \Session::get("selected_user") == $user->id)
+                                        selected
+                                    @endif
+                                >{{$user->name}}</option>
+                                @endforeach
+                                @endif
+                           </select>
+
+                       </div>-->
+
+                    <div class="menu-left-top">
+                        
+					<a
+                            @if (\Session::has("selected_user"))
+                                href="/user/{{\Session::get('selected_user')}}/home"
+                            @else
+                                href="/user/{{\Auth::user()->id}}/home"
+                            @endif
+                         ><li
+                            @if (Request::is('user/*') && Request::segment(3) =="home")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+							 @elseif (Request::is('/*') && Request::segment(3) =="")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                        >Home</li></a>
                     </div>
 
                     <div class="menu-left">
+					<a
+                        @if (\Session::has("selected_user"))
+                            href="/user/{{\Session::get('selected_user')}}"
+                        @else
+                            href="/user/{{\Auth::user()->id}}"
+                        @endif
+                        ><li
+                            @if (Request::is('user/*') && Request::segment(3) =="")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                        >Files</li></a>
                          <a><li>Messaging</li></a>
                          <a><li>My Bills</li></a>
                          <a><li>Tasks</li></a>

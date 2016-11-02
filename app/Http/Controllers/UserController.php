@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $data = [];
-        $data['page']  = 'userlist';
+        $data['page']  = 'user_home';
         $data['users'] = User::lists();
 
         return view('master', $data);
@@ -118,6 +118,15 @@ class UserController extends Controller
         return view("master", $data);
     }
 
+	public function userHome($userID){
+        $user = User::find($userID);
+		$data = [];
+	        $data["page"] = "user_home";
+        $data["userName"] = $user->name;
+        
+		
+        return view("master", $data);
+    }
     public function selectUser($user_id)
     {
         if ($user_id == 0) {

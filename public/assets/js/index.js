@@ -126,6 +126,10 @@ $(document).ready(function ()
             formData.append('type', type);
         }
     });
+	
+	   
+
+    
 
     $(".files_modal_close").click(function ()
     {   location.reload();
@@ -237,5 +241,9 @@ $(document).ready(function ()
       });
 
     });
+	
+	
+	
+	
 
 });
