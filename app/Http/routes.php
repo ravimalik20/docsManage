@@ -64,4 +64,8 @@ Route::group(["middleware"=>"auth"], function()
     Route::resource("setting", "SettingController");
 });
 
+Route::get("test", function () {
+    echo \App\User::authUserType();
+});
+
 ?>

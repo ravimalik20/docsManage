@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Auth, Session;
 use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History, App\Models\UserManage;
+
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
@@ -38,55 +39,77 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public static function lists(){
+    const TYPE_ADMIN = "admin";
+
+    const TYPE_ADMIN_CLIENT = "admin_client";
+
+    const TYPE_CLIENT = "client";
+
+    const TYPE_CLIENT_CLIENT = "client_client";
+
+    public static function lists()
+    {
       return User::where("id","!=",Auth::user()->id)->get();
     }
 
-    public static function documents($user,$folderID){
-      $data = [];
-      $folder = Folder::find($folderID);
-      if($folder){
-        return self::folderDocuments($user,$folder);
-      }
-      return self::rootDocuments($user);
+    public static function documents($user,$folderID)
+    {
+        $data = [];
+        $folder = Folder::find($folderID);
+
+        if ($folder) {
+            return self::folderDocuments($user,$folder);
+        }
+
+        return self::rootDocuments($user);
     }
 
-    public static function rootDocuments($user){
-      $data = [];
-      $folders = Folder::rootFolders($user);
-      if (count($folders) > 0)
-          $data["folders"] = $folders;
+    public static function rootDocuments($user)
+    {
+        $data = [];
+        $folders = Folder::rootFolders($user);
 
-      $files = File::rootFiles($user);
-      if (count($files) > 0)
-          $data["files"] = $files;
-    return $data;
+        if (count($folders) > 0)
+            $data["folders"] = $folders;
+
+        $files = File::rootFiles($user);
+
+        if (count($files) > 0)
+            $data["files"] = $files;
+
+        return $data;
     }
 
-    public static function folderDocuments($user,$folder){
-      $data = [];
-      $folders = $folder->folders($user);
-      if (count($folders) > 0)
-          $data["folders"] = $folders;
+    public static function folderDocuments($user,$folder)
+    {
+        $data = [];
+        $folders = $folder->folders($user);
 
-      $files = $folder->files($user);
-      if (count($files) > 0)
-          $data["files"] = $files;
+        if (count($folders) > 0)
+            $data["folders"] = $folders;
 
-      return $data;
+        $files = $folder->files($user);
+
+        if (count($files) > 0)
+            $data["files"] = $files;
+
+        return $data;
     }
 
-    public static function sharedFiles($user){
-      $sharedFileIds = self::sharedFilesIds($user);
-      $files = File::whereIn("id",$sharedFileIds)
+    public static function sharedFiles($user)
+    {
+        $sharedFileIds = self::sharedFilesIds($user);
+        $files = File::whereIn("id",$sharedFileIds)
           ->orderBy("name")
           ->get();
-      return $files;
+
+        return $files;
     }
 
-    public static function sharedFilesIds($user){
-      $ids = [];
-      $sharedFolderIds = DocumentPermission::select("files.id")
+    public static function sharedFilesIds($user)
+    {
+        $ids = [];
+        $sharedFolderIds = DocumentPermission::select("files.id")
                   ->join("users","users.id","=","document_permission.user_id")
                   ->join("files","document_permission.document_id","=","files.id")
                   ->where("document_permission.user_id",Auth::user()->id)
@@ -95,18 +118,23 @@ class User extends Model implements AuthenticatableContract,
                   ->where("files.created_by",$user->id)
                   ->distinct()
                   ->get();
-      if(count($sharedFolderIds)>0){
-        $sharedFolderIds = $sharedFolderIds->toArray();
-        foreach ($sharedFolderIds as $id) {
-          array_push($ids,$id["id"]);
+
+        if(count($sharedFolderIds)>0){
+            $sharedFolderIds = $sharedFolderIds->toArray();
+
+            foreach ($sharedFolderIds as $id) {
+                array_push($ids,$id["id"]);
+            }
         }
-      }
-      return $ids;
+
+        return $ids;
     }
 
-    public static function sharedUserLists(){
-      $sharedFolderIds = self::sharedUserIds();
-      return User::whereIn("id",$sharedFolderIds)->get();
+    public static function sharedUserLists()
+    {
+        $sharedFolderIds = self::sharedUserIds();
+
+        return User::whereIn("id",$sharedFolderIds)->get();
     }
 
     public static function sharedUserIds()
@@ -239,5 +267,27 @@ class User extends Model implements AuthenticatableContract,
     public function getNameAttribute($val)
     {
         return htmlspecialchars($val);
+    }
+
+    public static function authUserType($client_id = null)
+    {
+        $user = \Auth::user();
+
+        $type = "";
+
+        if (\Session::has("selected_user") && $user->id != \Session::get("selected_user")) {
+            $type = self::TYPE_ADMIN_CLIENT;
+        }
+        else if ($user->role == "admin") {
+            $type = self::TYPE_ADMIN;
+        }
+        else if ($client_id) /* Check for client managing other client */ {
+            $type = self::TYPE_CLIENT_CLIENT;
+        }
+        else if ($user->role == null) {
+            $type = self::TYPE_CLIENT;
+        }
+
+        return $type;
     }
 }

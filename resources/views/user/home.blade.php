@@ -48,7 +48,7 @@
 
                
 
-@if(Auth::check() && Auth::user()->role =="admin")
+@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_ADMIN_CLIENT)
 	@if (\Session::has("selected_user") && \Session::get("selected_user") != 1)
 	<!-- For Admins working as another user-->	
 	<div class="bluebox100">
@@ -81,7 +81,7 @@
 	@endif
 @endif
 <!-- For user working as himself-->	
-@if(Auth::check() && Auth::user()->role !="admin")
+@if(Auth::check() && (\App\User::authUserType() == \App\User::TYPE_ADMIN || \App\User::authUserType() == \App\User::TYPE_CLIENT))
 	<div class="bluebox100">
 	<h1>Hi {{Auth::user()->name}}! Welcome to Skytax.ca</h1>
 	<p>FOR USER WORKING AS HIMSELF -  Your are off to a great stanal tax specialist, with the ease of our office in the cloud!</p>

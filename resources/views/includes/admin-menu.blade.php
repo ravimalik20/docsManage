@@ -5,7 +5,7 @@
  @if (Request::is('user/*') && Request::segment(3) =="" || Request::segment(1) == "usermanage")
 @if(Request::segment(1) == "user" && Request::segment(2) !="" || Request::segment(1) == "usermanage")
 
- @if($this_user->role == "admin")  
+ @if(isset($this_user) && $this_user->role == "admin")  
 <a class="btn btn-sm fileAddModalclick" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">
       <i class="fa fa-file"></i> Add a File
   </a>
@@ -16,7 +16,7 @@
   @endif
                   
  
-		@if($this_user->role == "admin")
+		@if(isset($this_user) && $this_user->role == "admin")
 					@if (Session::has("selected_user"))
                      <a class="btn btn-sm fileAddModalclick" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">
       <i class="fa fa-file"></i> Add a File
@@ -35,7 +35,7 @@
  			
 		@endif
 
-  @if($this_user->role != "admin")
+  @if(isset($this_user) && $this_user->role != "admin")
 				
                            
 					<a class="btn btn-sm " href="#filerequestmodal" data-toggle="modal" data-target="#filerequestmodal">
