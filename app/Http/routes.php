@@ -64,6 +64,12 @@ Route::group(["middleware"=>"auth"], function()
     Route::resource("setting", "SettingController");
 });
 
+Route::group(["middleware"=>"auth"], function()
+{
+    Route::post('cancel-file-request', 'fileRequestController@destroy');
+    Route::resource("filerequest", "fileRequestController");
+});
+
 Route::get("test", function () {
     echo \App\User::authUserType();
 });

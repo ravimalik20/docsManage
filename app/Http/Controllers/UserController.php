@@ -123,8 +123,8 @@ class UserController extends Controller
 		$data = [];
 	        $data["page"] = "user_home";
         $data["userName"] = $user->name;
-        
-		
+
+
         return view("master", $data);
     }
     public function selectUser($user_id)

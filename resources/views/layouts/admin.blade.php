@@ -53,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-			
+
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
                         <!-- User Account: style can be found in dropdown.less -->
@@ -123,7 +123,7 @@
                        </div>
 
                     <div class="menu-left-top">
-                        
+
 					<a
                             @if (\Session::has("selected_user"))
                                 href="/user/{{\Session::get('selected_user')}}/home"
@@ -196,7 +196,7 @@
                        </div>-->
 
                     <div class="menu-left-top">
-                        
+
 					<a
                             @if (\Session::has("selected_user"))
                                 href="/user/{{\Session::get('selected_user')}}/home"

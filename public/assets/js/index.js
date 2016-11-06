@@ -122,14 +122,12 @@ $(document).ready(function ()
             formData.append("_token", token);
             var text = $('textarea[name=description]').val();
             var type = $('input[name=type]').val();
+            var requestId = $('input[name=filerequestId]').val();
             formData.append("description", text);
             formData.append('type', type);
+            formData.append('filerequestId', requestId);
         }
     });
-	
-	   
-
-    
 
     $(".files_modal_close").click(function ()
     {   location.reload();
@@ -241,9 +239,32 @@ $(document).ready(function ()
       });
 
     });
-	
-	
-	
-	
+
+	$('.requestfileupload').click(function(){
+      console.log('i am here', $(this).attr('data-id'));
+    $('#filerequestId').val($(this).attr('data-id'));
+  });
+
+  $('.cancel-file-request').click(function(){
+    console.log('cancel file request');
+    var _this = $(this);
+    var data = {
+        "id": $(this).attr('data-id'),
+        "_token": token,
+        "_ajax": "true"
+    };
+
+    $.post("/cancel-file-request", data, function (response)
+    {
+      if(response.status == 'success'){
+        _this.parent().parent().remove();
+      }
+      if(response.status == 'error') {
+        alert('Something went wrong!');
+      }
+    });
+
+  });
+
 
 });

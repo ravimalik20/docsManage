@@ -26,6 +26,7 @@
 
 <!-- Main content -->
 <section class="content">
+  @include('errors.validation')
     <div class="row folders_area" style="display:block;">
 
           @if(Session::has("message"))

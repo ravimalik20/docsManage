@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Folder;
 use App\Models\File;
-use App\User;
+use App\User, App\FileRequest;
 
 use Auth, Session, Redirect;
 
@@ -60,6 +60,10 @@ class FileController extends Controller
             $file = $request->file("file");
 
             $fileObj = File::saveUpload($file, $user, $folder,$admin, $request->description, $request->type);
+        }
+
+        if($request->has("filerequestId") && $request->filerequestId != '') {
+          FileRequest::fileIsUploaded($request->filerequestId);
         }
 
         $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Files has uploaded successfully!"]];
