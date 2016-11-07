@@ -110,21 +110,27 @@ class UserController extends Controller
         return view('master', $data);
     }
 
-    public function userHistory($userID){
+    public function userHistory($userID)
+    {
         $data = [];
+
         $data["page"] = "user_history";
+
         $user = User::find($userID);
         $data["histories"] = $user->history();
+
         return view("master", $data);
     }
 
-	public function userHome($userID){
+	public function userHome($userID)
+    {
         $user = User::find($userID);
-		$data = [];
-	        $data["page"] = "user_home";
-        $data["userName"] = $user->name;
-        
 		
+        $data = [];
+
+        $data["page"] = "user_home";
+        $data["userName"] = $user->name;
+
         return view("master", $data);
     }
 	
@@ -137,6 +143,7 @@ class UserController extends Controller
 		
         return view("master", $data);
     }
+
     public function selectUser($user_id)
     {
         if ($user_id == 0) {

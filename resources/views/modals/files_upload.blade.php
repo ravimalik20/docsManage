@@ -7,8 +7,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        
-		
+
+
 		<h4 class="modal-title">Add File</h4>
       </div>
       <div class="modal-body">
@@ -20,10 +20,10 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" name="description" placeholder="Enter Description"></textarea>
+                  <textarea class="form-control" name="description" placeholder="Enter Description" id="fileRequestDesc" disabled></textarea>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" name="type" placeholder="Enter Type"/>
+                  <input class="form-control" name="type" placeholder="Enter Type" id="fileRequestType" disabled/>
                 </div>
 
                 <div class="form-group">
@@ -36,7 +36,7 @@
                         <input type="hidden" name="created_by" value="{{ Request::segment(2) }}"/>
                       @endif
                     @endif
-
+                    <input type="hidden" id="filerequestId" name="filerequestId" value=""/>
                     </form>
                 </div>
             </div>

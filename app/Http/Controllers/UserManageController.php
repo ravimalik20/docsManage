@@ -17,9 +17,11 @@ class UserManageController extends Controller
     public function index()
     {
         $data = [];
+
         $data['users']  = User::nonAdminUsers();
         $data['page']   = 'usermanage';
         $data['managepermission'] = UserManage::permissions();
+
         return view('master', $data);
     }
 
@@ -41,10 +43,12 @@ class UserManageController extends Controller
      */
     public function store(Request $request)
     {
-      UserManage::store(array_filter($request->ids));
-      $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["User manage permission updated successfully!"]];
-      Session::flash("message",$msg);
-      return ['status'=>'success'];
+        UserManage::store(array_filter($request->ids));
+
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["User manage permission updated successfully!"]];
+        Session::flash("message",$msg);
+
+        return ['status'=>'success'];
     }
 
     /**

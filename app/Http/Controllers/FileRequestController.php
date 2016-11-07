@@ -6,14 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\Models\Folder;
-use App\Models\File;
-use App\User;
-
-use Auth;
-
-class AdminController extends Controller
+use App\FileRequest, Validator, Session, Auth;
+class FileRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,39 +17,11 @@ class AdminController extends Controller
     public function index()
     {
         $data = [];
-        $data['page']  = 'user_home';
-        if(Auth::user()->role == "admin"){
-          $data = $this->returnUserPage();
-          return view('master', $data);
-        }
 
-        $user = User::find(Auth::user()->id);
-        if (!$user) {
-            return redirect("auth/login");
-        }
+        $data['page']  = 'userfilerequest';
+        $data['filerequests'] =  FileRequest::userfilerequest(Auth::user()->id);
 
-        $folders = Folder::rootFolders($user);
-        if (count($folders) > 0) {
-            $data["folders"] = $folders;
-        }
-
-        $files = File::rootFiles($user);
-        if (count($files) > 0) {
-            $data["files"] = $files;
-        }
-
-        return view('index', $data);
-    }
-
-
-    public function returnUserPage()
-    {
-        $data = [];
-
-        $data['page']  = 'user_home';
-        $data['users'] = User::lists();
-
-        return $data;
+        return view('master', $data);
     }
 
     /**
@@ -76,7 +42,17 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation =  $this->validator($request->all(), ['description'=>'required', 'type'=>'required']);
+        if ($validation->fails()) {
+            return back()->withErrors($validation);
+        }
+
+        FileRequest::store($request);
+
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["File request submitted successfully"]];
+        Session::flash("message",$msg);
+
+        return back();
     }
 
     /**
@@ -119,8 +95,22 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $file_request = FileRequest::find($request->id);
+
+        if ($file_request) {
+            $file_request->delete();
+
+            return ['status'=>'success'];
+        }
+
+        return ['status'=>'error'];
     }
+
+    protected function validator(array $data, $rules)
+    {
+        return Validator::make($data, $rules);
+    }
+
 }

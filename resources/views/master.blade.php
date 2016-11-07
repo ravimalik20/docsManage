@@ -23,6 +23,7 @@
 
 <!-- Main content -->
 <section class="content">
+    @include('errors.validation')
     @if(Session::has("message"))
       <div class="alert alert-dismissable {{ Session::get("message")["type"] }}">
           <i class="fa {{ Session::get("message")["icon"] }}"></i>
@@ -47,7 +48,10 @@
       @include("user.setting")
     @elseif( $page == 'usermanage' )
       @include("user.usermanage")
-	  
+
+    @elseif( $page == 'userfilerequest' )
+      @include("user.userfilerequest")
+
     @endif
 </section><!-- /.content -->
 

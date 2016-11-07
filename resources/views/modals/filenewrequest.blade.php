@@ -7,18 +7,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        
-		
+
+
 		<h4 class="modal-title">Make a File Request</h4>
       </div>
       <div class="modal-body">
-
+        <form action="/filerequest" method="post">
         <div class="row">
             <div class="col-lg-12">
-                <div class="form-group">
-                  <select class="form-control" name="folder-select" id="folder-select">
-                  </select>
-                </div>
                 <div class="form-group">
                   <textarea class="form-control" name="description" placeholder="Enter Description"></textarea>
                 </div>
@@ -27,25 +23,18 @@
                 </div>
 
                 <div class="form-group">
-                    <form method="POST" class="dropzone dz-remove-click" id="file_upload_form" data-token="{{csrf_token()}}"
-                    action="/">
-
-                    @if(Auth::check() && Auth::user()->role  == "admin")
-                      @if(Request::segment(1) == "user" && Request::segment(2) != "")
-                        <input type="hidden" name="admin" value="true"/>
-                        <input type="hidden" name="created_by" value="{{ Request::segment(2) }}"/>
-                      @endif
-                    @endif
-
-                    </form>
+                  <input type="hidden" name="user_id" value="{{ Request::segment(2) }}"/>
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 </div>
             </div>
         </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default files_modal_close" data-dismiss="modal">Done</button>
+        <button type="submit" class="btn btn-default primary">submit</button>
       </div>
+    </form>
     </div><!-- /.modal-content -->
+
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
