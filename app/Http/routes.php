@@ -66,6 +66,7 @@ Route::group(["middleware"=>"auth"], function()
 
 Route::group(["middleware"=>"auth"], function()
 {
+    Route::post('send-message','FileRequestController@sendMessage');
     Route::post('cancel-file-request', 'FileRequestController@destroy');
     Route::resource("filerequest", "FileRequestController");
 });

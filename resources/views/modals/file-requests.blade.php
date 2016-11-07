@@ -17,20 +17,30 @@
 	 @if(Auth::check() && Auth::user()->role =="admin")
 	@if (\Session::has("selected_user") && \Session::get("selected_user") != 1)
 	<!-- For Admins working as another user-->
-	<p><a class="btn btn-sm " href="#newfilerequestmodal" data-toggle="modal" data-target="#newfilerequestmodal">
+	<p><a class="btn btn-sm newfilerequestmodal" href="#newfilerequestmodal" data-toggle="modal" data-target="#newfilerequestmodal">
                 <i class="fa fa-plus-circle"></i> Make a File Request
             </a>
 	</p>
 	<table class="table">
   	  <th>Description</th>
       <th>Type</th>
+      <th>Messages</th>
       <th>Cancel Request</th>
+      <th>Send Message</th>
       @if(count(FileRequest::userfilerequest(Request::segment(2))) > 0)
       @foreach(FileRequest::userfilerequest(Request::segment(2)) as $filerequest)
         <tr>
       	  <td>{{ $filerequest->description }}</td>
           <td>{{ $filerequest->type }}</td>
+          <td>
+            @if(count($filerequest->has_messages) > 0)
+              @foreach($filerequest->has_messages as $message)
+                <p>{{ $message->message}}<p>
+              @endforeach
+            @endif
+          </td>
           <td><a class="btn btn-sm cancel-file-request" data-id="{{ $filerequest->id }}"><i class="fa fa-trash fa-1x" aria-hidden="true"></a></td>
+          <td><td> <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}"><i class="fa fa-envelope fa-1x" aria-hidden="true"></a></td></td>
     	  </tr>
       @endforeach
       @endif

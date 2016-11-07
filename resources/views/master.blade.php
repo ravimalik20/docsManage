@@ -62,5 +62,6 @@
 @include('modals.permission-add-modal')
 @include('modals.file-requests')
 @include('modals.filenewrequest')
+@include('modals.file_request_message')
 
 @stop

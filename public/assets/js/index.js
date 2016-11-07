@@ -207,8 +207,17 @@ $(document).ready(function ()
         }
       });
     });
-
+    $('.newfilerequestmodal').click(function(){
+      console.log('i am here');
+        getfolders();
+    });
     $('.fileAddModalclick').click(function(){
+        getfolders();
+
+    });
+
+    function getfolders () {
+
       var data = {
           "id": $(".metadata").attr("data-id"),
           "_token": token,
@@ -217,17 +226,18 @@ $(document).ready(function ()
 
       $.post("/getuserfolders", data, function (response)
       {
+        console.log('response', response);
         if(response.folders){
           var html = '<option value="">Select folder</option><option value="0">root</option>';
           $.each(response.folders, function(key,value){
             html +='<option value='+value.id+'>'+value.name+'</option>';
           });
-          $('#folder-select').html(html);
+          $('.folder-select').html(html);
         }
       });
 
-      $('#folder-select').on('change',function(){
-        var selectV = $('#folder-select option:selected').val();
+      $('.folder-select').on('change',function(){
+        var selectV = $('.folder-select option:selected').val();
         if( selectV !=''){
             $('.dropzone').removeClass('dz-remove-click');
             url  = '/folder/'+selectV+'/file';
@@ -237,10 +247,12 @@ $(document).ready(function ()
           $('.dropzone').addClass('dz-remove-click');
         }
       });
+    }
+      $('.fileRequestMessageModal').click(function(){
+          $('#file_request_id').val($(this).attr('data-id'));
+      });
 
-    });
-
-	$('.requestfileupload').click(function(){
+     $('.requestfileupload').click(function(){
         var ref = $(this).closest(".file_request_row");
 
         var description = ref.find(".description").html();
@@ -249,8 +261,22 @@ $(document).ready(function ()
         $("#fileRequestDesc").val(description);
         $("#fileRequestType").val(type);
 
-        console.log('i am here', $(this).attr('data-id'));
         $('#filerequestId').val($(this).attr('data-id'));
+        console.log('folder id', $(this).attr('data-folderId'));
+        var folderId = $(this).attr('data-folderId');
+
+        setTimeout(function(){
+          $('.folder-select option').each(function(){
+              if($(this).attr('value') == folderId) {
+                $(this).prop('selected', 'selected');
+                $('.folder-select').attr("disabled", true);
+                url  = '/folder/'+folderId+'/file';
+                $('.dropzone').removeClass('dz-remove-click');
+              }
+          });
+      }, 200);
+
+
     });
 
   $('.cancel-file-request').click(function(){

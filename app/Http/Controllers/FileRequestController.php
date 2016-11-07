@@ -42,7 +42,7 @@ class FileRequestController extends Controller
      */
     public function store(Request $request)
     {
-        $validation =  $this->validator($request->all(), ['description'=>'required', 'type'=>'required']);
+        $validation =  $this->validator($request->all(), ['description'=>'required', 'type'=>'required', 'folderselect'=>'required']);
         if ($validation->fails()) {
             return back()->withErrors($validation);
         }
@@ -111,6 +111,13 @@ class FileRequestController extends Controller
     protected function validator(array $data, $rules)
     {
         return Validator::make($data, $rules);
+    }
+
+    public function sendMessage(Request $request){
+        FileRequest::saveMessage($request);
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Message send successfully"]];
+        Session::flash("message",$msg);
+        return back();
     }
 
 }
