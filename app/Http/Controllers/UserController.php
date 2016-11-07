@@ -127,6 +127,16 @@ class UserController extends Controller
 		
         return view("master", $data);
     }
+	
+	public function userManage($userID){
+        $user = User::find($userID);
+		$data = [];
+	        $data["page"] = "usermanage";
+        $data["userName"] = $user->name;
+        
+		
+        return view("master", $data);
+    }
     public function selectUser($user_id)
     {
         if ($user_id == 0) {

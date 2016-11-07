@@ -165,6 +165,17 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                           >History</li></a>
+						    <a
+                            @if (\Session::has("selected_user"))
+                                href="/user/{{\Session::get('selected_user')}}/usermanage"
+                            @else
+                                href="/user/{{\Auth::user()->id}}/usermanage"
+                            @endif
+                         ><li
+                            @if (Request::is('user/*') && Request::segment(3) == "usermanage")
+                                style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
+                            @endif
+                          >Account Permissions</li></a>
 
 
                     </div>
@@ -238,6 +249,7 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                           >History</li></a>
+						
 
 
                     </div>

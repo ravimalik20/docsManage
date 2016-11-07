@@ -56,7 +56,7 @@
 @include('modals.folder_add')
 @include('modals.files_upload')
 @include('modals.permission-add-modal')
-@include('modals.file-requests')
 @include('modals.filenewrequest')
-
+@include('modals.file-requests')
+@include('modals.manage-user-permissions-modal')
 @stop

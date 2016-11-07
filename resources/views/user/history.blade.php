@@ -24,7 +24,7 @@
                 @if($history->hasOneUser()->id == Auth::user()->id)
                   You
                 @else
-                    $history->hasOneUser()->name
+				{{$history->hasOneUser()->name}}
                 @endif
              @endif
            </td>

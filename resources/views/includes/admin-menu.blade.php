@@ -1,4 +1,4 @@
- {{--*/
+<!-- {{--*/
         $this_user = \App\User::find(Request::segment(2));
     /*--}}
 
@@ -50,4 +50,23 @@
 
   @endif
 
-
+-->
+    
+    @if( $page == 'userdocuments' )
+		<a class="btn btn-sm fileAddModalclick" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">
+      <i class="fa fa-file"></i> Add a File
+  </a>
+  <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
+      <i class="fa fa-folder"></i> Add a Folder
+  </a> 
+      
+    @elseif( $page == 'user_history' )
+   
+	  @elseif( $page == 'user_home' )
+  
+    @elseif( $page == 'setting' )
+   
+    @elseif( $page == 'usermanage' )
+  
+	  
+    @endif

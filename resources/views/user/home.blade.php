@@ -1,3 +1,6 @@
+{{--*/
+                            $non_admin_users = \App\User::nonAdminUsers();
+                        /*--}}
 <style>
 .bluebox100{
 	all:unset;
@@ -47,43 +50,65 @@
 
 
                
+<!-- For Admins working as another user-->
+@if(Auth::check() && (\App\User::authUserType() == \App\User::TYPE_ADMIN_CLIENT))
 
-@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_ADMIN_CLIENT)
-	@if (\Session::has("selected_user") && \Session::get("selected_user") != 1)
-	<!-- For Admins working as another user-->	
-	<div class="bluebox100">
-	<h1>Welcome to Skytax.ca</h1>
-	<p> Your are off to a great start and on your to getting your taxes taken care of by a profeessional tax specialist, with the ease of our office in the cloud!</p>
-	</div>
-	<div class="bluebox40">
-			<a  href="#filerequestmodal" data-toggle="modal" data-target="#filerequestmodal">
-				<h3>New File Requests </h3><i class="fa fa-download fa-3x" aria-hidden="true"></i>
-			</a>
-			</div>
-			
-			<div class="bluebox40">
-			<a  href="addFileRequestmodal" data-toggle="modal" data-target="#addFileRequestmodal">
-				<h3>New Messages </h3><i class="fa fa-comments fa-3x" aria-hidden="true"></i>
-			</a>
-			</div>
 	<div class="bluebox90">
-	<h1>Welcome to Skytax.ca</h1>
-	<p> Your are off to a great start and on your to getting your taxes taken care of by a profeessional tax specialist, with the ease of our office in the cloud!</p>
-	</div>
-	@else
-		<!-- For Admin working as himself-->
-		<div class="bluebox40">
-			<a  href="#">
-				<h3>Admin Dashboard Home</h3><i class="fa fa-home fa-3x" aria-hidden="true"></i>
+	<h3>Home @if (count($non_admin_users) > 0)
+                                @foreach($non_admin_users as $user)
+                                @if (\Session::has("selected_user") && \Session::get("selected_user") == $user->id)
+                                   <i class="fa fa-arrow-right" aria-hidden="true"></i> {{$user->name}}
+                                    @endif
+                                @endforeach
+                                @endif</h3>
+				<h3><?php $mytime = Carbon\Carbon::today('America/Toronto');
+echo str_replace("/",", ",date_format($mytime,'l/F/d/Y'));?></h3><i class="fa fa-home fa-3x" aria-hidden="true"></i>
 			</a>
 		</div>
+		<div class="bluebox90">
+		<h3>Client Information</h3>
+		<p>A table of clients registration should go here...we can do this later</p>
+		</div>
+@endif
+		<!-- For Admin working as himself-->
 		
-	@endif
+@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_ADMIN)
+		<div class="bluebox90">
+			<a  href="#">
+			<h3>Home</h3>
+				<h3><?php $mytime = Carbon\Carbon::today('America/Toronto');
+echo str_replace("/",", ",date_format($mytime,'l/F/d/Y'));?></h3>
+<i class="fa fa-home fa-3x" aria-hidden="true"></i>
+			</a>
+		</div>
+<div class="bluebox90">
+			<a  href="#">
+			<h3>** New **</h3>
+				<span style="margin-right:10px"><i class="fa fa-envelope fa-3x" aria-hidden="true" style="margin-right:25px;margin-left:25px"></i>
+				<i class="fa fa-bell-o fa-3x" aria-hidden="true" style="margin-right:25px;margin-left:25px"></i>
+				<i class="fa fa-file-o fa-3x" aria-hidden="true" style="margin-right:25px;margin-left:25px"> </i></span>
+				
+			</a>
+		</div>
+	
 @endif
-<!-- For user working as himself-->	
-@if(Auth::check() && (\App\User::authUserType() == \App\User::TYPE_ADMIN || \App\User::authUserType() == \App\User::TYPE_CLIENT))
-	<div class="bluebox100">
+<!-- For client working as himself-->	
+@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_CLIENT)
+	<div class="bluebox90">
 	<h1>Hi {{Auth::user()->name}}! Welcome to Skytax.ca</h1>
-	<p>FOR USER WORKING AS HIMSELF -  Your are off to a great stanal tax specialist, with the ease of our office in the cloud!</p>
+	<p>FOR USER WORKING AS HIMSELF -  Your are off to a great start to tax season, with the ease of our office in the cloud!</p>
 	</div>
+	<div class="bluebox40">
+	<h3><strong>{{Auth::user()->name}},</strong></h3><h3> You can earn $$ by referring your friends!</h3>
+	<p>Earn $10 for every customer you refer! You friend will also get a great deal!</p>
+	</div>
+	<div class="bluebox40">
+	<h3>Did you Know???</h3>
+	<p>All of our tax experts have University Degree's with a specialization in Accounting and Tax! We require experience, rigorous testing, yearly upgrading and exams to make sure we stay on top of the everchanging tax rules!</p>
+	</div>
+	<!-- For client working as client-->
+@endif	
+@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_CLIENT_CLIENT)
+<P>client working as client</p>
 @endif
+
