@@ -24,22 +24,26 @@ class AdminController extends Controller
     {
         $data = [];
 
-        if(Auth::user()->role == "admin"){
-          $data = $this->returnUserPage();
-          return view('master', $data);
+        if (Auth::user()->role == "admin") {
+            $data = $this->returnUserPage();
+
+            return view('master', $data);
         }
 
         $user = User::find(Auth::user()->id);
-        if (!$user)
+        if (!$user) {
             return redirect("auth/login");
+        }
 
         $folders = Folder::rootFolders($user);
-        if (count($folders) > 0)
+        if (count($folders) > 0) {
             $data["folders"] = $folders;
+        }
 
         $files = File::rootFiles($user);
-        if (count($files) > 0)
+        if (count($files) > 0) {
             $data["files"] = $files;
+        }
 
         return view('index', $data);
     }

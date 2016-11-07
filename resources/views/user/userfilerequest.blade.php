@@ -12,9 +12,9 @@
        </thead>
        <tbody>
          @foreach ($filerequests as $filerequest)
-         <tr>
-           <td>{{ $filerequest->description }}</td>
-           <td>{{ $filerequest->type}}</td>
+         <tr class="file_request_row">
+           <td class="description">{{ $filerequest->description }}</td>
+           <td class="type">{{ $filerequest->type}}</td>
            <td>{{ $filerequest->created_at}}</td>
            <td>
              <a class="btn btn-sm requestfileupload fileAddModalclick" data-id="{{ $filerequest->id }}" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal">

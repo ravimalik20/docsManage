@@ -241,9 +241,17 @@ $(document).ready(function ()
     });
 
 	$('.requestfileupload').click(function(){
-      console.log('i am here', $(this).attr('data-id'));
-    $('#filerequestId').val($(this).attr('data-id'));
-  });
+        var ref = $(this).closest(".file_request_row");
+
+        var description = ref.find(".description").html();
+        var type = ref.find(".type").html();
+
+        $("#fileRequestDesc").val(description);
+        $("#fileRequestType").val(type);
+
+        console.log('i am here', $(this).attr('data-id'));
+        $('#filerequestId').val($(this).attr('data-id'));
+    });
 
   $('.cancel-file-request').click(function(){
     console.log('cancel file request');
@@ -256,12 +264,13 @@ $(document).ready(function ()
 
     $.post("/cancel-file-request", data, function (response)
     {
-      if(response.status == 'success'){
-        _this.parent().parent().remove();
-      }
-      if(response.status == 'error') {
-        alert('Something went wrong!');
-      }
+        if(response.status == 'success'){
+            _this.parent().parent().remove();
+        }
+
+        if(response.status == 'error') {
+            alert('Something went wrong!');
+        }
     });
 
   });

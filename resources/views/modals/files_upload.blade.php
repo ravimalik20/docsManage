@@ -20,10 +20,10 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" name="description" placeholder="Enter Description"></textarea>
+                  <textarea class="form-control" name="description" placeholder="Enter Description" id="fileRequestDesc" disabled></textarea>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" name="type" placeholder="Enter Type"/>
+                  <input class="form-control" name="type" placeholder="Enter Type" id="fileRequestType" disabled/>
                 </div>
 
                 <div class="form-group">

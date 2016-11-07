@@ -7,22 +7,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\FileRequest, Validator, Session, Auth;
-class fileRequestController extends Controller
+class FileRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    protected function validator(array $data, $rules)
-    {
-        return Validator::make($data, $rules);
-    }
     public function index()
     {
         $data = [];
+
         $data['page']  = 'userfilerequest';
         $data['filerequests'] =  FileRequest::userfilerequest(Auth::user()->id);
+
         return view('master', $data);
     }
 
@@ -44,13 +42,16 @@ class fileRequestController extends Controller
      */
     public function store(Request $request)
     {
-        $v =  $this->validator($request->all(), ['description'=>'required', 'type'=>'required']);
-        if($v->fails()){
-          return back()->withErrors($v);
+        $validation =  $this->validator($request->all(), ['description'=>'required', 'type'=>'required']);
+        if ($validation->fails()) {
+            return back()->withErrors($validation);
         }
+
         FileRequest::store($request);
+
         $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["File request submitted successfully"]];
         Session::flash("message",$msg);
+
         return back();
     }
 
@@ -97,10 +98,19 @@ class fileRequestController extends Controller
     public function destroy(Request $request)
     {
         $file_request = FileRequest::find($request->id);
-        if($file_request) {
+
+        if ($file_request) {
             $file_request->delete();
+
             return ['status'=>'success'];
         }
+
         return ['status'=>'error'];
     }
+
+    protected function validator(array $data, $rules)
+    {
+        return Validator::make($data, $rules);
+    }
+
 }
