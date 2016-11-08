@@ -199,7 +199,7 @@ img {
   background-color: #00c0ef !important;
 }
 .bg-blue {
-  background-color: #0073b7 !important;
+  background-color: #2863f9 !important;
 }
 .bg-light-blue {
   background-color: #3c8dbc !important;
@@ -2288,7 +2288,7 @@ Component: timeline
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   background: #00ccff;
-  box-shadow: inset 0px -3px 0px rgba(0, 0, 0, 0.2);
+  /*box-shadow: inset 0px -3px 0px rgba(0, 0, 0, 0.2); */
   padding: 20px 10px;
   text-align: center;
   font-size: 26px;
