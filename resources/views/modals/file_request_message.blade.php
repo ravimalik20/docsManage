@@ -21,6 +21,7 @@
                 <div class="form-group">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                   <input type="hidden" name="file_request_id" value="" id="file_request_id"/>
+                  <input type="hidden" name="file_message_receiver" value="" id="file_message_receiver"/>
                 </div>
             </div>
         </div>

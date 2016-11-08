@@ -114,6 +114,11 @@ class FileRequestController extends Controller
     }
 
     public function sendMessage(Request $request){
+        $validation =  $this->validator($request->all(), ['message'=>'required', 'file_message_receiver'=>'r  equired']);
+        if ($validation->fails()) {
+            return back()->withErrors($validation);
+        }
+
         FileRequest::saveMessage($request);
         $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Message send successfully"]];
         Session::flash("message",$msg);

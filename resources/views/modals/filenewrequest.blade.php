@@ -26,6 +26,10 @@
                 </div>
 
                 <div class="form-group">
+                  <textarea class="form-control" name="message" placeholder="Enter Message"></textarea>
+                </div>
+
+                <div class="form-group">
                   <input type="hidden" name="user_id" value="{{ Request::segment(2) }}"/>
                   <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 </div>

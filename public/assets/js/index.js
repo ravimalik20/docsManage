@@ -250,6 +250,7 @@ $(document).ready(function ()
     }
       $('.fileRequestMessageModal').click(function(){
           $('#file_request_id').val($(this).attr('data-id'));
+          $('#file_message_receiver').val($(this).attr('data-receiver_id'));
       });
 
      $('.requestfileupload').click(function(){

@@ -25,9 +25,16 @@
            </td>
            <td>{{ $filerequest->created_at}}</td>
            <td>
+             @if(!$filerequest->is_uploaded)
              <a class="btn btn-sm requestfileupload fileAddModalclick" data-id="{{ $filerequest->id }}" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal" data-folderId = "{{ $filerequest->folder_id }}">
                  <i class="fa fa-file"></i> Upload a File
              </a>
+             <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}">
+               <i class="fa fa-envelope fa-1x" aria-hidden="true">Add Message</i>
+            </a>
+            @else
+              <p>File has been uploaded at : {{ $filerequest->updated_at }} </p>
+            @endif
            </td>
          </tr>
          @endforeach

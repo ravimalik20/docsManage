@@ -18,13 +18,19 @@ class FileRequest extends Model
         $table->folder_id = $request->folderselect;
         $table->type = $request->type;
         $table->save();
-
+        if($request->has('message') && $request->message != '') {
+          $message = Message::firstOrNew(array('file_request_id'=>$table->id));
+          $message->message = $request->message;
+          $message->receiver_id = \Session::get("selected_user");
+          $message->sender_id = Auth::user()->id;
+          $message->save();
+        }
         return true;
     }
 
     public static function userfilerequest($id)
     {
-        $files = FileRequest::where('user_id', $id)->where('is_uploaded', 0)->get();
+        $files = FileRequest::where('user_id', $id)->get();
 
         return $files;
     }
@@ -41,13 +47,18 @@ class FileRequest extends Model
     }
 
     public static function saveMessage($request){
-      $table = new Message;
-      $table->receiver_id = \Session::get("selected_user");
+      $table = Message::firstOrNew(array('file_request_id'=>$request->file_request_id, 'receiver_id'=>$request->file_message_receiver));
+      $table->receiver_id = $request->file_message_receiver;
       $table->sender_id = Auth::user()->id;
       $table->message = $request->message;
       $table->file_request_id = $request->file_request_id;
       $table->save();
 
       return true;
+    }
+
+    public function sender()
+    {
+      return $this->hasOne('App\Message','file_request_id','id');
     }
 }

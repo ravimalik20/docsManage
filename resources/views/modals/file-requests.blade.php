@@ -26,7 +26,8 @@
       <th>Type</th>
       <th>Messages</th>
       <th>Cancel Request</th>
-      <th>Send Message</th>
+      <!-- <th>Send Message</th> -->
+      <th>Status</th>
       @if(count(FileRequest::userfilerequest(Request::segment(2))) > 0)
       @foreach(FileRequest::userfilerequest(Request::segment(2)) as $filerequest)
         <tr>
@@ -40,7 +41,13 @@
             @endif
           </td>
           <td><a class="btn btn-sm cancel-file-request" data-id="{{ $filerequest->id }}"><i class="fa fa-trash fa-1x" aria-hidden="true"></a></td>
-          <td><td> <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}"><i class="fa fa-envelope fa-1x" aria-hidden="true"></a></td></td>
+          <!-- <td><td> <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}"><i class="fa fa-envelope fa-1x" aria-hidden="true"></a></td></td> -->
+          <td>
+            @if($filerequest->is_uploaded)
+              File has been uploaded at : {{ $filerequest->updated_at }}
+            @endif
+
+          </td>
     	  </tr>
       @endforeach
       @endif
