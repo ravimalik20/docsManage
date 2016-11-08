@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-group">
-                  <select class="form-control" name="folder-select" id="folder-select">
+                  <select class="form-control folder-select" name="folder-select" id="folder-select">
                   </select>
                 </div>
                 <div class="form-group">

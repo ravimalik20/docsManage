@@ -45,3 +45,8 @@
           pointer-events: none;
           cursor: default;
 }
+
+.scroll {
+  height:350px;
+  overflow-y: scroll;
+}

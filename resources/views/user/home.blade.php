@@ -12,7 +12,7 @@
 	text-align:center;
 	vertical-align:middle;
 	display:block;
-	
+
 	margin-top:2%;
 	}
 	.bluebox40{
@@ -29,7 +29,7 @@
 	margin-top:2%;
 	}
 .bluebox90{
-	
+
 	color:white;
 	width:90%;
 		height:150px;
@@ -49,10 +49,26 @@
 
 
 
-               
-<!-- For Admins working as another user-->
-@if(Auth::check() && (\App\User::authUserType() == \App\User::TYPE_ADMIN_CLIENT))
 
+
+@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_ADMIN_CLIENT)
+	@if (\Session::has("selected_user") && \Session::get("selected_user") != 1)
+	<!-- For Admins working as another user-->
+	<div class="bluebox100">
+	<h1>Welcome to Skytax.ca</h1>
+	<p> Your are off to a great start and on your to getting your taxes taken care of by a profeessional tax specialist, with the ease of our office in the cloud!</p>
+	</div>
+	<div class="bluebox40">
+			<a  class="fileAddModalclick" href="#filerequestmodal" data-toggle="modal" data-target="#filerequestmodal">
+				<h3>New File Requests </h3><i class="fa fa-download fa-3x" aria-hidden="true"></i>
+			</a>
+			</div>
+
+			<div class="bluebox40">
+			<a  href="addFileRequestmodal" data-toggle="modal" data-target="#addFileRequestmodal">
+				<h3>New Messages </h3><i class="fa fa-comments fa-3x" aria-hidden="true"></i>
+			</a>
+			</div>
 	<div class="bluebox90">
 	<h3>Home @if (count($non_admin_users) > 0)
                                 @foreach($non_admin_users as $user)
@@ -92,8 +108,10 @@ echo str_replace("/",", ",date_format($mytime,'l/F/d/Y'));?></h3>
 		</div>
 	
 @endif
+@endif
+
 <!-- For client working as himself-->	
-@if(Auth::check() && \App\User::authUserType() == \App\User::TYPE_CLIENT)
+@if(Auth::check() && (\App\User::authUserType() == \App\User::TYPE_ADMIN || \App\User::authUserType() == \App\User::TYPE_CLIENT))
 	<div class="bluebox90">
 	<h1>Hi {{Auth::user()->name}}! Welcome to Skytax.ca</h1>
 	<p>FOR USER WORKING AS HIMSELF -  Your are off to a great start to tax season, with the ease of our office in the cloud!</p>
