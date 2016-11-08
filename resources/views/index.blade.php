@@ -42,7 +42,7 @@
           </div>
         @endif
 
-        @if (isset($folders) && count($folders) > 0)
+        <!-- @if (isset($folders) && count($folders) > 0)
 
         @foreach ($folders as $f)
            <div class="folder col-lg-2 col-sm-2 col-xs-3">
@@ -108,7 +108,21 @@
         @endif
 
     </div>
-
+-->
+  @if( $page == 'userlist' )
+      @include("user.home")
+    @elseif( $page == 'userdocuments' )
+      @include("user.documents")
+    @elseif( $page == 'user_history' )
+      @include("user.history")
+	  @elseif( $page == 'user_home' )
+      @include("user.home")
+    @elseif( $page == 'setting' )
+      @include("user.setting")
+    @elseif( $page == 'usermanage' )
+      @include("user.usermanage")
+	  
+    @endif
 </section><!-- /.content -->
 
 <!-- Modals -->
@@ -116,5 +130,7 @@
 @include('modals.folder_add')
 @include('modals.files_upload')
 @include('modals.permission-add-modal')
-@include('modals.filenewrequest')')
+@include('modals.filenewrequest')
+@include('modals.file-requests')
+@include('modals.manage-user-permissions-modal')
 @stop

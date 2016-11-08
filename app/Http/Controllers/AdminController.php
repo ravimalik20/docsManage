@@ -23,11 +23,10 @@ class AdminController extends Controller
     public function index()
     {
         $data = [];
-
-        if (Auth::user()->role == "admin") {
-            $data = $this->returnUserPage();
-
-            return view('master', $data);
+        $data['page']  = 'user_home';
+        if(Auth::user()->role == "admin"){
+          $data = $this->returnUserPage();
+          return view('master', $data);
         }
 
         $user = User::find(Auth::user()->id);
@@ -53,7 +52,7 @@ class AdminController extends Controller
     {
         $data = [];
 
-        $data['page']  = 'userlist';
+        $data['page']  = 'user_home';
         $data['users'] = User::lists();
 
         return $data;

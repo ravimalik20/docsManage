@@ -9,7 +9,7 @@
 
     @elseif (Auth::check() && \App\User::authUserType() == \App\User::TYPE_ADMIN_CLIENT)
         @include("includes.admin-workingas")    
-        @include("includes.admin-menu")
+       
 
     @elseif (Auth::check() && \App\User::authUserType() == \App\User::TYPE_CLIENT)
         @include("includes.client-menu")
@@ -19,3 +19,5 @@
 </div>
 
 @include('includes.directory-path')
+
+<!-- This page loads the correct menu file for the user state.  Each menu file will load the correct menu for the page -->
