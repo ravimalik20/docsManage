@@ -11,7 +11,7 @@
 
 		<h4 class="modal-title">File Requests</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body scroll">
 
 
 	 @if(Auth::check() && Auth::user()->role =="admin")
