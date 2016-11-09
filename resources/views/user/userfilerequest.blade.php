@@ -28,18 +28,22 @@
                    <td>
                      @if(count($filerequest->has_messages) > 0)
                        @foreach($filerequest->has_messages as $message)
-                         <p>{{ $message->message}}<p>
+                          @if($message->sender_id == $filerequest->user_id)
+                            <p>you: {{ $message->message}}<p>
+                          @else
+                            <p>{{ $message->message}}<p>
+                          @endif
                        @endforeach
                      @endif
                    </td>
                    <td>{{ $filerequest->created_at}}</td>
                    <td>
-                     <a class="btn btn-sm requestfileupload fileAddModalclick" data-id="{{ $filerequest->id }}" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal" data-folderId = "{{ $filerequest->folder_id }}">
+                     <a class="btn btn-sm requestfileupload fileAddModalclick" data-id="{{ $filerequest->id }}" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal" data-folderId = "{{ $filerequest->folder_id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}">
                          <i class="fa fa-file"></i> Upload a File
                      </a>
-                     <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}">
+                     <!-- <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}">
                        <i class="fa fa-envelope fa-1x" aria-hidden="true">Add Message</i>
-                    </a>
+                    </a> -->
                    </td>
                  </tr>
                 @endif
@@ -76,7 +80,11 @@
                    <td>
                      @if(count($filerequest->has_messages) > 0)
                        @foreach($filerequest->has_messages as $message)
-                         <p>{{ $message->message}}<p>
+                         @if($message->sender_id == $filerequest->user_id)
+                           <p>you: {{ $message->message}}<p>
+                         @else
+                           <p>{{ $message->message}}<p>
+                         @endif
                        @endforeach
                      @endif
                    </td>

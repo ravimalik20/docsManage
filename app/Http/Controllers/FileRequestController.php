@@ -114,7 +114,7 @@ class FileRequestController extends Controller
     }
 
     public function sendMessage(Request $request){
-        $validation =  $this->validator($request->all(), ['message'=>'required', 'file_message_receiver'=>'r  equired']);
+        $validation =  $this->validator($request->all(), ['message'=>'required', 'file_message_receiver'=>'required']);
         if ($validation->fails()) {
             return back()->withErrors($validation);
         }

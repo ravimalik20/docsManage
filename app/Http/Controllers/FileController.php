@@ -66,6 +66,12 @@ class FileController extends Controller
           FileRequest::fileIsUploaded($request->filerequestId);
         }
 
+        if($request->has('upload_message') && $request->upload_message !='') {
+          $request->file_request_id = $request->filerequestId;
+          $request->message = $request->upload_message;
+          FileRequest::saveMessage($request);
+        }
+
         $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Files has uploaded successfully!"]];
         Session::flash("message",$msg);
 

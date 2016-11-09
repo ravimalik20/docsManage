@@ -25,7 +25,9 @@
                 <div class="form-group">
                   <input class="form-control" name="type" placeholder="Enter Type" id="fileRequestType" disabled/>
                 </div>
-
+                <div id="for-request-message" class="form-group" style="display:none;">
+                    <textarea name="upload_message" class="form-control"></textarea>
+                </div>
                 <div class="form-group">
                     <form method="POST" class="dropzone dz-remove-click" id="file_upload_form" data-token="{{csrf_token()}}"
                     action="/">
@@ -37,6 +39,7 @@
                       @endif
                     @endif
                     <input type="hidden" id="filerequestId" name="filerequestId" value=""/>
+                    <input type="hidden" id="receiver_id" name="receiver_id" value=""/>
                     </form>
                 </div>
             </div>
