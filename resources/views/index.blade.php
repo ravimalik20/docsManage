@@ -121,7 +121,7 @@
       @include("user.setting")
     @elseif( $page == 'usermanage' )
       @include("user.usermanage")
-	  
+
     @endif
 </section><!-- /.content -->
 
@@ -133,4 +133,5 @@
 @include('modals.filenewrequest')
 @include('modals.file-requests')
 @include('modals.manage-user-permissions-modal')
+@include('modals.payment_checkout')
 @stop

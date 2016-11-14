@@ -145,7 +145,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-
+        Laravel\Cashier\CashierServiceProvider::class,
+        'Cartalyst\Stripe\Laravel\StripeServiceProvider',
     ],
 
     /*
@@ -195,6 +196,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Stripe'    => 'Cartalyst\Stripe\Laravel\Facades\Stripe',
 
     ],
 

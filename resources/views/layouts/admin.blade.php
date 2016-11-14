@@ -249,7 +249,7 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                           >History</li></a>
-						
+
 
 
                     </div>
@@ -315,6 +315,12 @@
         <script src="/assets/jstree/jstree.min.js"></script>
 
         <script src="/assets/js/main.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+        <!-- Inlude Stripe.js -->
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <script src="/assets/js/payment.js"></script>
 
         <script>
             $(document).ready(function ()
