@@ -1,5 +1,5 @@
 <?php
-
+ header("Access-Control-Allow-Origin: *");
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -69,12 +69,17 @@ Route::group(["middleware"=>"auth"], function()
 {
     Route::post('send-message','FileRequestController@sendMessage');
     Route::post('cancel-file-request', 'FileRequestController@destroy');
+    Route::resource("getenv", "FileRequestController@getEnv");
     Route::resource("filerequest", "FileRequestController");
 });
 
 Route::group(['middleware'=>'auth'], function(){
   Route::post('paymentcards', 'PaymentController@paymentcards');
   Route::resource("payment", "PaymentController");
+});
+
+Route::group(['middleware'=>'auth'], function(){
+  Route::resource("message", "ChatController");
 });
 
 ?>

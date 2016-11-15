@@ -30,6 +30,7 @@
         <link href="/assets/css/custom.css" rel="stylesheet" type="text/css" />
 
         <link rel="stylesheet" href="/assets/jstree/themes/default/style.min.css" />
+        <link href="/assets/css/chat.css" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -151,7 +152,7 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                         >Files</li></a>
-                         <a><li>Messaging</li></a>
+                         <a href="/message"><li>Messaging</li></a>
                          <a><li>My Bills</li></a>
                          <a><li>Tasks</li></a>
                          <a
@@ -235,7 +236,7 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                         >Files</li></a>
-                         <a><li>Messaging</li></a>
+                         <a href="/message"><li>Messaging</li></a>
                          <a><li>My Bills</li></a>
                          <a><li>Tasks</li></a>
                          <a
@@ -321,6 +322,7 @@
         <!-- Inlude Stripe.js -->
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="/assets/js/payment.js"></script>
+        <script src="/assets/js/socket.io.js"></script>
 
         <script>
             $(document).ready(function ()

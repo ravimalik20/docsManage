@@ -5,6 +5,9 @@
   },
   "dependencies": {
     "laravel-elixir": "^3.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "bootstrap-sass": "^3.0.0",
+    "hapi": "^15.0.3",
+    "mysql": "^2.11.1",
+    "socket.io": "^1.4.8"
   }
 }

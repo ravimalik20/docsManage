@@ -5,6 +5,7 @@
 <script src="/assets/js/index.js"></script>
 
 <script src="/assets/js/main.js"></script>
+<script src="/assets/js/chat.js"></script>
 
 @stop
 
@@ -48,9 +49,12 @@
       @include("user.setting")
     @elseif( $page == 'usermanage' )
       @include("user.usermanage")
-
     @elseif( $page == 'userfilerequest' )
       @include("user.userfilerequest")
+    @elseif( $page == 'message' )
+      @include("user.message")
+    @elseif( $page == 'chat' )
+      @include("user.chat")
 
     @endif
 </section><!-- /.content -->

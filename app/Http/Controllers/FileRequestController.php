@@ -125,4 +125,14 @@ class FileRequestController extends Controller
         return back();
     }
 
+    public function getEnv(Request $request){
+      $envRequest = [];
+      if(count([$request->envs]) > 0){
+        foreach([$request->envs] as $env){
+          $envRequest[$env] = env($env, "");
+        }
+      }
+      return $envRequest;
+    }
+
 }
