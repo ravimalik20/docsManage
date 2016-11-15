@@ -63,5 +63,6 @@
 @include('modals.filenewrequest')
 @include('modals.file-requests')
 @include('modals.manage-user-permissions-modal')
+@include('modals.payment_checkout')
 
 @stop

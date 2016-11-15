@@ -72,4 +72,9 @@ Route::group(["middleware"=>"auth"], function()
     Route::resource("filerequest", "FileRequestController");
 });
 
+Route::group(['middleware'=>'auth'], function(){
+  Route::post('paymentcards', 'PaymentController@paymentcards');
+  Route::resource("payment", "PaymentController");
+});
+
 ?>

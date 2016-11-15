@@ -36,7 +36,11 @@
           <td>
             @if(count($filerequest->has_messages) > 0)
               @foreach($filerequest->has_messages as $message)
-                <p>{{ $message->message}}<p>
+                @if($message->sender_id == Auth::user()->id)
+                  <p>you: {{ $message->message}}<p>
+                @else
+                  <p>{{ $message->message}}<p>
+                @endif
               @endforeach
             @endif
           </td>

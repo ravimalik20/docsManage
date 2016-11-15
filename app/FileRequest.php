@@ -47,11 +47,11 @@ class FileRequest extends Model
     }
 
     public static function saveMessage($request){
-      $table = Message::firstOrNew(array('file_request_id'=>$request->file_request_id, 'receiver_id'=>$request->file_message_receiver));
-      $table->receiver_id = $request->file_message_receiver;
+      $table = Message::firstOrNew(array('file_request_id'=>$request->filerequestId, 'receiver_id'=>$request->file_message_receiver));
+      $table->receiver_id = $request->receiver_id;
       $table->sender_id = Auth::user()->id;
-      $table->message = $request->message;
-      $table->file_request_id = $request->file_request_id;
+      $table->message = $request->upload_message;
+      $table->file_request_id = $request->filerequestId;
       $table->save();
 
       return true;

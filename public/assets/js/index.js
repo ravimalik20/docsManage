@@ -122,10 +122,13 @@ $(document).ready(function ()
             formData.append("_token", token);
             var text = $('textarea[name=description]').val();
             var type = $('input[name=type]').val();
+            var upload_message = $('textarea[name=upload_message]').val();
             var requestId = $('input[name=filerequestId]').val();
             formData.append("description", text);
             formData.append('type', type);
+            formData.append('upload_message', upload_message);
             formData.append('filerequestId', requestId);
+            formData.append('receiver_id', $('input[name=receiver_id]').val());
         }
     });
 
@@ -265,7 +268,8 @@ $(document).ready(function ()
         $('#filerequestId').val($(this).attr('data-id'));
         console.log('folder id', $(this).attr('data-folderId'));
         var folderId = $(this).attr('data-folderId');
-
+        $('#receiver_id').val($(this).attr('data-receiver_id'));
+        $('#for-request-message').show();
         setTimeout(function(){
           $('.folder-select option').each(function(){
               if($(this).attr('value') == folderId) {
