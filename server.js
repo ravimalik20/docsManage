@@ -94,7 +94,7 @@ io.on('connection', function (socket) {
       //console.log("sockets lists", sockets);
     }
 
-    var message = {sender_id: data.id,message:data.message, type:data.type, receiver_id : data.receiver, status:status};
+    var message = {sender_id: data.id, message:data.message, receiver_id : data.receiver, status:status};
     connection.query('INSERT INTO messages SET ?', message, function(err, result) {
         if (err) throw err;
 

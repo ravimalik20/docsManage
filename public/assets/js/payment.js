@@ -54,6 +54,16 @@ $('#userpaymentcards').click(function(){
         });
 });
 var $form = $('#payment-form');
+var PublishableKey = '';
+$.ajax({
+    url:'/getenv',
+    type:'post',
+    data: {envs:"STRIPE_KEY", _token: $('input[name=_token]').val()},
+    success:function(response) {
+      PublishableKey = response.STRIPE_KEY;
+    }
+});
+
 /* If you're using Stripe for payments */
 $('.subscribe').on('click',function(e){
     e.preventDefault();
@@ -62,13 +72,9 @@ $('.subscribe').on('click',function(e){
     if (!validator.form()) {
         return;
     }
-
     /* Visual feedback */
     _this.html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
-
-    var PublishableKey = 'pk_test_r4k4O9RViqT3UgXWDbfajEdu';
     Stripe.setPublishableKey(PublishableKey);
-
     /* Create token */
     var expiry = $form.find('[name=cardExpiry]').payment('cardExpiryVal');
     var ccData = {
