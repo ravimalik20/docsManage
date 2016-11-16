@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User, Auth, Session, App\PaymentCard;
+use App\User, Auth, Session, App\PaymentCard, Validator;
 class PaymentController extends Controller
 {
+
+    protected function validator(array $data, $rules)
+    {
+        return Validator::make($data, $rules);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +22,9 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $data = [];
+        $data['page'] = 'payment';
+        return view('index', $data);
     }
 
     /**
@@ -37,12 +45,21 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
+        if(!$request->amount) {
+            return response()->json(['status'=>'error', 'message'=> 'Amount field is required.'], 401);
+        }
+
+        if($request->amount > Auth::user()->amount_due) {
+          return response()->json(['status'=>'error', 'message'=> 'Amount cannot be greater than due amount.'], 401);
+        }
+
         $user = User::find(Auth::user()->id);
         $charge = PaymentCard::charge($user, $request);
         if(!$charge) {
-          return response()->json(['status'=>'error'], 401);
+          return response()->json(['status'=>'error', 'message'=>'Payment error'], 401);
         }
-
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Payment successfully"]];
+        Session::flash("message",$msg);
         return response()->json(['status'=>'success', 'message'=>'Payment successfully'], 200);
     }
 
@@ -101,5 +118,21 @@ class PaymentController extends Controller
         }
       }
       return response()->json($data, 200);
+    }
+
+    public function add_payment(Request $request, $id){
+
+        if(!$request->amount){
+          $msg = ["type"=>"alert-error","icon"=>"fa-ban","data"=>["Amount field is required."]];
+          Session::flash("message",$msg);
+          return back();
+        }
+        $user = User::find($id);
+        $user->amount_due = (float) $request->amount;
+        $user->save();
+
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Amount adedd successfully."]];
+        Session::flash("message",$msg);
+        return back();
     }
 }

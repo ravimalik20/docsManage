@@ -121,6 +121,8 @@
       @include("user.setting")
     @elseif( $page == 'usermanage' )
       @include("user.usermanage")
+    @elseif( $page == 'payment' )
+      @include("user.payment")
 
     @endif
 </section><!-- /.content -->

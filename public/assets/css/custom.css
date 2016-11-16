@@ -104,3 +104,7 @@
         .credit-card-box .panel-heading img {
             min-width: 180px;
         }
+
+        .addcard {
+            margin-left: 15px;
+        }

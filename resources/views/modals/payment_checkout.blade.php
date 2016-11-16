@@ -29,6 +29,17 @@
                        <th>Choose</th>
                        <tbody id="tbody"></tbody>
                      </table>
+                     <div class="row">
+                         <div class="col-xs-12">
+                             <div class="form-group">
+                                 <label for="amount">Amount</label>
+                                 <input type="text" class="form-control" id="amount" name="amount" value="{{ (Auth::user()->amount_due)? Auth::user()->amount_due : ''}}" required/>
+                             </div>
+                         </div>
+                     </div>
+                   <div class="row">
+                     <a href="javascript:void(0);" id="addcard" class="addcard">Add Card</a>
+                   </div>
                      <div class="row" style="display:none;">
                          <div class="col-xs-12">
                              <p class="payment-errors"></p>
@@ -83,14 +94,22 @@
                                </div>
                            </div>
                        </div>
-                       <!-- <div class="row">
+                       <div class="row">
                            <div class="col-xs-12">
                                <div class="form-group">
-                                   <label for="couponCode">COUPON CODE</label>
-                                   <input type="text" class="form-control" name="couponCode" />
+                                   <label for="amount">Amount</label>
+                                   <input type="text" class="form-control" name="amount" id="pay_amount" value="{{ (Auth::user()->amount_due)? Auth::user()->amount_due : ''}}" required/>
                                </div>
                            </div>
-                       </div> -->
+                       </div>
+                       <div class="row">
+                           <div class="col-xs-12">
+                               <div class="form-group">
+                                   <label for="save_card"></label>
+                                   <input type="checkbox" class="form-control" name="save_card" value="save_card"/> Save card
+                               </div>
+                           </div>
+                       </div>
                        <div class="row" style="display:none;">
                            <div class="col-xs-12">
                                <p class="payment-errors"></p>

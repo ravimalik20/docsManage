@@ -6,11 +6,11 @@
 
 
 
-                              
+
 <!--For Files PAge -->
-   
+
     @if( $page == 'userdocuments' )
-		
+
 		@if (count($non_admin_users) > 0)
                                 @foreach($non_admin_users as $user)
                                 @if (\Session::has("selected_user") && \Session::get("selected_user") == $user->id)
@@ -23,21 +23,26 @@
   </a>
   <a class="btn btn-sm" href="#folderAddModal" data-toggle="modal" data-target="#folderAddModal">
       <i class="fa fa-folder"></i> Add a Folder
-  </a>      
+  </a>
 					<a class="btn btn-sm " href="#filerequestmodal" data-toggle="modal" data-target="#filerequestmodal">
 					<i class="fa fa-list"></i> File Requests
 					</a>
 					<a class="btn btn-sm " href="#changeAccountPermissionsModal" data-toggle="modal" data-target="#changeAccountPermissionsModal">
 					<i class="fa fa-key"></i>Manage Account Permissions
 					</a>
+
+					<a class="btn btn-sm " href="#addpaymentamount" data-user = "{{Session::get('selected_user')}}" data-toggle="modal" data-target="#addpaymentamount" id="openaddpaymentamount">
+					<i class="fa fa-credit-card"></i>Amount due
+					</a>
+
 	  @endif
 
-<!-- For History Page -->   
+<!-- For History Page -->
    @if( $page == 'user_history' )
 	   <p>user history</p>
    @endif
-    
-<!-- For Home Page --> 
+
+<!-- For Home Page -->
 	  @if( $page == 'user_home' )
   <p>user Home</p>
    @endif
@@ -45,5 +50,3 @@
      @endif
     @if( $page == 'usermanage' )
      @endif
-	 
-	

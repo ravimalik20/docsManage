@@ -22,20 +22,35 @@ class PaymentCard extends Model
       $charge = Stripe::charges()->create([
           'customer' => ($user->stripe_id)? $user->stripe_id : $customer['id'],
           'currency' => 'USD',
-          'amount'   => ($request->amount)? $request->amount : 1,
+          'amount'   => $request->amount,
       ]);
 
       if($charge){
+        // Update user account balance
+        self::updateAccountBalance($user, $request->amount);
 
-        //make this card default
+        //Save stripe customer id
         if(!$user->stripe_id) {
-          $request->card = $charge['source'];
-          self::store($request);
           $user->stripe_id = $customer['id'];
           $user->save();
         }
+
+        //Save card
+        if($request->has('save_card') && $request->save_card == 'save_card') {
+          $request->card = $charge['source'];
+          self::store($request);
+        }
       }
       return $charge;
+    }
+
+    public static function updateAccountBalance($user, $amount){
+       $accountbal = (float) $user->account_balance + (float) $amount;
+       $amount_due = (float) $user->amount_due - (float) $amount;
+        $user->account_balance = $accountbal;
+        $user->amount_due = $amount_due;
+        $user->save();
+        return true;
     }
 
     public static function store($request) {

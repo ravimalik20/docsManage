@@ -10,24 +10,33 @@ $('#payment_card button').click(function(){
   var _this = $(this);
   var $form = $('#payment_card');
   var token = $('#payment_card input[name=paymentcard]:checked').val();
-  if(!token){
+  var amount = $('#amount').val();
+  if(!token || !amount){
     return false;
   }
 
   _this.html('Processing <i class="fa fa-spinner fa-pulse"></i>');
   $.post('/payment', {
            token: token,
-          _token: $('input[name=_token]').val()
+          _token: $('input[name=_token]').val(),
+          amount: amount
       })
       .done(function(data, textStatus, jqXHR) {
           _this.html('Payment successful <i class="fa fa-check"></i>');
-          Util.successMessage({type:'alert-success', icon:'fa-check', message:data.message});
+          //Util.successMessage({type:'alert-success', icon:'fa-check', message:data.message});
           $('#paymentCheckoutModal').modal('hide');
+          window.location.reload();
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
+        if(jqXHR.responseJSON.message) {
+          $form.find('.payment-errors').text(jqXHR.responseJSON.message);
+          _this.html('Payment Confirm');
+          _this.prop('disabled', false);
+        } else  {
           _this.html('There was a problem').removeClass('success').addClass('error');
           /* Show Stripe errors on the form */
           $form.find('.payment-errors').text('Try refreshing the page and trying again.');
+        }
           $form.find('.payment-errors').closest('.row').show();
       });
 
@@ -96,18 +105,27 @@ $('.subscribe').on('click',function(e){
             var token = response.id;
             $.post('/payment', {
                      token: token,
-                    _token: $('input[name=_token]').val()
+                    _token: $('input[name=_token]').val(),
+                    amount: $('#pay_amount').val(),
+                    save_card: $('input[name=save_card]:checked').val() || false
                 })
                 .done(function(data, textStatus, jqXHR) {
                     _this.html('Payment successful <i class="fa fa-check"></i>');
-                    Util.successMessage({type:'alert-success', icon:'fa-check', message:data.message});
+                    //Util.successMessage({type:'alert-success', icon:'fa-check', message:data.message});
                     $('#paymentCheckoutModal').modal('hide');
                     $('#payment-form').hide();
+                    window.location.reload();
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
-                    _this.html('There was a problem').removeClass('success').addClass('error');
-                    /* Show Stripe errors on the form */
-                    $form.find('.payment-errors').text('Try refreshing the page and trying again.');
+                    if(jqXHR.responseJSON.message) {
+                      $form.find('.payment-errors').text(jqXHR.responseJSON.message);
+                      _this.html('Payment Confirm');
+                      _this.prop('disabled', false);
+                    } else {
+                      _this.html('There was a problem').removeClass('success').addClass('error');
+                      /* Show Stripe errors on the form */
+                      $form.find('.payment-errors').text('Try refreshing the page and trying again.');
+                    }
                     $form.find('.payment-errors').closest('.row').show();
                 });
         }
@@ -177,5 +195,12 @@ var readyInterval = setInterval(function() {
         clearInterval(readyInterval);
     }
 }, 250);
+
+
+
+$('#addcard').click(function(){
+  $('#payment_card').hide();
+  $('#payment-form').show();
+});
 
 });
