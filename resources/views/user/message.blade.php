@@ -9,6 +9,11 @@
       @if(count($user_messages) > 0)
         @foreach($user_messages as $user_message)
         <li class="active bounceInDown">
+          {{--*/
+                if($user_message->receiver_id == Auth::user()->id) {
+                    $user_message->receiver_id = $user_message->sender_id;
+                }
+            /*--}}
         	<a href="/message/{{ $user_message->receiver_id }}" class="clearfix">
         		<img src="/assets/img/user.png" alt="" class="img-circle">
         		<div class="friend-name">
