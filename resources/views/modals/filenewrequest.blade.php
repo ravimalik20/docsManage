@@ -2,7 +2,7 @@
     use App\Models\Folder;
 /*--}}
 
-<div class="modal fade" tabindex="-1" role="dialog" id="newfilerequestmodal">
+<div class="modal fade" tabindex="2" role="dialog" id="newfilerequestmodal" style="z-index:999999999999">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

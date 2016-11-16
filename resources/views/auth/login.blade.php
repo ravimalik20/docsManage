@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="bg-white">
+<html  class="bg-blue">
     <head>
         <meta charset="UTF-8">
         <title>SkyTax | Log in</title>
@@ -21,20 +21,24 @@
         <link rel="stylesheet" type="text/css" href="/assets/css/custom.css" />
 
     </head>
-    <body class="bg-white">
-        <img src = "../assets/admin/img/logo-with-icon.png" style="width:250px;margin:auto;display:block;margin-bottom:2px;">
+    <body class="bg-blue">
+        
 <div class="form-logo-area">
 
 </div>
 
         <div class="form-box" id="login-box">
 
-            <div class="header">
+            <div class="header bg-blue"><img src = "../assets/admin/img/0skytaxlogo.jpg" style="width:250px;margin:auto;display:block;margin-top:25px;margin-bottom:25px; border-top-left-radius:15px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;">
               Sign In</div>
 
             <form action="/auth/login" method="post">
                 {!! csrf_field() !!}
-                <div class="body bg-navy">
+                <div class="body bg-navy" style = "border-top-left-radius:15px !important;
+  border-top-right-radius: 15px !important;">
                     <div class="form-group">
                         <input type="email" name="email" class="form-control" placeholder="Email"/>
                         @if ($errors->first('email'))

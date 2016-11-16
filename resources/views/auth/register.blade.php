@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="bg-white">
+<html class="bg-blue">
     <head>
         <meta charset="UTF-8">
         <title>SkyTax| Account Registration</title>
@@ -21,14 +21,19 @@
         <link rel="stylesheet" type="text/css" href="/assets/css/custom.css" />
 
     </head>
-    <body class="bg-white">
+    <body class="bg-blue">
 
         <div class="form-box" id="login-box">
-            <img src = "../assets/admin/img/logo-with-icon.png" style="margin:auto;display:block;margin-bottom:35px;">
-            <div class="header">Register A New Account</div>
+      
+             <div class="header bg-blue"><img src = "../assets/admin/img/0skytaxlogo.jpg" style="width:250px;margin:auto;display:block;margin-top:25px;margin-bottom:25px; border-top-left-radius:15px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;">
+              Register A New Account</div>
             <form action="/auth/register" method="post">
                 {!! csrf_field() !!}
-                <div class="body bg-navy">
+                <div class="body bg-navy" style = "border-top-left-radius:15px !important;
+  border-top-right-radius: 15px !important;">
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Username" value="{{ old('name') }}"/>
                         @if ($errors->first('name'))
