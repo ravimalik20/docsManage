@@ -55,6 +55,8 @@
       @include("user.message")
     @elseif( $page == 'chat' )
       @include("user.chat")
+    @elseif( $page == 'paymentrequest' )
+      @include("admin.paymentrequest")
 
     @endif
 </section><!-- /.content -->

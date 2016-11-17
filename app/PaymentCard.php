@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Auth, Stripe;
+use Auth, Stripe, App\PaymentLog;
 class PaymentCard extends Model
 {
     protected $table = 'payment_cards';
@@ -24,10 +24,13 @@ class PaymentCard extends Model
           'currency' => 'USD',
           'amount'   => $request->amount,
       ]);
-
       if($charge){
         // Update user account balance
         self::updateAccountBalance($user, $request->amount);
+
+        //save payment logs
+        $request->charge = $charge;
+        PaymentLog::store($user, $request);
 
         //Save stripe customer id
         if(!$user->stripe_id) {

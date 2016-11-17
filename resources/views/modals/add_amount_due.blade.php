@@ -4,9 +4,9 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-		<h4 class="modal-title">Add Amount Due</h4>
+		<h4 class="modal-title">Add Amount Request</h4>
       </div>
-      <form id="addpaymentamountuser" method="post" action="/add_payment/">
+      <form id="addpaymentamountuser" method="post" action="/add_payment">
       <div class="modal-body">
         <div class="row">
             <div class="col-lg-12">

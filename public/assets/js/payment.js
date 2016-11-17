@@ -28,7 +28,12 @@ $('#payment_card button').click(function(){
           window.location.reload();
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
-        if(jqXHR.responseJSON.message) {
+        if(textStatus == 'error') {
+          _this.html('There was a problem').removeClass('success').addClass('error');
+          /* Show Stripe errors on the form */
+          $form.find('.payment-errors').text('Try refreshing the page and trying again.');
+        }
+        else if(jqXHR && jqXHR.responseJSON.message) {
           $form.find('.payment-errors').text(jqXHR.responseJSON.message);
           _this.html('Payment Confirm');
           _this.prop('disabled', false);
@@ -117,7 +122,12 @@ $('.subscribe').on('click',function(e){
                     window.location.reload();
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
-                    if(jqXHR.responseJSON.message) {
+                  if(textStatus == 'error') {
+                    _this.html('There was a problem').removeClass('success').addClass('error');
+                    /* Show Stripe errors on the form */
+                    $form.find('.payment-errors').text('Try refreshing the page and trying again.');
+                  }
+                  else if(jqXHR && jqXHR.responseJSON.message) {
                       $form.find('.payment-errors').text(jqXHR.responseJSON.message);
                       _this.html('Payment Confirm');
                       _this.prop('disabled', false);

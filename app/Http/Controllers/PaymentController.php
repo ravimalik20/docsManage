@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User, Auth, Session, App\PaymentCard, Validator;
+use App\User, Auth, Session, App\PaymentCard, Validator, App\PaymentLog;
 class PaymentController extends Controller
 {
 
@@ -24,6 +24,7 @@ class PaymentController extends Controller
     {
         $data = [];
         $data['page'] = 'payment';
+        $data['paymentlogs'] = PaymentLog::getPaymentLogs(Auth::user());
         return view('index', $data);
     }
 
@@ -120,14 +121,14 @@ class PaymentController extends Controller
       return response()->json($data, 200);
     }
 
-    public function add_payment(Request $request, $id){
+    public function add_payment(Request $request){
 
         if(!$request->amount){
           $msg = ["type"=>"alert-error","icon"=>"fa-ban","data"=>["Amount field is required."]];
           Session::flash("message",$msg);
           return back();
         }
-        $user = User::find($id);
+        $user = User::find(Session::get('selected_user'));
         $user->amount_due = (float) $request->amount;
         $user->save();
 

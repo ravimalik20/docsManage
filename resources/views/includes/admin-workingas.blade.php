@@ -30,11 +30,6 @@
 					<a class="btn btn-sm " href="#changeAccountPermissionsModal" data-toggle="modal" data-target="#changeAccountPermissionsModal">
 					<i class="fa fa-key"></i>Manage Account Permissions
 					</a>
-
-					<a class="btn btn-sm " href="#addpaymentamount" data-user = "{{Session::get('selected_user')}}" data-toggle="modal" data-target="#addpaymentamount" id="openaddpaymentamount">
-					<i class="fa fa-credit-card"></i>Amount due
-					</a>
-
 	  @endif
 
 <!-- For History Page -->

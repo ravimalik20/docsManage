@@ -152,9 +152,13 @@
                                 style="background-color: #00ccff; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);"
                             @endif
                         >Files</li></a>
-                         <a href="/message"><li>Messaging</li></a>
-                         <a><li>My Bills</li></a>
-                         <a><li>Tasks</li></a>
+                          @if (\Session::has("selected_user"))
+                            <a href="/message/{{ Session::get('selected_user') }}"><li>Messaging</li></a>
+                          @else
+                            <a href="/message"><li>Messaging</li></a>
+                          @endif
+                         <a href="/paymentrequest"><li>Payment Request</li></a>
+                        <a><li>Tasks</li></a>
                          <a
                             @if (\Session::has("selected_user"))
                                 href="/user/{{\Session::get('selected_user')}}/history"
@@ -237,7 +241,7 @@
                             @endif
                         >Files</li></a>
                          <a href="/message"><li>Messaging</li></a>
-                         <a><li>My Bills</li></a>
+                         <a href="/payment"><li>My Bills</li></a>
                          <a><li>Tasks</li></a>
                          <a
                             @if (\Session::has("selected_user"))

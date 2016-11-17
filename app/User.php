@@ -294,4 +294,8 @@ class User extends Model implements AuthenticatableContract,
 
         return $type;
     }
+
+    public static function paymentRequests(){
+      return User::where('amount_due', '!=', '')->get();
+    }
 }

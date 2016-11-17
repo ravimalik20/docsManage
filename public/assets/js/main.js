@@ -13,9 +13,4 @@ $(document).ready(function () {
         if(confirm("Are you sure? you want to delete"))
           $(this).closest("form").submit();
     });
-
-    $('#openaddpaymentamount').click(function(){
-      var form = $('#addpaymentamountuser');
-      form.attr('action', '/add_payment/' + $(this).attr('data-user'));
-    });
 });
