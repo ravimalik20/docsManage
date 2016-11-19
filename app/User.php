@@ -298,4 +298,16 @@ class User extends Model implements AuthenticatableContract,
     public static function paymentRequests(){
       return User::where('amount_due', '!=', '')->get();
     }
+
+    public static function is_validUser($user, $id){
+        $receiver = User::find($id);
+        if(!$receiver)
+          return false;
+
+        if($user->role  == $receiver->role){
+          return false;
+        }
+
+        return true;
+    }
 }

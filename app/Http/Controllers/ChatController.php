@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Message, Auth;
+use App\Message, Auth, App\User;
 class ChatController extends Controller
 {
     /**
@@ -51,6 +51,11 @@ class ChatController extends Controller
      */
     public function show($id)
     {
+
+      if(!User::is_validUser(Auth::user(), $id)){
+        return back();
+      }
+
       $data = [];
       $data['page'] = 'chat';
       $data['messages'] = Message::getMessages(Auth::user(), $id);
