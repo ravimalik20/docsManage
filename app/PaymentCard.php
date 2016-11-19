@@ -21,7 +21,7 @@ class PaymentCard extends Model
 
       $charge = Stripe::charges()->create([
           'customer' => ($user->stripe_id)? $user->stripe_id : $customer['id'],
-          'currency' => 'USD',
+          'currency' => 'cad',
           'amount'   => $request->amount,
       ]);
       if($charge){

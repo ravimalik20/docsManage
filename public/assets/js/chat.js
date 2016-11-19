@@ -1,5 +1,4 @@
-//server add 159.203.78.168:3000
-var socket      = io.connect("127.0.0.1:3000");
+var socket      = io.connect('https://account.skytax.ca:3000');
 var data        = {};
 var auth        = $('input[name=auth]').val();
 var SelectedFile = {};

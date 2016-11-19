@@ -1,7 +1,31 @@
 var Hapi = require('hapi');
 
 var server = new Hapi.Server();
-server.connection({ port: 3000 });
+var fs = require('fs');
+
+var tls = {
+  key: fs.readFileSync('/etc/letsencrypt/live/account.skytax.ca/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/account.skytax.ca/cert.pem')
+};
+
+server.connection({ port: 3000, tls: tls });
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+        reply('Hello, world!');
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/{name}',
+    handler: function (request, reply) {
+        reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
+    }
+});
+
+
 var mysqlConfiguration = {};
 var connection = {};
 var Files = {};
