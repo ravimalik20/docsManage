@@ -8,10 +8,14 @@
   <ul class="friend-list">
       @if(count($user_messages) > 0)
         @foreach($user_messages as $user_message)
+        @if($user_message->id != Auth::user()->id)
         <li class="active bounceInDown">
           {{--*/
                 if($user_message->receiver_id == Auth::user()->id) {
                     $user_message->receiver_id = $user_message->sender_id;
+                }
+                else if(!$user_message->receiver_id){
+                  $user_message->receiver_id = $user_message->id;
                 }
             /*--}}
         	<a href="/message/{{ $user_message->receiver_id }}" class="clearfix">
@@ -21,11 +25,12 @@
         		</div>
         		<div class="last-message text-muted">{{ $user_message->message }}</div>
         		<small class="time text-muted">{{ $user_message->created_at }}</small>
-            @if($user_message->status != 'read')
+            @if($user_message->message && $user_message->status != 'read')
         		  <small class="chat-alert label label-danger">1</small>
             @endif
         	</a>
         </li>
+        @endif
       @endforeach
       @endif
   </ul>

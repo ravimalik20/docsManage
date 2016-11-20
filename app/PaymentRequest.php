@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Auth;
+use Auth, Session;
 class PaymentRequest extends Model
 {
     protected $table = 'payment_requests';
@@ -14,6 +14,7 @@ class PaymentRequest extends Model
       return PaymentRequest::select('payment_requests.*', 'users.name', 'users.account_balance', 'users.email')
                 ->join('users', 'users.id' ,'=', 'payment_requests.user_id')
                 ->where('requested_by', Auth::user()->id)
+                ->where('user_id', Session::get('selected_user'))
                 ->orderBy('created_at', 'DESC')
                 ->get();
     }
