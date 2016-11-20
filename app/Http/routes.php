@@ -75,7 +75,6 @@ Route::group(["middleware"=>"auth"], function()
 
 Route::group(['middleware'=>'auth'], function(){
   Route::post('paymentcards', 'PaymentController@paymentcards');
-  Route::post('add_payment', 'PaymentController@add_payment');
   Route::resource("payment", "PaymentController");
 });
 

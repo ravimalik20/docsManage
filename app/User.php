@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Laravel\Cashier\Billable;
 use Laravel\Cashier\Contracts\Billable as BillableContract;
 use Auth, Session;
-use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History, App\Models\UserManage;
+use App\Models\Folder,App\Models\File, App\Models\DocumentPermission, App\Models\History, App\Models\UserManage, App\PaymentRequest;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -294,11 +294,7 @@ class User extends Model implements AuthenticatableContract,
 
         return $type;
     }
-
-    public static function paymentRequests(){
-      return User::where('amount_due', '!=', '')->get();
-    }
-
+    
     public static function is_validUser($user, $id){
         $receiver = User::find($id);
         if(!$receiver)

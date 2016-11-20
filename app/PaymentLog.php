@@ -20,6 +20,6 @@ class PaymentLog extends Model
     }
 
     public static function getPaymentLogs($user){
-      return PaymentLog::where('user_id', $user->id)->get();
+      return PaymentLog::where('user_id', $user->id)->orderBy('created_at', 'DESC')->get();
     }
 }

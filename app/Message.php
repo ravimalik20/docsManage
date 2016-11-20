@@ -11,7 +11,7 @@ class Message extends Model
 
   public static function getMessages($user, $id){
       self::messageStatusChange($user, $id);
-      $messages = Message::select('users.*','messages.message', 'messages.id as message_id')
+      $messages = Message::select('users.*','messages.message', 'messages.id as message_id', 'messages.status')
                 ->join('users','users.id','=','messages.sender_id')
                 ->where('messages.sender_id',$user->id)
                 ->where('messages.receiver_id', $id)
@@ -22,7 +22,6 @@ class Message extends Model
                     ->where('file_request_id', 0);
                 })
                 ->get();
-
       return $messages;
     }
     public static function messageStatusChange($user, $id) {
@@ -34,7 +33,7 @@ class Message extends Model
     }
 
     public static function userMessages($user) {
-      $user_messages = Message::select('users.*','messages.message', 'messages.id as message_id', DB::raw('count(*) as total'), 'messages.receiver_id', 'messages.sender_id')
+      $user_messages = Message::select('users.*','messages.message', 'messages.id as message_id', DB::raw('count(*) as total'), 'messages.receiver_id', 'messages.sender_id', 'messages.status')
                 ->join('users','users.id','=','messages.receiver_id')
                 ->where('messages.sender_id', $user->id)
                 ->orWhere(function($q) use($user) {

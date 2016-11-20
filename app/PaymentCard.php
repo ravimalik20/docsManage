@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Auth, Stripe, App\PaymentLog;
+use Auth, Stripe, App\PaymentLog, App\PaymentRequest;
 class PaymentCard extends Model
 {
     protected $table = 'payment_cards';
@@ -24,13 +24,17 @@ class PaymentCard extends Model
           'currency' => 'cad',
           'amount'   => $request->amount,
       ]);
+
+      //save payment logs
+      $request->charge = $charge;
+      PaymentLog::store($user, $request);
+
       if($charge){
         // Update user account balance
         self::updateAccountBalance($user, $request->amount);
 
-        //save payment logs
-        $request->charge = $charge;
-        PaymentLog::store($user, $request);
+        // update payment requests
+        self::updatePaymentRequest($user, $request);
 
         //Save stripe customer id
         if(!$user->stripe_id) {
@@ -63,6 +67,20 @@ class PaymentCard extends Model
       $card->card = json_encode($request->card);
       $card->save();
       return true;
+    }
+
+    public static function updatePaymentRequest($user, $request){
+        $payment_request = PaymentRequest::find($request->payment_request_id);
+        if(!$payment_request){
+          return false;
+        }
+
+        if((float) $payment_request->amount == (float) $request->amount){
+            $payment_request->is_complete = true;
+        }
+        $payment_request->current_amount = (float) $payment_request->current_amount - (float) $request->amount;
+        $payment_request->save();
+        return true;
     }
 
     public static function paymentcards($user) {

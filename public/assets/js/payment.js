@@ -6,20 +6,28 @@ Util.successMessage =  function(data) {
 }
 
 $(document).ready(function(){
+
+//payment from saved card
 $('#payment_card button').click(function(){
   var _this = $(this);
   var $form = $('#payment_card');
   var token = $('#payment_card input[name=paymentcard]:checked').val();
   var amount = $('#amount').val();
   if(!token || !amount){
+    $('.payment-errors').html('Please choose card for make payment.');
+    $('.showerror').show();
     return false;
+  }
+  if(!checkValidAMount()){
+    return;
   }
 
   _this.html('Processing <i class="fa fa-spinner fa-pulse"></i>');
   $.post('/payment', {
            token: token,
           _token: $('input[name=_token]').val(),
-          amount: amount
+          amount: amount,
+          payment_request_id: $('input[name=payment_request_id]').val()
       })
       .done(function(data, textStatus, jqXHR) {
           _this.html('Payment successful <i class="fa fa-check"></i>');
@@ -46,8 +54,10 @@ $('#payment_card button').click(function(){
       });
 
 });
-
-$('#userpaymentcards').click(function(){
+//when click on make payment button
+$('.userpaymentcards').click(function(){
+  var _this = $(this);
+  $('input[name=payment_request_id]').val($(this).attr('data-request'));
   $.post('/paymentcards', {_token: $('input[name=_token]').val()})
         .done(function(data, status){
           $('.loader').hide();
@@ -62,6 +72,8 @@ $('#userpaymentcards').click(function(){
             $('#payment_card').hide();
             $('#payment-form').show();
           }
+          $('input[name=total_amount]').val(_this.attr('data-amount'));
+          $('input[name=amount]').val(_this.attr('data-amount'));
         })
         .fail(function(data, status){
             alert('Something went wrong');
@@ -85,6 +97,9 @@ $('.subscribe').on('click',function(e){
     /* Abort if invalid form data */
     if (!validator.form()) {
         return;
+    }
+    if(!checkValidAMount()){
+      return;
     }
     /* Visual feedback */
     _this.html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
@@ -112,7 +127,8 @@ $('.subscribe').on('click',function(e){
                      token: token,
                     _token: $('input[name=_token]').val(),
                     amount: $('#pay_amount').val(),
-                    save_card: $('input[name=save_card]:checked').val() || false
+                    save_card: $('input[name=save_card]:checked').val() || false,
+                    payment_request_id: $('input[name=payment_request_id]').val()
                 })
                 .done(function(data, textStatus, jqXHR) {
                     _this.html('Payment successful <i class="fa fa-check"></i>');
@@ -206,11 +222,19 @@ var readyInterval = setInterval(function() {
     }
 }, 250);
 
-
-
 $('#addcard').click(function(){
   $('#payment_card').hide();
   $('#payment-form').show();
 });
+
+// check for valid amount
+checkValidAMount = function () {
+  if(parseFloat($('input[name=total_amount]').val()) < parseFloat($('input[name=amount]').val())) {
+    $('.payment-errors').html('Amount must be less than or equal to '+ $('input[name=total_amount]').val());
+    $('.showerror').show();
+    return false;
+  }
+  return true;
+}
 
 });

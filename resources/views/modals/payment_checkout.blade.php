@@ -11,6 +11,8 @@
         <div class="row">
             <div class="col-lg-12">
               <!-- CREDIT CARD FORM STARTS HERE -->
+              <input type="hidden" name="payment_request_id"/>
+              <input type="hidden" name="total_amount"/>
            <div class="panel panel-default credit-card-box">
                <div class="panel-heading" >
                    <div class="row display-tr" >
@@ -40,7 +42,7 @@
                    <div class="row">
                      <a href="javascript:void(0);" id="addcard" class="addcard">Add Card</a>
                    </div>
-                     <div class="row" style="display:none;">
+                     <div class="row showerror" style="display:none;">
                          <div class="col-xs-12">
                              <p class="payment-errors"></p>
                          </div>
@@ -110,7 +112,7 @@
                                </div>
                            </div>
                        </div>
-                       <div class="row" style="display:none;">
+                       <div class="row showerror" style="display:none;">
                            <div class="col-xs-12">
                                <p class="payment-errors"></p>
                            </div>

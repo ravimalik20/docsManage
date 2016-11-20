@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\User, App\PaymentRequest, Session, Auth;
 class PaymentRequestController extends Controller
 {
     /**
@@ -18,7 +18,7 @@ class PaymentRequestController extends Controller
     {
         $data = [];
         $data['page'] = 'paymentrequest';
-        $data['payment_requests'] = User::paymentRequests();
+        $data['payment_requests'] = PaymentRequest::paymentRequests();
         return view('master', $data);
     }
 
@@ -40,7 +40,25 @@ class PaymentRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!$request->amount){
+          $msg = ["type"=>"alert-error","icon"=>"fa-ban","data"=>["Amount field is required."]];
+          Session::flash("message",$msg);
+          return back();
+        }
+        $user = User::find(Session::get('selected_user'));
+        $payment_request  = new PaymentRequest;
+        $payment_request->user_id = $user->id;
+        $payment_request->requested_by = Auth::user()->id;
+        $payment_request->amount = (float) $request->amount;
+        $payment_request->current_amount = (float) $request->amount;
+        $payment_request->save();
+
+        $user->amount_due = (float) $user->amount_due + (float) $request->amount;
+        $user->save();
+
+        $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Amount adedd successfully."]];
+        Session::flash("message",$msg);
+        return back();
     }
 
     /**
