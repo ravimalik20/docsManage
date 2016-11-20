@@ -48,17 +48,17 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         if(!$request->amount) {
-            return response()->json(['status'=>'error', 'message'=> 'Amount field is required.'], 401);
+            return response()->json(['status'=>'error', 'message'=> 'Amount field is required.'], 402);
         }
-
-        if($request->amount > Auth::user()->amount_due) {
-          return response()->json(['status'=>'error', 'message'=> 'Amount cannot be greater than due amount.'], 401);
+        $requestAmount = PaymentRequest::find($request->payment_request_id);
+        if($request->amount > $requestAmount->current_amount) {
+          return response()->json(['status'=>'error', 'message'=> 'Amount cannot be greater than due amount.'], 402);
         }
 
         $user = User::find(Auth::user()->id);
         $charge = PaymentCard::charge($user, $request);
         if(!$charge) {
-          return response()->json(['status'=>'error', 'message'=>'Payment error'], 401);
+          return response()->json(['status'=>'error', 'message'=>'Payment error'], 402);
         }
         $msg = ["type"=>"alert-success","icon"=>"fa-check","data"=>["Payment successfully"]];
         Session::flash("message",$msg);

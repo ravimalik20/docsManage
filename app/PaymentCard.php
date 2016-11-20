@@ -75,9 +75,10 @@ class PaymentCard extends Model
           return false;
         }
 
-        if((float) $payment_request->amount == (float) $request->amount){
+        if((float) $payment_request->current_amount == (float) $request->amount){
             $payment_request->is_complete = true;
         }
+
         $payment_request->current_amount = (float) $payment_request->current_amount - (float) $request->amount;
         $payment_request->save();
         return true;

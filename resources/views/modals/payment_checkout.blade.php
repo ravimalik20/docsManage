@@ -35,7 +35,7 @@
                          <div class="col-xs-12">
                              <div class="form-group">
                                  <label for="amount">Amount</label>
-                                 <input type="text" class="form-control" id="amount" name="amount" value="{{ (Auth::user()->amount_due)? Auth::user()->amount_due : ''}}" required/>
+                                 <input type="text" class="form-control" id="amount" name="amount" required/>
                              </div>
                          </div>
                      </div>
@@ -100,7 +100,7 @@
                            <div class="col-xs-12">
                                <div class="form-group">
                                    <label for="amount">Amount</label>
-                                   <input type="text" class="form-control" name="amount" id="pay_amount" value="{{ (Auth::user()->amount_due)? Auth::user()->amount_due : ''}}" required/>
+                                   <input type="text" class="form-control" name="amount" id="pay_amount" required/>
                                </div>
                            </div>
                        </div>

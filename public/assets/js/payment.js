@@ -18,7 +18,7 @@ $('#payment_card button').click(function(){
     $('.showerror').show();
     return false;
   }
-  if(!checkValidAMount()){
+  if(!checkValidAMount($('#amount'))){
     return;
   }
 
@@ -98,7 +98,7 @@ $('.subscribe').on('click',function(e){
     if (!validator.form()) {
         return;
     }
-    if(!checkValidAMount()){
+    if(!checkValidAMount($('#pay_amount'))){
       return;
     }
     /* Visual feedback */
@@ -228,8 +228,8 @@ $('#addcard').click(function(){
 });
 
 // check for valid amount
-checkValidAMount = function () {
-  if(parseFloat($('input[name=total_amount]').val()) < parseFloat($('input[name=amount]').val())) {
+checkValidAMount = function (_this) {
+  if(parseFloat($('input[name=total_amount]').val()) < parseFloat(_this.val())) {
     $('.payment-errors').html('Amount must be less than or equal to '+ $('input[name=total_amount]').val());
     $('.showerror').show();
     return false;
