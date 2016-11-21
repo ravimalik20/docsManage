@@ -6,7 +6,7 @@
     <td class="file_year">{{ $file->created_at->format("Y") }}</td>
     <td class="file_print"></td>
     <td class="file_permission">
-        @if((Auth::check() && Auth::user()->role == 'admin') || \App\Models\Permission::canManage(\Auth::user()->id, $file->created_by))
+        @if((Auth::check() && Auth::user()->role == 'admin') || (\App\Models\Permission::canManage(\Auth::user()->id, $file->created_by) && !Session::has('selected_user')) )
         <a class="menu-middle-permission add_permision_btn" data-type="file" data-id="{{$file->id}}" href="javascript:void(0)"
             data-toggle="tooltip" title="add permission"        >
             <i class="fa fa-key"></i>
@@ -15,12 +15,15 @@
         @endif
     </td>
     <td class="file_download">
+        @if($file->hasPermission($file,"view") || (\App\Models\Permission::canManage(\Auth::user()->id, $file->created_by) && !Session::has('selected_user')))
         <a href="/folder/{{$file->folder_id}}/file/{{$file->id}}/download" data-toggle="tooltip" title="download">
             <i class="fa fa-download"></i>
         </a>
+        @endif
+
     </td>
     <td class="file_delete123456">
-        @if($file->hasPermission($file,"delete") || \App\Models\Permission::canManage(\Auth::user()->id, $file->created_by))
+        @if($file->hasPermission($file,"delete") || (\App\Models\Permission::canManage(\Auth::user()->id, $file->created_by) && !Session::has('selected_user')))
             <a href="/delete/{{ $file->id }}/file" data-toggle="tooltip" onclick="return confirm('Are you sure?')" title="Delete" class="form_submit_link123">
                 <i class="fa fa-trash"></i>
             </a>

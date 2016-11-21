@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Folder, App\Models\File, App\User, Auth;
+use App\Models\Folder, App\Models\File, App\User, Auth, App\Models\UserManage;
 
 use Session;
 
@@ -125,7 +125,7 @@ class UserController extends Controller
 	public function userHome($userID)
     {
         $user = User::find($userID);
-		
+
         $data = [];
 
         $data["page"] = "user_home";
@@ -133,14 +133,14 @@ class UserController extends Controller
 
         return view("master", $data);
     }
-	
+
 	public function userManage($userID){
         $user = User::find($userID);
-		$data = [];
-	        $data["page"] = "usermanage";
+		    $data = [];
+	      $data["page"] = "usermanage";
         $data["userName"] = $user->name;
-        
-		
+        $data['users']  = User::nonAdminUsers();
+        $data['managepermission'] = UserManage::permissions();
         return view("master", $data);
     }
 

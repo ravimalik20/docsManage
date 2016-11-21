@@ -165,7 +165,6 @@ class File extends Model
     public function hasPermission($folder,$permissionType)
     {
         $permission = Permission::getPermission($permissionType);
-
         $sharedFolders = DocumentPermission::where("document_id", $folder->id)
                         ->where("user_id",Auth::user()->id)
                         ->where("permission_id",$permission->id)

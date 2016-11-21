@@ -192,14 +192,14 @@
 					   @if(Auth::check() && Auth::user()->role != 'admin')
 
                         {{--*/
-                            $non_admin_users = \App\User::nonAdminUsers();
+                            $permissions_users = \App\User::nonAdminPermisionUsers();
                         /*--}}
 
-                       <!--<div class="form-group">
+                       <div class="form-group">
                            <select class="form-control user_select">
                                 <option value="0">{{\Auth::user()->name}}</option>
-                                @if (count($non_admin_users) > 0)
-                                @foreach($non_admin_users as $user)
+                                @if (count($permissions_users) > 0)
+                                @foreach($permissions_users as $user)
                                 <option value="{{$user->id}}"
                                     @if (\Session::has("selected_user") && \Session::get("selected_user") == $user->id)
                                         selected
@@ -209,7 +209,7 @@
                                 @endif
                            </select>
 
-                       </div>-->
+                       </div>
 
                     <div class="menu-left-top">
 

@@ -117,7 +117,7 @@ class User extends Model implements AuthenticatableContract,
                   ->join("users","users.id","=","document_permission.user_id")
                   ->join("files","document_permission.document_id","=","files.id")
                   ->where("document_permission.user_id",Auth::user()->id)
-                  ->where("type","file")
+                  //->where("type","file")
                   ->where("files.created_by","!=",Auth::user()->id)
                   ->where("files.created_by",$user->id)
                   ->distinct()
@@ -149,7 +149,7 @@ class User extends Model implements AuthenticatableContract,
                   ->join("files","document_permission.document_id","=","files.id")
                   ->where("document_permission.user_id",Auth::user()->id)
                   ->where("files.created_by","!=",Auth::user()->id)
-                  ->where("type","file")
+                  //->where("files.type","file")
                   ->distinct()
                   ->get();
 
@@ -189,20 +189,25 @@ class User extends Model implements AuthenticatableContract,
 
     public function renderFolderStructureTable()
     {
+
+        if(Auth::user()->role != 'admin' && Session::has('selected_user'))
+        {
+            $html = $this->generateTree([], $this, true, true);
+            return $html;
+        }
+
         $folders = Folder::where("user_id", $this->id)
             ->where("parent", NULL)
             ->get();
-
         $html = $this->generateTree($folders, $this, true);
-
         return $html;
     }
 
-    public function generateTree($folders, $user, $first=false)
+    public function generateTree($folders, $user, $first = false, $shared = false)
     {
         $html = "";
 
-        if (isset($folders) && count($folders) > 0) {
+        if (isset($folders) && count($folders) > 0 && !$shared) {
 
             $html = '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
 
@@ -239,10 +244,16 @@ class User extends Model implements AuthenticatableContract,
         }
 
         if ($first == true) {
-            $files = File::where("folder_id", NULL)
-                ->where("created_by", $user->id)
-                ->get();
-
+            if($shared)
+            {
+              $files = User::sharedFiles($user);
+            }
+            else
+            {
+              $files = File::where("folder_id", NULL)
+                  ->where("created_by", $user->id)
+                  ->get();
+            }
             if (count($files) > 0) {
                 $html .= '<div class="col-lg-12">';
 
@@ -294,7 +305,7 @@ class User extends Model implements AuthenticatableContract,
 
         return $type;
     }
-    
+
     public static function is_validUser($user, $id){
         $receiver = User::find($id);
         if(!$receiver)
@@ -306,4 +317,10 @@ class User extends Model implements AuthenticatableContract,
 
         return true;
     }
+
+    public static function nonAdminPermisionUsers()
+    {
+        return self::sharedUserLists();
+    }
+
 }
