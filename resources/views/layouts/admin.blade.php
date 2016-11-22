@@ -31,6 +31,7 @@
 
         <link rel="stylesheet" href="/assets/jstree/themes/default/style.min.css" />
         <link href="/assets/css/chat.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/css/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -327,7 +328,7 @@
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="/assets/js/payment.js"></script>
         <script src="/assets/js/socket.io.js"></script>
-
+        <script src="/assets/js/bootstrap-tagsinput.js"></script>
         <script>
             $(document).ready(function ()
             {

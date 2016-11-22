@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DocumentPermission, App\Models\Permission, App\Models\History;
 use Validator, Auth;
-use App\Email,App\Setting;
+use App\Email,App\Setting, App\FileTag, App\Tag;
 class File extends Model
 {
     protected $table = 'files';
@@ -187,5 +187,15 @@ class File extends Model
     public function getFolderIdAttribute($val)
     {
         return $val ? $val : 0;
+    }
+
+    public function tags()
+    {
+      return Tag::select('tags.name')
+          ->join('file_tags','file_tags.tag_id','=', 'tags.id')
+          ->where('file_tags.file_id', $this->id)
+          ->lists('tags.name')
+          ->toArray();
+
     }
 }

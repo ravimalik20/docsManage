@@ -86,4 +86,8 @@ Route::group(['middleware'=>'auth'], function(){
   Route::resource("paymentrequest", "PaymentRequestController");
 });
 
+Route::group(['middleware'=>'auth'], function(){
+  Route::resource("tag", "TagController");
+});
+
 ?>

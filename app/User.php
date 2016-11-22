@@ -226,7 +226,7 @@ class User extends Model implements AuthenticatableContract,
                     ->get();
                 if (count($child_files) > 0) {
                     $html .= '<table class="table"><tr>
-					<th>File Name</th><th>Description</th><th>Type</th><th>Tax Year</th><th>Actions</th><th></th><th></th><th></th><th></th>
+					<th>File Name</th><th>Description</th><th>Type</th><th>Tax Year</th><th>Tags</th><th>Actions</th><th></th><th></th><th></th><th></th>
 					</tr><tbody>';
 
                     foreach ($child_files as $file) {
@@ -258,7 +258,7 @@ class User extends Model implements AuthenticatableContract,
                 $html .= '<div class="col-lg-12">';
 
                 $html .= '<table class="table"><tr>
-					<th>File Name</th><th>Description</th><th>Type</th><th>Tax Year</th><th>Actions</th><th></th><th></th><th></th><th></th>
+					<th>File Name</th><th>Description</th><th>Type</th><th>Tax Year</th><th>Tags</th><th>Actions</th><th></th><th></th><th></th><th></th>
 					</tr><tbody>';
 
                 foreach ($files as $file) {

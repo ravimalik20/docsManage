@@ -71,5 +71,6 @@
 @include('modals.manage-user-permissions-modal')
 @include('modals.payment_checkout')
 @include('modals.add_amount_due')
+@include('modals.tag_model')
 
 @stop

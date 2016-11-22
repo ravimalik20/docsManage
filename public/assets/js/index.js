@@ -307,4 +307,15 @@ $(document).ready(function ()
   });
 
 
+  //open tags model and append file id
+  $('.open_tags_model').click(function(){
+    var $form  =  $('#tagform');
+    $form.append('<input type="hidden" name="file_id" value="'+$(this).attr('data-id')+'"/>');
+    $('#tagmodel').modal('show');
+  });
+
+  $('#submitTagform').click(function(){
+    $('#tagform').submit();
+  });
+
 });
