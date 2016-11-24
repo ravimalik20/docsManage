@@ -46,7 +46,7 @@ class TagController extends Controller
     {
 
         $request->tag = explode(',', $request->tag);
-        if(count($request->tag ) <= 1)
+        if(count($request->tag ) == 0)
         {
           $msg = ["type"=>"alert-danger","icon"=>"fa-ban","data"=>["The tags field is required."]];
           Session::flash("message",$msg);

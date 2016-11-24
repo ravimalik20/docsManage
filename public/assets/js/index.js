@@ -273,7 +273,7 @@ $(document).ready(function ()
         $('#receiver_id').val($(this).attr('data-receiver_id'));
         $('#for-request-message').show();
         setTimeout(function(){
-          $('#tax_year').attr("disabled", false);  
+          $('#tax_year').attr("disabled", false);
           $('#tax_year option[value='+_this.attr('data-taxyear')+']').prop('selected', "selected");
           if(_this.attr('data-taxyear') != '')
             $('#tax_year').attr("disabled", true);
@@ -316,26 +316,27 @@ $(document).ready(function ()
   //open tags model and append file id
   $('.open_tags_model').click(function(){
     var $form  =  $('#tagform');
+    console.log('hereee');
     $form.append('<input type="hidden" name="file_id" value="'+$(this).attr('data-id')+'"/>');
     $('#tagmodel').modal('show');
-  });
-
-  $('#submitTagform').click(function(){
-    $('#tagform').submit();
-  });
-
-  //update tags if exists
-  $('.open_tags_model').click(function(){
-    var $form  =  $('#tagform');
     $.ajax({
       url: '/tag',
       type: 'get',
       data: 'file_id='+$(this).attr('data-id'),
       success: function(response) {
-          $form.find('input[name=tag]').val(response);
+          console.log('response', response);
+
+          for (var i=0 ; i< response.length ; i++) {
+            $('#tag').tagsinput('add', response[i]);
+          }
+
+          //$('#tag').val(response.join(','));
       }
     });
+  });
 
+  $('#submitTagform').click(function(){
+    $('#tagform').submit();
   });
 
 });
