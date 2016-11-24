@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-group">
-                    <input type="text" data-role="tagsinput" placeholder="tags" class="form-control" name="tag">
+                    <input type="text" data-role="tagsinput" placeholder="Enter tag and press enter" class="form-control" name="tag">
                 </div>
             </div>
             <input type="hidden" name="_token" value="{{ csrf_token() }}">

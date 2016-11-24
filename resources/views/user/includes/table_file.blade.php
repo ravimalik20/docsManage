@@ -4,7 +4,7 @@
     <td class="file_description">{{ substr($file->description, 0, 50) }}</td>
     <td class="file_type">{{$file->type}}</td>
     <td class="file_year">{{ $file->created_at->format("Y") }}</td>
-    <td class="tags">{{ implode(',', $file->tags()) }}</td>
+    <td class="tags">{{ implode(', ', $file->tags()) }}</td>
     <td class="file_print"></td>
     <td class="file_permission">
         @if((Auth::check() && Auth::user()->role == 'admin') || (\App\Models\Permission::canManage(\Auth::user()->id, $file->created_by) && !Session::has('selected_user')) )

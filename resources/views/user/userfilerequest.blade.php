@@ -15,6 +15,7 @@
                <th>Description</th>
                <th>Type</th>
                <th>Messages</th>
+               <th>Tax Year</th>
                <th>Requested at</th>
                <th>Action</th>
              </tr>
@@ -36,9 +37,10 @@
                        @endforeach
                      @endif
                    </td>
+                   <td>{{ $filerequest->tax_year }}</td>
                    <td>{{ $filerequest->created_at}}</td>
                    <td>
-                     <a class="btn btn-sm requestfileupload fileAddModalclick" data-id="{{ $filerequest->id }}" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal" data-folderId = "{{ $filerequest->folder_id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}">
+                     <a class="btn btn-sm requestfileupload fileAddModalclick" data-id="{{ $filerequest->id }}" href="#fileAddModal" data-toggle="modal" data-target="#fileAddModal" data-folderId = "{{ $filerequest->folder_id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}" data-taxyear="{{ $filerequest->tax_year }}">
                          <i class="fa fa-file"></i> Upload a File
                      </a>
                      <!-- <a class="btn btn-sm fileRequestMessageModal"  data-toggle="modal" data-target="#fileRequestMessageModal" data-id="{{ $filerequest->id }}" data-receiver_id="{{ $filerequest->sender['sender_id'] }}">
@@ -67,6 +69,7 @@
                <th>Description</th>
                <th>Type</th>
                <th>Messages</th>
+               <th>Tax Year</th>
                <th>Requested at</th>
                <th>Action</th>
              </tr>
@@ -88,6 +91,7 @@
                        @endforeach
                      @endif
                    </td>
+                   <td>{{ $filerequest->tax_year }}</td>
                    <td>{{ $filerequest->created_at}}</td>
                    <td><p>File has been uploaded at : {{ $filerequest->updated_at }} </p></td>
                  </tr>

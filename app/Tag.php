@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\FileTag;
 class Tag extends Model
 {
     protected $table = 'tags';
@@ -17,6 +17,7 @@ class Tag extends Model
     public static function findTag($request)
     {
       $tags = [];
+      FileTag::where('file_id', $request->file_id)->delete();
       foreach($request->tag as $tag) {
         $table = Tag::firstOrNew(array('name' => $tag));
         $table->name = $tag;

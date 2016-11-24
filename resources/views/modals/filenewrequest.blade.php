@@ -1,5 +1,6 @@
 {{--*/
     use App\Models\Folder;
+    use App\Models\File;
 /*--}}
 
 <div class="modal fade" tabindex="2" role="dialog" id="newfilerequestmodal" style="z-index:999999999999">
@@ -27,6 +28,12 @@
 
                 <div class="form-group">
                   <textarea class="form-control" name="message" placeholder="Enter Message"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <select class="form-control" name="tax_year">
+                      {!! File::createTaxYear() !!}
+                    </select>
                 </div>
 
                 <div class="form-group">

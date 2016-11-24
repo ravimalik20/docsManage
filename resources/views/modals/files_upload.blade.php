@@ -1,5 +1,5 @@
 {{--*/
-    use App\Models\Folder;
+    use App\Models\Folder, App\Models\File;
 /*--}}
 
 <div class="modal fade" tabindex="-1" role="dialog" id="fileAddModal">
@@ -11,7 +11,7 @@
 
 		<h4 class="modal-title">Add File</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="fileuploadform">
 
         <div class="row">
             <div class="col-lg-12">
@@ -27,6 +27,11 @@
                 </div>
                 <div id="for-request-message" class="form-group" style="display:none;">
                     <textarea name="upload_message" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="tax_year" id="tax_year">
+                      {!! File::createTaxYear() !!}
+                    </select>
                 </div>
                 <div class="form-group">
                     <form method="POST" class="dropzone dz-remove-click" id="file_upload_form" data-token="{{csrf_token()}}"

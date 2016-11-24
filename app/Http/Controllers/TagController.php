@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Tag, App\FileTag, Session;
+use App\Tag, App\FileTag, Session, App\Models\File;
 class TagController extends Controller
 {
     /**
@@ -14,9 +14,16 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+      $file = File::find($request->file_id);
+      if(!$file)
+      {
+          return [];
+      }
+
+      return $file->tags();
+
     }
 
     /**
@@ -39,6 +46,12 @@ class TagController extends Controller
     {
 
         $request->tag = explode(',', $request->tag);
+        if(count($request->tag ) <= 1)
+        {
+          $msg = ["type"=>"alert-danger","icon"=>"fa-ban","data"=>["The tags field is required."]];
+          Session::flash("message",$msg);
+          return back();
+        }
         $tags  =  Tag::findTag($request);
         foreach($request->tag as $tag)
         {

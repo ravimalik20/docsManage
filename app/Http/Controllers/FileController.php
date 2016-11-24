@@ -59,7 +59,7 @@ class FileController extends Controller
         if ($request->hasFile("file")) {
             $file = $request->file("file");
 
-            $fileObj = File::saveUpload($file, $user, $folder,$admin, $request->description, $request->type);
+            $fileObj = File::saveUpload($file, $user, $folder,$admin, $request->description, $request->type, $request->tax_year);
         }
 
         if($request->has("filerequestId") && $request->filerequestId != '') {

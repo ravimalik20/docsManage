@@ -40,7 +40,7 @@ class Message extends Model
 
       if($user->role != 'admin')
       {
-          $user_messages = User::select('users.*','messages.message', 'messages.id as message_id','messages.receiver_id', 'messages.sender_id', 'messages.status')
+          $user_messages = User::select('users.*','messages.message', 'messages.id as message_id','messages.receiver_id', 'messages.sender_id', 'messages.status', 'messages.file_request_id')
                         ->leftJoin('messages', function($join){
                           $join->on('messages.receiver_id', '=', 'users.id');
                           $join->orOn('messages.sender_id', '=' ,'users.id');

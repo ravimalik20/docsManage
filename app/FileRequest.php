@@ -17,6 +17,7 @@ class FileRequest extends Model
         $table->description = $request->description;
         $table->folder_id = $request->folderselect;
         $table->type = $request->type;
+        $table->tax_year = $request->tax_year;
         $table->save();
         if($request->has('message') && $request->message != '') {
           $message = Message::firstOrNew(array('file_request_id'=>$table->id));

@@ -13,6 +13,8 @@ class File extends Model
     protected $fillable = ['name', 'extension_id', 'path', "folder_id",
         "created_by", "uploaded_by", "description", "type"];
 
+    public static $TAX_YEAR_START = 2000;
+
     public static function validate($input)
     {
         $rules = [
@@ -32,7 +34,7 @@ class File extends Model
         return $file;
     }
 
-    public static function saveUpload($file, $user, $folder=null, $admin=false, $description=null, $type=null)
+    public static function saveUpload($file, $user, $folder=null, $admin=false, $description=null, $type=null, $tax_year = null)
     {
         $uploaded_by = null;
         $filename = htmlspecialchars($file->getClientOriginalName());
@@ -59,7 +61,8 @@ class File extends Model
             "created_by" => $user->id,
             "uploaded_by" => $uploaded_by,
             "description" => $description,
-            "type" => $type
+            "type" => $type,
+            "tax_year"=>$tax_year
         ];
 
         if ($folder != null)
@@ -197,5 +200,18 @@ class File extends Model
           ->lists('tags.name')
           ->toArray();
 
+    }
+
+    public static function createTaxYear()
+    {
+      $html = '<option value="">Select Tax Year</option>';
+      $html .= '<option value="all">All</option>';
+      $start = self::$TAX_YEAR_START;
+      while($start <= date('Y'))
+      {
+        $html .= '<option value="'.$start.'">'.$start.'</option>';
+        $start++;
+      }
+      return $html;
     }
 }

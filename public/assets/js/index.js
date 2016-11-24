@@ -124,10 +124,12 @@ $(document).ready(function ()
             var type = $('input[name=type]').val();
             var upload_message = $('textarea[name=upload_message]').val();
             var requestId = $('input[name=filerequestId]').val();
+            var tax_year = $('#tax_year').val();
             formData.append("description", text);
             formData.append('type', type);
             formData.append('upload_message', upload_message);
             formData.append('filerequestId', requestId);
+            formData.append('tax_year', tax_year);
             formData.append('receiver_id', $('input[name=receiver_id]').val());
         }
     });
@@ -258,7 +260,7 @@ $(document).ready(function ()
 
      $('.requestfileupload').click(function(){
         var ref = $(this).closest(".file_request_row");
-
+        var _this = $(this);
         var description = ref.find(".description").html();
         var type = ref.find(".type").html();
 
@@ -271,6 +273,10 @@ $(document).ready(function ()
         $('#receiver_id').val($(this).attr('data-receiver_id'));
         $('#for-request-message').show();
         setTimeout(function(){
+          $('#tax_year').attr("disabled", false);  
+          $('#tax_year option[value='+_this.attr('data-taxyear')+']').prop('selected', "selected");
+          if(_this.attr('data-taxyear') != '')
+            $('#tax_year').attr("disabled", true);
           $('.folder-select option').each(function(){
               if($(this).attr('value') == folderId) {
                 $(this).prop('selected', 'selected');
@@ -316,6 +322,20 @@ $(document).ready(function ()
 
   $('#submitTagform').click(function(){
     $('#tagform').submit();
+  });
+
+  //update tags if exists
+  $('.open_tags_model').click(function(){
+    var $form  =  $('#tagform');
+    $.ajax({
+      url: '/tag',
+      type: 'get',
+      data: 'file_id='+$(this).attr('data-id'),
+      success: function(response) {
+          $form.find('input[name=tag]').val(response);
+      }
+    });
+
   });
 
 });
